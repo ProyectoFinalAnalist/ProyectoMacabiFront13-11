@@ -1,7 +1,10 @@
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 
+import './assets/main.css';
+
 // IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT
+
 // APP
 import App from "./App.vue";
 import Home from "./components/Home.vue"
@@ -32,7 +35,7 @@ import CrearFecha from "./components/views/Fechas/CrearFecha.vue"
 import DetalleFecha from "./components/views/Fechas/DetalleFecha.vue"
 
 // SOCIOS
-import AgregarSocio from "./components/views/Socios/AgregarSocio.vue"
+import RegistrarSocio from "./components/views/Socios/RegistrarSocio.vue"
 import SociosInactivos from "./components/views/Socios/SociosInactivos.vue"
 import SociosList from "./components/views/Socios/SociosList.vue"
 import CrearSocio from "./components/views/Socios/CrearSocio.vue"
@@ -75,7 +78,7 @@ const routes = [
   { path: "/fechas/:id", component: DetalleFecha },
 
   // SOCIOS
-  { path: "/agregarSocio", component: AgregarSocio, },
+  { path: "/registrarSocio", component: RegistrarSocio, },
   { path: "/socios", component: SociosList, },
   { path: "/sociosInactivos", component: SociosInactivos, },
   { path: "/crearsocio", component: CrearSocio },

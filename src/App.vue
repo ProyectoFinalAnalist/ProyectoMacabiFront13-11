@@ -3,8 +3,23 @@
 </script>
 
 <template> 
-    <!--
-    <div style="width: 100%; height: 500px;" class="bg bg-light text text-center p-5 h1">DIV DE PRUEBA</div>
-    -->
-    <RouterView></RouterView>
+    <div class="RouterView">
+        <RouterView></RouterView>
+    </div>
+    
 </template>
+
+<style scoped>
+
+.RouterView {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 50px;
+  overflow-x: hidden;
+  height: auto;
+}
+</style>
