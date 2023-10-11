@@ -51,7 +51,7 @@
                 </div>
 
                 <button type="submit" class="" @click="validarCampos">Registar Socio</button>
-                <button type="submit" class="" @click="validarCampos">Registar Socio</button>
+                <button type="submit" class="" @click="">Cancelar</button>
 
                 <tr></tr>
 
