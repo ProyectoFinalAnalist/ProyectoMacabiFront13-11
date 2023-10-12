@@ -81,9 +81,9 @@ export default {
     },
      ocultarMensaje() {
       this.mostrarMensaje = false;
-       mostrarBotonesSiNo= false,
-      mostrarBotonOk= false,
-      mostrarMensaje= false
+       this.mostrarBotonesSiNo= false,
+      this.mostrarBotonOk= false,
+      this.mostrarMensaje= false
     },
     cancelar() {
       this.$router.push('/');
