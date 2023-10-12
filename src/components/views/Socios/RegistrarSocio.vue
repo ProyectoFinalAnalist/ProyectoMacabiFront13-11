@@ -65,6 +65,7 @@
 
 <script>
 import axios from 'axios';
+import apiUrl from "../../../../config/config.js"
 
 export default {
     data() {
@@ -120,7 +121,7 @@ export default {
         async registrarSocio() {
 
             try {
-                const url = 'http://localhost:5050/socio';
+                const url = apiUrl + '/socio';
                 const data = {
                     nroSocio: this.nroSocio,
                     nombre: this.nombre,
