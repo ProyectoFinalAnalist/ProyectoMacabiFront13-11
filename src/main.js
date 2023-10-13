@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
+import { createPinia} from 'pinia'
 
 import './assets/main.css';
 
@@ -38,7 +39,7 @@ import DetalleFecha from "./components/views/Fechas/DetalleFecha.vue"
 import RegistrarSocio from "./components/views/Socios/RegistrarSocio.vue"
 import SociosInactivos from "./components/views/Socios/SociosInactivos.vue"
 import SociosList from "./components/views/Socios/SociosList.vue"
-import AgregarSocio from "./components/views/Socios/AgregarSocio.vue"
+import CrearSocio from "./components/views/Socios/CrearSocio.vue"
 import DetalleSocio from "./components/views/Socios/DetalleSocio.vue"
 
 // USUARIOS
@@ -49,7 +50,7 @@ import DetalleUsuario from "./components/views/Usuarios/DetalleUsuario.vue"
 
 // ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES
 const routes = [
-   // APP 
+  // APP 
   { path: "/", component: Home, },
   { path: "/login", component: Login, },
   { path: "/newPassword", component: NewPassword, },
@@ -81,7 +82,7 @@ const routes = [
   { path: "/registrarSocio", component: RegistrarSocio, },
   { path: "/socios", component: SociosList, },
   { path: "/sociosInactivos", component: SociosInactivos, },
-  { path: "/agregarSocio", component: AgregarSocio },
+  { path: "/crearsocio", component: CrearSocio },
   { path: "/socios/:id", component: DetalleSocio },
 
   // USUARIOS
@@ -96,4 +97,11 @@ const router = createRouter({
   routes,
 });
 
-createApp(App).use(router).mount("#app");
+
+const pinia = createPinia();
+
+createApp(App)
+  .use(pinia)
+  .use(router)
+  .mount("#app");
+

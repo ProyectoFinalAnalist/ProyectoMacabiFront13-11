@@ -1,16 +1,20 @@
 <script setup>
+import { usrStore } from './components/stores/usrStore.ts'
+import { onMounted } from 'vue'
 
+onMounted(() => {
+  let store = usrStore()
+  store.reiniciarSesion()
+})
 </script>
 
-<template> 
-    <div class="RouterView">
-        <RouterView></RouterView>
-    </div>
-    
+<template>
+  <div class="RouterView">
+    <RouterView></RouterView>
+  </div>
 </template>
 
 <style scoped>
-
 .RouterView {
   display: flex;
   align-content: center;
