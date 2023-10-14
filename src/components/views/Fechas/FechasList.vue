@@ -15,7 +15,11 @@ export default {
     agregarFecha:"Agrear nueva fecha"
   }),
   methods: {
-   
+      nuevaFecha(){
+        this.$router.push({ path: '/crearfecha' });
+
+      }
+
   },
 };
 
