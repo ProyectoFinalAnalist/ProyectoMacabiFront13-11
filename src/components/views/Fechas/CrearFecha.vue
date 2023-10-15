@@ -65,20 +65,15 @@ export default {
           tipo: this.selectedTipoFecha
     };    
     alert("La fecha es : " + parametro.fechaCalendario + " el id categoria: " + parametro.idCategoria + " y el tipo: " + parametro.tipo)
-          
-    let result = await axios.post('http://localhost:5000/fecha/', parametro);
-    alert("Q paso: " + result)
-/*  
-          if(result) {
-            alert("Fecha creada") 
-            
-          }
-//  this.$router.push({ path: '/fechas' });
-*/
-      }else {
-        //this.$router.push({ path: '/sociosInactivos' });
-        alert("Error en el post") 
-       // this.$router.push({ path: '/sociosInactivos' });
+    try {
+      let result = await axios.post('http://localhost:5000/fecha/', parametro);
+      this.$router.push({ path: '/fecha' });
+
+    }catch(e){
+      alert("Error en el post") 
+
+    }
+
       }
       }
 
