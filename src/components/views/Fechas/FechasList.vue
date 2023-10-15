@@ -16,8 +16,7 @@ export default {
   }),
   methods: {
       nuevaFecha(){
-        this.$router.push({ path: '/crearfecha' });
-
+        this.$router.push({ path: '/crearfecha', query: { idCategoria: '1' } });
       }
 
   },

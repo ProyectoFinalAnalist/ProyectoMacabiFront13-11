@@ -8,7 +8,7 @@
       </div>
       <div class="form-group">
         <label for="tipoFecha">Tipo de fecha</label>
-    <select id="tipoFecha" v-model="selectedTipoFecha" required>
+    <select id="tipoFecha" class="form-control" v-model="selectedTipoFecha" required>
       <option v-for="opcion in opciones" :value="opcion.value">{{ opcion.label }}</option>
     </select>
       </div>
@@ -18,10 +18,10 @@
       </div>
       <div class="form-group">
         <label for="">Fecha</label>
-        <input type="date" name="" id="" class="form-control" required>
+        <input v-model="fechaElegida" type="date" name="" id="" class="form-control" required>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary">Confirmar</button>
+        <button @click="ingresarFecha" class="btn btn-primary">Confirmar</button>
         <button id="btnVolver" class="btn btn">Volver</button>
       </div>
     </form>
@@ -31,9 +31,11 @@
 
 
 <script>
+import axios from "axios";
 export default {
   components: {},
   data: () => ({
+    fechaElegida: null,
     nombreCategoria: null,
     nombreDeporte: null,
     tiposDisponibles: ['Entrenamiento, Citación'],
@@ -43,21 +45,56 @@ export default {
         { value: 'E', label: 'Entrenamiento' },
         { value: 'C', label: 'Citación' }],
   }),
-  created() {
-    this.nombreCategoria = this.$route.query.nombre;  
-    this.nombreDeporte = "Basquet"
+  async created() {
+    const url = "http://localhost:5000"
+    let idCat = this.$route.query.idCategoria;  
+    let nombreDeLaCategoria = await axios.get(`http://localhost:5000/categoria/${idCat}`);
+    this.nombreCategoria = nombreDeLaCategoria.data.nombreCategoria
+    let nombreDeporte = await axios.get(`http://localhost:5000/categoria/${idCat}/deporte`);
+    this.nombreDeporte = nombreDeporte.data.nombreCategoria
  },
   methods: {
-    ingresarFecha(){
-      if(this.tipoFecha == "Entrenamiento"){
-  alert("Fecha creada")  
-  this.$router.push({ path: '/fechas' });
-
+  async  ingresarFecha(){
+      if(this.confirmarFecha() == true) {
+       
+        
+        if(this.selectedTipoFecha == "E"){
+          let parametro = {
+          idCategoria: this.$route.query.idCategoria,
+          fechaCalendario: this.fechaElegida.toString(),
+          tipo: this.selectedTipoFecha
+    };    
+    alert("La fecha es : " + parametro.fechaCalendario + " el id categoria: " + parametro.idCategoria + " y el tipo: " + parametro.tipo)
+          
+    let result = await axios.post('http://localhost:5000/fecha/', parametro);
+    alert("Q paso: " + result)
+/*  
+          if(result) {
+            alert("Fecha creada") 
+            
+          }
+//  this.$router.push({ path: '/fechas' });
+*/
       }else {
-        this.$router.push({ path: '/sociosInactivos' });
-
+        //this.$router.push({ path: '/sociosInactivos' });
+        alert("Error en el post") 
+       // this.$router.push({ path: '/sociosInactivos' });
       }
-    }
+      }
+
+      
+    },
+    confirmarFecha() {
+  let fechaCorrecta = true;
+  const fechaSeleccionada = new Date(this.fechaElegida);
+
+  if (fechaSeleccionada < new Date()) {
+    alert('No puedes seleccionar una fecha anterior a la fecha actual.');
+    fechaCorrecta = false;
+  }
+
+  return fechaCorrecta;
+}
   },
 };
 </script>
