@@ -18,7 +18,7 @@
       </div>
       <div class="form-group">
         <label for="">Fecha</label>
-        <input v-model="fechaElegida" type="date" name="" id="" class="form-control" required>
+        <input v-model="fechaElegida" type="date" name="" id="" class="form-control" required :min="minFecha">
       </div>
       <div class="form-group">
         <button @click="ingresarFecha" class="btn btn-primary">Confirmar</button>
@@ -35,6 +35,7 @@ import axios from "axios";
 export default {
   components: {},
   data: () => ({
+    minFecha:"",
     fechaElegida: null,
     nombreCategoria: null,
     nombreDeporte: null,
@@ -46,6 +47,7 @@ export default {
         { value: 'C', label: 'Citación' }],
   }),
   async created() {
+    this.minFecha = new Date().toISOString().split('T')[0]
     const url = "http://localhost:5000"
     let idCat = this.$route.query.idCategoria;  
     let nombreDeLaCategoria = await axios.get(`http://localhost:5000/categoria/${idCat}`);
@@ -73,6 +75,18 @@ export default {
       alert("Error en el post") 
 
     }
+
+      }else {
+        this.$router.push({
+  path: `/nuevaCitacion/${this.$route.query.idCategoria}`,
+  query: {
+    fecha: this.fechaElegida
+  }
+});
+
+        
+        
+
 
       }
       }

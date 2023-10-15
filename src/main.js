@@ -74,7 +74,7 @@ const routes = [
   { path: "/fechas", component: FechasList, },
   { path: "/crearfecha", component: CrearFecha },
   { path: "/fechas/:id", component: DetalleFecha },
-  { path: "/nuevaCitacion", component: NuevaFechaCitacion },
+  { path: "/nuevaCitacion/:idCategoria", component: NuevaFechaCitacion },
 
 
   // SOCIOS
