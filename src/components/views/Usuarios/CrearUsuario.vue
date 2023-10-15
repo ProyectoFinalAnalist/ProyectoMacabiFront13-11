@@ -67,7 +67,7 @@
                     <select id="filtro" class="form-select" v-model="usuario.idRol">
 
                         <option selected disabled value="">Seleccione el Rol</option>
-                        <option value="1">Coordinador General</option>
+                        <option value="1">Administrador</option>
                         <option value="2">Coordinador</option>
                         <option value="3">Profesor</option>
                         </select>

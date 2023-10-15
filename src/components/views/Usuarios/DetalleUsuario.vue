@@ -1,11 +1,11 @@
 <template>
     <div class="container mt-4 ">
-        <div class="text-center">
-        <h4>Detalle Usuario</h4>
-        </div>
         <div class="row">
-        <div class="col-md-6 offset-md-3" v-if="usuario">
-            <div class="card bg-light text-dark mb-5">
+            <div class="col-md-6 offset-md-3" v-if="usuario">
+                <div class="text-center">
+            <h4>Detalle Usuario</h4>
+        </div>
+                <div class="card bg-light text-dark mb-5">
             <div class="card-body">
                 <p>
                 <strong>Nombre</strong><input class="form-control" type="text" v-model="usuario.nombre"
@@ -96,6 +96,10 @@
             </div>
             </div>
         </div>
+        <div class="col-md-6 offset-md-3" v-else>
+        <!-- Display a message when the user doesn't exist -->
+        <p class="alert alert-warning text-center">El usuario no existe.</p>
+      </div>
         </div>
     </div>
     <br>
@@ -110,21 +114,9 @@
     export default {
     setup() {
 
-        const elementStore = useElementStore("usuarios")();
-        elementStore.setCurrentElement({
-        nombre: "",
-        apellido: "",
-        email: "",
-        clave: "",
-        fechaNacimiento: "",
-        telefono: "",
-        idRol: "",
-        dni: "",
-        domicilio: "",
-        });
-
         const route = useRoute();
         const idUsuario = route.params.id.toString();
+        const elementStore = useElementStore("usuarios")();
         elementStore.fetchElementById(idUsuario);
 
         const usuario = computed(() => elementStore.currentElement);
@@ -142,7 +134,6 @@
 
             if (!utilsUsuario.errores(showErrores.value) &&  utils.confirm("modificar", "modificado", "Usuario")) {
                 await elementStore.patchElement(usuario.value);
-                router.push("/login");
             }else{
                 alert("Error detectado en el ingreso de campos")
             }
