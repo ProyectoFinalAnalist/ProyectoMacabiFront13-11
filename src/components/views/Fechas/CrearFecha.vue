@@ -72,7 +72,16 @@ export default {
       this.$router.push({ path: '/fecha' });
 
     }catch(e){
-      alert("Error en el post") 
+     
+      if (e.response && e.response.data && e.response.data.message) {
+          // Si la respuesta contiene un mensaje de error, muéstralo al usuario
+          alert(e.response.data.message)
+
+
+    }
+
+      
+
 
     }
 

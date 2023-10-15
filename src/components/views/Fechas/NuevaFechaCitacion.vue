@@ -76,8 +76,9 @@ export default {
      this.$router.push({ path: '/fecha' });
 
     }catch(e){
-      alert("Error.En esta fecha, ya existen citaciones para esta categoria.") 
-      this.$router.push({ path: '/fecha' });
+          alert(e.response.data.message)
+      
+      
     }
       }
 
