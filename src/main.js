@@ -39,7 +39,7 @@ import DetalleFecha from "./components/views/Fechas/DetalleFecha.vue"
 import RegistrarSocio from "./components/views/Socios/RegistrarSocio.vue"
 import SociosInactivos from "./components/views/Socios/SociosInactivos.vue"
 import SociosList from "./components/views/Socios/SociosList.vue"
-import CrearSocio from "./components/views/Socios/CrearSocio.vue"
+import AgregarSocio from "./components/views/Socios/AgregarSocio.vue"
 import DetalleSocio from "./components/views/Socios/DetalleSocio.vue"
 
 // USUARIOS
@@ -82,7 +82,7 @@ const routes = [
   { path: "/registrarSocio", component: RegistrarSocio, },
   { path: "/socios", component: SociosList, },
   { path: "/sociosInactivos", component: SociosInactivos, },
-  { path: "/crearsocio", component: CrearSocio },
+  { path: "/agregarSocio", component: AgregarSocio },
   { path: "/socios/:id", component: DetalleSocio },
 
   // USUARIOS
