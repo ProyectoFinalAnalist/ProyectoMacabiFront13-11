@@ -31,9 +31,11 @@ import CrearDeporte from "./components/views/Deportes/CrearDeporte.vue";
 import DetalleDeporte from "./components/views/Deportes/DetalleDeporte.vue";
 
 // FECHAS
-import FechasList from "./components/views/Fechas/FechasList.vue";
-import CrearFecha from "./components/views/Fechas/CrearFecha.vue";
-import DetalleFecha from "./components/views/Fechas/DetalleFecha.vue";
+import FechasList from "./components/views/Fechas/FechasList.vue"
+import CrearFecha from "./components/views/Fechas/CrearFecha.vue"
+import DetalleFecha from "./components/views/Fechas/DetalleFecha.vue"
+import NuevaFechaCitacion from "./components/views/Fechas/NuevaFechaCitacion.vue"
+
 
 // SOCIOS
 import RegistrarSocio from "./components/views/Socios/RegistrarSocio.vue"
@@ -77,6 +79,8 @@ const routes = [
   { path: "/fechas", component: FechasList },
   { path: "/crearfecha", component: CrearFecha },
   { path: "/fechas/:id", component: DetalleFecha },
+  { path: "/nuevaCitacion/:idCategoria", component: NuevaFechaCitacion },
+
 
   // SOCIOS
   { path: "/registrarSocio", component: RegistrarSocio, },
