@@ -1,29 +1,41 @@
-<script setup>
-import { usrStore } from './components/stores/usrStore.ts'
-import { onMounted } from 'vue'
-
-onMounted(() => {
-  let store = usrStore()
-  store.reiniciarSesion()
-})
-</script>
-
 <template>
-  <div class="RouterView">
-    <RouterView></RouterView>
-  </div>
+<RouterView></RouterView>
 </template>
 
-<style scoped>
-.RouterView {
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
 
-  margin-top: 50px;
-  overflow-x: hidden;
-  height: auto;
+<script>
+import { getRolFromCookie } from "./utils/Cookies"
+
+export default {
+    data() {
+        return {
+            rol: "null"
+        };
+    },
+    created() {
+        this.setRol();
+    },
+    methods: {
+        setRol() {
+            let rol = "Cuenta de tipo ";
+
+            switch (getRolFromCookie()) {
+                case 'A':
+                    rol += "Admin";
+                    break;
+                case 'C':
+                    rol += "Coordinador";
+                    break;
+                case 'P':
+                    rol += "Profesor";
+                    break;
+                default:
+                    rol += "null";
+            }
+
+            this.rol = rol;
+        }
+    },
 }
-</style>
+</script>
+
