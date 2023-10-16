@@ -1,10 +1,41 @@
-<script setup>
+<template>
+<RouterView></RouterView>
+</template>
 
+
+<script>
+import { getRolFromCookie } from "./utils/Cookies"
+
+export default {
+    data() {
+        return {
+            rol: "null"
+        };
+    },
+    created() {
+        this.setRol();
+    },
+    methods: {
+        setRol() {
+            let rol = "Cuenta de tipo ";
+
+            switch (getRolFromCookie()) {
+                case 'A':
+                    rol += "Admin";
+                    break;
+                case 'C':
+                    rol += "Coordinador";
+                    break;
+                case 'P':
+                    rol += "Profesor";
+                    break;
+                default:
+                    rol += "null";
+            }
+
+            this.rol = rol;
+        }
+    },
+}
 </script>
 
-<template> 
-    <!--
-    <div style="width: 100%; height: 500px;" class="bg bg-light text text-center p-5 h1">DIV DE PRUEBA</div>
-    -->
-    <RouterView></RouterView>
-</template>
