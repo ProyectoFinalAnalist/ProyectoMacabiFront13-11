@@ -34,7 +34,6 @@ export class UtilsUsuario{
     };
 
     verificarExistenciaEmail(user, userArr,creandoUsuario){
-        console.log("🚀 ~ file: utils.js:37 ~ UtilsUsuario ~ verificarExistenciaEmail ~ user:", user)
         let res; 
         if(!creandoUsuario){
             res= userArr.some(item => item.email == user.email && item.idUsuario == user.idUsuario)

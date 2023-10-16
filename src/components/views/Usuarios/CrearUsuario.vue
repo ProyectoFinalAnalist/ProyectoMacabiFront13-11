@@ -127,7 +127,7 @@
         const crearUsuario = async ()=> {
             showErrores.value= utilsUsuario.validar(elementStore.currentElement, elementStore.elements)
 
-            if ( !utilsUsuario.errores(showErrores.value) &&  elementStore.confirm("crear", "registrado", "Usuario")) {
+            if ( !utilsUsuario.errores(showErrores.value) &&  utils.confirm("crear", "registrado", "Usuario")) {
                 await elementStore.createElement(usuario.value);
                 router.push("/login");
             }else{
