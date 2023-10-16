@@ -53,6 +53,7 @@
             <div style="width: 100%;" class="text text-center p-5 h5">No tienes categorias asignadas :c</div>
         </div>
     </div>
+    <br>
 </template>
 <script>
 import { getRolFromCookie, getIdUsuarioFromCookie } from "../utils/Cookies"

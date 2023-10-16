@@ -49,10 +49,10 @@ import DetalleUsuario from "./components/views/Usuarios/DetalleUsuario.vue";
 // ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES
 const routes = [
   // APP
-  { path: "/", component: Home, },
-  { path: "/login", component: Login, },
-  { path: "/newPassword", component: NewPassword, },
-  { path: "/unauthorized", component: Unauthorized, },
+  { path: "/", component: Home },
+  { path: "/login", component: Login },
+  { path: "/newPassword", component: NewPassword },
+  { path: "/unauthorized", component: Unauthorized },
 
   // ASISTENCIAS
   { path: "/historialAsistencia/:id", component: HistorialAsistencias },

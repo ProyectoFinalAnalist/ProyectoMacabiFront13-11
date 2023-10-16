@@ -3,7 +3,7 @@ import { setCookie } from './Cookies';
 
 // JUAMPI: hice este método para simular un inicio de sesion, cuando se haga el inicio real se borra
 let auth = false
-let id = 3
+let id = 1
 // 1 = A dmin
 // 2 = C oordinador
 // 3 = P rofesor

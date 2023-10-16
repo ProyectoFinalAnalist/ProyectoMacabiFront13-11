@@ -5,17 +5,17 @@ export function useElementStore(nombreStore) {
     return defineStore(nombreStore, {
         state: () => ({
             elements: null,
-            currentElement: null
+            currentElement: null,
         }),
 
         getters: {
             getElements() {
-                return this.elements
+                return this.elements;
             },
 
             getElementById() {
-                return (id) => this.elements.find((e) => e.id === id)
-            }
+                return (id) => this.elements.find((e) => e.id === id);
+            },
         },
 
         actions: {
@@ -48,7 +48,6 @@ export function useElementStore(nombreStore) {
                 }
             },
 
-            /*
             async createElement(url, newElement) {
                 try {
                     const response = await axios.post(`${url}`, newElement)
@@ -58,26 +57,32 @@ export function useElementStore(nombreStore) {
                 }
             },
 
-            async updateElement(url, updatedElement) {
+            async updateElement(url, updatedElement, idField) {
                 try {
-                    const response = await axios.put(`${url}/${updatedElement.id}`, updatedElement)
-                    const index = this.elements.findIndex((e) => e.id === updatedElement.id)
-                    this.elements[index] = response.data
+                    //console.log(updatedElement)
+                    const response = await axios.put(`${url}/${updatedElement[idField]}`, updatedElement);
                 } catch (error) {
-                    console.error(`Error updating Element with id ${updatedElement.id}:`, error)
+                    console.error(`Error updating Element with ${idField} ${updatedElement[idField]}:`, error);
                 }
-            },
+            },      
 
             async deleteElement(url, id) {
                 try {
                     await axios.delete(`${url}/${id}`)
-                    this.elements = this.elements.filter((e) => e.id !== id)
+                    //this.elements = this.elements.filter((e) => e.id !== id)
                 } catch (error) {
                     console.error(`Error deleting Element with id ${id}:`, error)
                 }
             },
 
-            */
+            confirm(accion: string, modificacion: string, tipo: string) {
+                var confirmado = true;
+                var confirmar = window.confirm(`¿Estás seguro de ${accion} este ${tipo}?`);
+                if (confirmar) {
+                    alert(`${tipo} ${modificacion} correctamente`);
+                } else { confirmado = false; }
+                return confirmado;
+            },
         }
     })
 }
