@@ -2,8 +2,10 @@ import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import { createPinia } from "pinia";
 import { isAuthenticated, login } from "./utils/Auth";
+import './assets/main.css';
 
 // IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT
+
 // APP
 import App from "./App.vue";
 import Home from "./components/Home.vue";
@@ -34,11 +36,11 @@ import CrearFecha from "./components/views/Fechas/CrearFecha.vue";
 import DetalleFecha from "./components/views/Fechas/DetalleFecha.vue";
 
 // SOCIOS
-import AgregarSocio from "./components/views/Socios/AgregarSocio.vue";
-import SociosInactivos from "./components/views/Socios/SociosInactivos.vue";
-import SociosList from "./components/views/Socios/SociosList.vue";
-import CrearSocio from "./components/views/Socios/CrearSocio.vue";
-import DetalleSocio from "./components/views/Socios/DetalleSocio.vue";
+import RegistrarSocio from "./components/views/Socios/RegistrarSocio.vue"
+import SociosInactivos from "./components/views/Socios/SociosInactivos.vue"
+import SociosList from "./components/views/Socios/SociosList.vue"
+import AgregarSocio from "./components/views/Socios/AgregarSocio.vue"
+import DetalleSocio from "./components/views/Socios/DetalleSocio.vue"
 
 // USUARIOS
 import UsuariosInactivos from "./components/views/Usuarios/UsuariosInactivos.vue";
@@ -48,11 +50,11 @@ import DetalleUsuario from "./components/views/Usuarios/DetalleUsuario.vue";
 
 // ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES
 const routes = [
-  // APP
-  { path: "/", component: Home },
-  { path: "/login", component: Login },
-  { path: "/newPassword", component: NewPassword },
-  { path: "/unauthorized", component: Unauthorized },
+  // APP 
+  { path: "/", component: Home, },
+  { path: "/login", component: Login, },
+  { path: "/newPassword", component: NewPassword, },
+  { path: "/unauthorized", component: Unauthorized, },
 
   // ASISTENCIAS
   { path: "/historialAsistencia/:id", component: HistorialAsistencias },
@@ -77,10 +79,11 @@ const routes = [
   { path: "/fechas/:id", component: DetalleFecha },
 
   // SOCIOS
+  { path: "/registrarSocio", component: RegistrarSocio, },
+  { path: "/socios", component: SociosList, },
+  { path: "/sociosInactivos", component: SociosInactivos, },
   { path: "/agregarSocio", component: AgregarSocio },
-  { path: "/socios", component: SociosList },
-  { path: "/sociosInactivos", component: SociosInactivos },
-  { path: "/crearsocio", component: CrearSocio },
+
   { path: "/socios/:id", component: DetalleSocio },
 
   // USUARIOS

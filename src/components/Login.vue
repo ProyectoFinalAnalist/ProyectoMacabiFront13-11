@@ -1,68 +1,87 @@
 <template>
-    <div class="container mt-5" style="margin-bottom: 100px;">
-      <div class="text-center">
-        <h4>Iniciar sesión</h4>
-      </div>
-      <div class="row">
-        <div class="col-md-6 offset-md-3">
-          <div class="card bg-light text-dark">
-            <div class="card-body">
-              <form>
-                <label class="form group" for="inputMail"><strong>Ingresa tu mail:</strong></label>
-                <input type="email" id="inputMail" class="form-control" v-model="usuario" placeholder="mail@ejemplo.com"
-                  required />
-                <label class="form group mt-2" for="inputPassword"><strong>Ingresa tu contraseña:</strong></label>
-                <div class="form-group row">
-                  <div class="col">
-                    <input :type="mostrar" id="inputPassword" class="form-control" v-model="password"
-                      placeholder="contraseña" required />
-                  </div>
-                  <div class="col col-auto">
-                    <button class="btn btn-outline-dark" type="button" id="togglePassword" @mousedown="mostrarContraseña"
-                      @mouseup="mostrarContraseña">Ver contraseña</button>
-                  </div>
-                </div>
-                <h6 class="alert alert-danger alert-sm mb-0 text-center mt-2" v-if="mensaje != ''">
-                  <strong>{{ mensaje }}</strong>
-                </h6>
-                <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mt-4 mx-auto d-block" type="button"
-                  v-on:click="iniciarSession()">Iniciar Sesión
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div v-if="usrStore.isLogged" class="">
+        <h1>you are already logged in</h1>
+        <button type="submit" class="" @click="salir">cerrar</button>
     </div>
-    <br>
-  </template>
-  <script>
-  import { useRouter } from "vue-router";
-  import { login } from "../utils/Auth"
-  
-  export default {
+
+    <div v-else class="container_basic">
+
+        <div class="">
+            <h1>INICIAR SESION</h1>
+            <div>
+
+                <div class=" ">
+                    <input type="text" required v-model="this.email">
+                    <span>email</span>
+                </div>
+
+                <div class=" ">
+                    <input type="password" required v-model="this.clave">
+                    <span>clave</span>
+                </div>
+
+                <button type="submit" class="" @click="ingresar">Iniciar Sesión</button>
+
+                <button type="submit" class="" @click="">recuperar Clave</button>
+
+                <div v-if="this.error" class="alert alert-danger" role="alert">
+                    {{ this.msjError }}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</template>
+
+<script>
+import { usrStore } from './stores/usrStore.ts'
+
+export default {
     data() {
-      return {
-        usuario: "",
-        password: "",
-        mensaje: "",
-        router: useRouter(),
-        mostrar: "password",
-        mostrarBool: true,
-      };
+        return {
+            usrStore: usrStore(),
+            email: "",
+            clave: "",
+            error: false,
+            msjError: "",
+        };
+    },
+    async created() {
+
     },
     methods: {
-      async iniciarSession() {
-        login()
-        this.router.push("/")
-      },
-      mostrarContraseña() {
-        if (this.mostrarBool) {
-          this.mostrar = "text"
-        } else this.mostrar = "password"
-        this.mostrarBool = !this.mostrarBool
-      }
-    },
-  
-  };
-  </script>
+        async ingresar() {
+
+            if (this.email == "" || this.clave == "") {
+
+                this.error = true;
+                this.msjError = `email o contraseña no ingreados`
+
+            } else {
+
+                let mensajeError = await this.usrStore.logIn(this.email, this.clave);
+
+                if (mensajeError == null) {
+
+                    this.error = false;
+
+
+                } else {
+                    this.error = true;
+                    this.msjError = mensajeError;
+
+                }
+            }
+        },
+        salir() {
+            // metodo salir de usuario
+            this.usrStore.logOut()
+        }
+
+
+    }
+};
+
+</script>
+
