@@ -21,7 +21,6 @@ export class UtilsUsuario{
 
         showErrores.nombre =  /\d/.test(user.nombre) || user.nombre.trim() === '';
         showErrores.apellido = /\d/.test(user.apellido) || user.apellido.trim() === ''
-        showErrores.domicilio =  user.domicilio.trim() === ''
         showErrores.rol = String(user.idRol).trim() === ''
         showErrores.email = !/@/.test(user.email)
         if(creandoUsuario) showErrores.clave = !/^(?=.*[A-Z])(?=.*\d).{8,}$/.test(user.clave)

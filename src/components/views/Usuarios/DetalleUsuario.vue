@@ -74,12 +74,9 @@
                 </h6>
 
                 <p>
-                <strong>Domicilio</strong><input class="form-control" type="text" v-model="usuario.domicilio"
-                    placeholder="Ingrese el domicilio" />
+                <strong>Direccion</strong><input class="form-control" type="text" v-model="usuario.direccion"
+                    placeholder="Ingrese el direccion" />
                 </p>
-                <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="showErrores.domicilio">
-                <strong>El domicilio no debe estar vacio</strong>
-                </h6>
 
                 <div class="d-flex justify-content-center">
                     <button class="btn btn-success m-3" @click="updateUsuario">

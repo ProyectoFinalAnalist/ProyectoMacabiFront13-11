@@ -76,12 +76,9 @@
                 <strong>El rol no debe estar vacio</strong>
                 </h6>
                 <p>
-                <strong>Domicilio</strong><input class="form-control" type="text" v-model="usuario.domicilio"
-                    placeholder="Ingrese el domicilio" />
+                <strong>Direccion</strong><input class="form-control" type="text" v-model="usuario.direccion"
+                    placeholder="Ingrese la direccion" />
                 </p>
-                <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="showErrores.domicilio">
-                <strong>El domicilio no debe estar vacio</strong>
-                </h6>
 
                 <button class="btn btn-primary mx-auto d-block" @click="crearUsuario">Crear Usuario</button>
             </div>
@@ -111,7 +108,7 @@
         telefono: "",
         idRol: "",
         dni: "",
-        domicilio: "",
+        direccion: "",
         });
 
         const usuario = computed(() => elementStore.currentElement);
