@@ -113,7 +113,7 @@
 
         const route = useRoute();
         const idUsuario = route.params.id.toString();
-        const elementStore = useElementStore("usuarios")();
+        const elementStore = useElementStore("usuario")();
         elementStore.fetchElementById(idUsuario);
 
         const usuario = computed(() => elementStore.currentElement);
