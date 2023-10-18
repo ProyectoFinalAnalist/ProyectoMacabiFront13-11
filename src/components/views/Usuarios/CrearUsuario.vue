@@ -98,7 +98,7 @@
     export default {
     setup() {
 
-        const elementStore = useElementStore("usuario")();
+        const elementStore = useElementStore("usuarios")();
         elementStore.setCurrentElement({
         nombre: "",
         apellido: "",
