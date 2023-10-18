@@ -71,7 +71,7 @@ export default {
   methods: {
     obtenerDeportes() {
       // Hacer una solicitud al servidor para obtener la lista de deportes.
-      axios.get('http://localhost:2020/deporte/deportes')
+      axios.get('http://localhost:2020/deporte/getSports')
         .then(response => {
           this.deportes = response.data.result;
         })
