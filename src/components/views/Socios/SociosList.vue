@@ -32,12 +32,12 @@
                     <thead>
                         <tr>
                             <th class="d-none d-sm-table-cell">NroSocio:
-                                <button class="btn" @click="ordenar('nroSocio')"></button>
+                                <button class="btn bg-success" @click="ordenar('nroSocio')"></button>
                             </th>
                             <th>Nombre:</th>
                             <th>Apellido:</th>
                             <th class="d-none d-sm-table-cell">Dni:
-                                <button class="btn text" @click="ordenar('dni')"></button>
+                                <button class="btn bg-success" @click="ordenar('dni')"></button>
                             </th>
                             <th class="d-none d-sm-table-cell">Email:</th>
                             <th>Detalles:</th>
@@ -115,7 +115,7 @@ export default {
                     const busquedaLowerCase = String(busqueda).toLowerCase();
                     return propiedadLowerCase.includes(busquedaLowerCase);
                 })
-            }  else { errorFiltro.value = true }
+            } else { errorFiltro.value = true }
         }
 
 
