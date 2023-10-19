@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import { createPinia } from "pinia";
 import { isAuthenticated, login } from "./utils/Auth";
-import './assets/main.css';
+//import './assets/main.css';
 
 // IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT
 
@@ -39,7 +39,6 @@ import NuevaFechaCitacion from "./components/views/Fechas/NuevaFechaCitacion.vue
 
 // SOCIOS
 import RegistrarSocio from "./components/views/Socios/RegistrarSocio.vue"
-import SociosInactivos from "./components/views/Socios/SociosInactivos.vue"
 import SociosList from "./components/views/Socios/SociosList.vue"
 import AgregarSocio from "./components/views/Socios/AgregarSocio.vue"
 import DetalleSocio from "./components/views/Socios/DetalleSocio.vue"
@@ -85,9 +84,7 @@ const routes = [
   // SOCIOS
   { path: "/registrarSocio", component: RegistrarSocio, },
   { path: "/socios", component: SociosList, },
-  { path: "/sociosInactivos", component: SociosInactivos, },
   { path: "/agregarSocio", component: AgregarSocio },
-
   { path: "/socios/:id", component: DetalleSocio },
 
   // USUARIOS
