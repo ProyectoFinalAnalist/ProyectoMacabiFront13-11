@@ -81,10 +81,12 @@ export default {
 
             const result = await axios.post('http://localhost:5000/fecha/', parametro);
 
-            // alert(result)
-
-            alert("No funciona bien")
-            // this.$router.push({ path: '/fecha' });
+            if(result) {
+             this.$router.push({ path: '/fechas' });
+            }else {
+              alert("Eror con la creacion de la fecha")
+            }
+            
 
           } catch (e) {
 
