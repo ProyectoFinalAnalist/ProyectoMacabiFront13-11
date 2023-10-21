@@ -76,8 +76,8 @@ const routes = [
   { path: "/deportes/:id", component: DetalleDeporte },
 
   // FECHAS
-  { path: "/fechas", component: FechasList },
-  { path: "/crearfecha", component: CrearFecha },
+  { path: "/fechas", component: FechasList, },
+  { path: "/crearfecha/:idCategoria", component: CrearFecha },
   { path: "/fechas/:id", component: DetalleFecha },
   { path: "/nuevaCitacion/:idCategoria", component: NuevaFechaCitacion },
 
