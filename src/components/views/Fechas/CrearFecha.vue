@@ -9,7 +9,7 @@
       <div class="form-group">
         <label for="tipoFecha">Tipo de fecha</label>
         <select id="tipoFecha" class="form-control" v-model="selectedTipoFecha" required>
-          <option v-for="opcion in opciones" :value="opcion.value">{{ opcion.label }}</option>
+          <option v-for="opcion in opciones" :value="opcion.value" >{{ opcion.label }}</option>
         </select>
       </div>
       <div class="form-group">
@@ -31,6 +31,8 @@
 
 <script>
 import axios from "axios";
+
+
 export default {
   components: {},
   data: () => ({
@@ -46,19 +48,27 @@ export default {
       { value: 'E', label: 'Entrenamiento' },
       { value: 'C', label: 'Citación' }],
   }),
+
   async created() {
-    this.idCat =this.$route.params.idCategoria,
-    this.minFecha = new Date().toISOString().split('T')[0]
+
+    this.idCat = this.$route.params.idCategoria,
+      this.minFecha = new Date().toISOString().split('T')[0]
+
     const url = "http://localhost:5000"
+
     let nombreDeLaCategoria = await axios.get(`http://localhost:5000/categoria/${this.idCat}/nombreCategoria`);
+
     this.nombreCategoria = nombreDeLaCategoria.data.nombreCategoria
+
     let nombreDeporte = await axios.get(`http://localhost:5000/categoria/${this.idCat}/nombreDeporte`);
+
     this.nombreDeporte = nombreDeporte.data.nombreDeporte
   },
+
   methods: {
     async ingresarFecha() {
+
       if (this.confirmarFecha() == true) {
-        
 
         if (this.selectedTipoFecha == "E") {
           let parametro = {
@@ -66,14 +76,10 @@ export default {
             fechaCalendario: this.fechaElegida,
             tipo: this.selectedTipoFecha
           };
-          alert("La fecha es : " + parametro.fechaCalendario + " el id categoria: " + parametro.idCategoria + " y el tipo: " + parametro.tipo)
-          console.log(parametro);
+
           try {
-            const  result = await axios.post('http://localhost:5000/fecha/',{
-   "idCategoria":1,
-    "fechaCalendario": "2029/12/19",
-    "tipo": "E"
-});
+
+            const result = await axios.post('http://localhost:5000/fecha/', parametro);
 
             // alert(result)
 
@@ -83,15 +89,8 @@ export default {
           } catch (e) {
 
             if (e.response && e.response.data && e.response.data.message) {
-              // Si la respuesta contiene un mensaje de error, muéstralo al usuario
               alert(e.response.data.message)
-
-
             }
-
-
-
-
           }
 
         } else {
@@ -101,10 +100,6 @@ export default {
               fecha: this.fechaElegida
             }
           });
-
-
-
-
 
         }
       }
