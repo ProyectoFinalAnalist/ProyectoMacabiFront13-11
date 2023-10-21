@@ -89,10 +89,13 @@ methods: {
 
 
 <style scoped>
+
+
 #formulario-container {
-display: flex;
-justify-content: center;
-min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .formulario-box {
