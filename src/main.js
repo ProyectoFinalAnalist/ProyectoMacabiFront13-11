@@ -86,7 +86,7 @@ const routes = [
   { path: "/registrarSocio", component: RegistrarSocio, },
   { path: "/socios", component: SociosList, },
   { path: "/sociosInactivos", component: SociosInactivos, },
-  { path: "/agregarSocio", component: AgregarSocio },
+  { path: "/agregarSocio/:idCategoria", component: AgregarSocio },
 
   { path: "/socios/:id", component: DetalleSocio },
 
