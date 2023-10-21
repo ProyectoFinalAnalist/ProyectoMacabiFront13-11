@@ -33,6 +33,7 @@ v-model="usersElegidos"
 
 <script>
 import axios from "axios";
+import apiUrl from '../../../../config/config.js'
 
 export default {
 name: "NuevaFechaCitacion",
@@ -52,7 +53,8 @@ async created(){
     try {
       this.fechaCitacion = this.$route.query.fecha;
   this.categoria = this.$route.params.idCategoria;
-     let respuesta = await axios.get(`http://localhost:5000/sociosXCategoria/${this.categoria}`);
+  
+     let respuesta = await axios.get(`${apiUrl}/sociosXCategoria/${this.categoria}`, { withCredentials: true });
      this.users = respuesta.data.sociosDatos
 
     }catch(e){
@@ -72,7 +74,7 @@ methods: {
   };    
 
   console.log("La fecha es : " + parametro.fechaCalendario + " el id categoria: " + parametro.idCategoria + " y el tipo: " + parametro.tipo);
-    let result = await axios.post('http://localhost:5000/fecha/', parametro);
+    let result = await axios.post(`${apiUrl}/fecha/`, parametro, { withCredentials: true });
    this.$router.push({ path: '/fecha' });
 
   }catch(e){

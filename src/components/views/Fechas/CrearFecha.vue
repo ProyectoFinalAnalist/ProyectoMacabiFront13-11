@@ -18,10 +18,11 @@
       </div>
       <div class="form-group">
         <label for="">Fecha</label>
-        <input v-model="fechaElegida" type="date" name="" id="" class="form-control" required :min="minFecha">
+        <input v-model="fechaElegida" type="date" name="" id="" class="form-control" required>
       </div>
       <div class="form-group">
-        <button @click="ingresarFecha" class="btn btn-primary">Confirmar</button>
+        <button v-if="selectedTipoFecha && fechaElegida"  @click="ingresarFecha" class="btn btn-primary">Confirmar</button>
+        <button v-if="!selectedTipoFecha || !fechaElegida" disabled  @click="ingresarFecha" class="btn btn-primary">Confirmar</button>
         <button id="btnVolver" class="btn btn">Volver</button>
       </div>
     </form>
@@ -31,11 +32,12 @@
 
 <script>
 import axios from "axios";
-
+import apiUrl from '../../../../config/config.js'
 
 export default {
   components: {},
   data: () => ({
+
     minFecha: "",
     fechaElegida: null,
     nombreCategoria: null,
@@ -54,20 +56,18 @@ export default {
     this.idCat = this.$route.params.idCategoria,
       this.minFecha = new Date().toISOString().split('T')[0]
 
-    const url = "http://localhost:5000"
-
-    let nombreDeLaCategoria = await axios.get(`http://localhost:5000/categoria/${this.idCat}/nombreCategoria`);
+    let nombreDeLaCategoria = await axios.get(`${apiUrl}/categoria/${this.idCat}/nombreCategoria`, { withCredentials: true });
 
     this.nombreCategoria = nombreDeLaCategoria.data.nombreCategoria
 
-    let nombreDeporte = await axios.get(`http://localhost:5000/categoria/${this.idCat}/nombreDeporte`);
+    let nombreDeporteBuscado = await axios.get(`${apiUrl}/categoria/${this.idCat}/nombreDeporte`, { withCredentials: true });
 
-    this.nombreDeporte = nombreDeporte.data.nombreDeporte
+    this.nombreDeporte = nombreDeporteBuscado.data.nombreDeporte
   },
 
   methods: {
     async ingresarFecha() {
-
+      event.preventDefault();
       if (this.confirmarFecha() == true) {
 
         if (this.selectedTipoFecha == "E") {
@@ -79,15 +79,13 @@ export default {
 
           try {
 
-            const result = await axios.post('http://localhost:5000/fecha/', parametro);
+            const result = await axios.post(`${apiUrl}/fecha/`, parametro, { withCredentials: true });
 
-            if(result) {
-             this.$router.push({ path: '/fechas' });
-            }else {
-              alert("Eror con la creacion de la fecha")
-            }
-            
 
+            this.$router.push({ path: '/fechas' });
+
+
+           
           } catch (e) {
 
             if (e.response && e.response.data && e.response.data.message) {
@@ -112,7 +110,7 @@ export default {
       let fechaCorrecta = true;
       const fechaSeleccionada = new Date(this.fechaElegida);
 
-      if (fechaSeleccionada < new Date()) {
+      if (fechaSeleccionada < new Date() || fechaSeleccionada.l) {
         alert('No puedes seleccionar una fecha anterior a la fecha actual.');
         fechaCorrecta = false;
       }
