@@ -3,6 +3,7 @@ import axios from "axios";
 import getCookie from '../../../utils/getCookie.js'
 
 import apiUrl from '../../../config/config.js'
+import { removeCookie, setCookie } from "../../utils/Cookies.js";
 
 export const usrStore = defineStore('usuariosStore', {
     state: () => ({
@@ -27,6 +28,8 @@ export const usrStore = defineStore('usuariosStore', {
                 
                 const response = await axios.post(url, data, { withCredentials: true });
                 this.currentUser = response.data.payload
+                setCookie(response.data.payload)
+
 
             } catch (error) {
                 mensajeError = error.response.data.message;
@@ -60,7 +63,7 @@ export const usrStore = defineStore('usuariosStore', {
         async logOut() {
 
             this.currentUser = null;
-
+     
             const url = apiUrl + '/usuario/logout';
             const data = {};
 
@@ -69,9 +72,6 @@ export const usrStore = defineStore('usuariosStore', {
             } catch (error) {
                 console.log(error)
             }
-
-            
-
             
         },
 

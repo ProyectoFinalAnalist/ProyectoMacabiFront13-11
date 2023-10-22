@@ -1,5 +1,5 @@
 <template>
-    <div v-if="rol == 'A'">
+    <div v-if="true">
         <div style="width: 100%;" class="text text-center p-5 h2">Opciones</div>
 
         <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;">

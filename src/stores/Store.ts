@@ -67,12 +67,13 @@ export function useElementStore(nombreStore) {
       },
 
       async patchElement(updatedElement) {
+        console.log("🚀 ~ file: Store.ts:70 ~ patchElement ~ updatedElement:", updatedElement)
         try {
           const response = await axios.patch(`${url}/${updatedElement.idUsuario}`, updatedElement) 
           const index = this.elements.findIndex((e) => e.idUsuario === updatedElement.idUsuario)
           this.elements[index] = response.data.result
         } catch (error) {
-          console.error(`Error updating Element with id ${updatedElement.id}:`, error)
+          console.error(`Error updating Element with id ${updatedElement.idUsuario}:`, error)
         }
       },
 

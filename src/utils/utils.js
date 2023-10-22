@@ -35,7 +35,7 @@ export class UtilsUsuario{
     verificarExistenciaEmail(user, userArr,creandoUsuario){
         let res; 
         if(!creandoUsuario){
-            res= userArr.some(item => item.email == user.email && item.idUsuario == user.idUsuario)
+            res= userArr.some(item => item.email == user.email && item.idUsuario != user.idUsuario)
         }else{
             res= userArr.some(item => item.email == user.email)
         }
@@ -45,7 +45,7 @@ export class UtilsUsuario{
     verificarExistenciaDni(user, userArr,creandoUsuario){
         let res; 
         if(!creandoUsuario){
-            res= userArr.some(item => item.dni == user.dni && item.idUsuario == user.idUsuario  )
+            res= userArr.some(item => item.dni == user.dni && item.idUsuario != user.idUsuario  )
         }else{
             res= userArr.some(item => item.dni == user.dni)
         }
@@ -60,4 +60,4 @@ export class UtilsUsuario{
 
         return errores
     }
-}
+    }
