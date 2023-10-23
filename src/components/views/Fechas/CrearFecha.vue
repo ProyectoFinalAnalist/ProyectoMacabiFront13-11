@@ -26,7 +26,6 @@
       </div>
     </form>
   </div>
-  <RouterView></RouterView>
 </template>
 
 
@@ -117,7 +116,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #formulario-container {
   display: flex;
   justify-content: center;

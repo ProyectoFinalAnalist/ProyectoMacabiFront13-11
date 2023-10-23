@@ -125,10 +125,13 @@
         </div>
     </div>
 </template>
+
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
+
+import apiUrl from '../../../../config/config.js';
 
 export default {
     setup() {
@@ -141,9 +144,15 @@ export default {
 
         onMounted(async () => {
 
-            await deporteStore.fetchElementById(`http://localhost:2020/deporte/`, idDeporte);
-            await categoriasStore.fetchElements(`http://localhost:2020/categoria/${idDeporte}/deporte`);
-            await usuariosStore.fetchElements(`http://localhost:2020/deporte/${idDeporte}/coordinadores`);
+            // await deporteStore.fetchElementById(`http://localhost:2020/deporte/`, idDeporte);
+            // await categoriasStore.fetchElements(`http://localhost:2020/categoria/${idDeporte}/deporte`);
+            // await usuariosStore.fetchElements(`http://localhost:2020/deporte/${idDeporte}/coordinadores`);
+
+            
+            await deporteStore.fetchElements(`${apiUrl}/deporte/${idDeporte}`)
+            await categoriasStore.fetchElements(apiUrl + `/categoria/${idDeporte}/deporte`)
+            await usuariosStore.fetchElements(apiUrl + `/deporte/${idDeporte}/coordinadores`) 
+
 
             data.value;
         });

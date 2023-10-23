@@ -38,6 +38,8 @@
 
 <script>
 import axios from 'axios';
+import apiUrl from '../../../../config/config.js';
+
 export default {
   data() {
     return {
@@ -62,7 +64,7 @@ export default {
         nombre: this.nombreDeporte
       };
        try {
-        const response = await axios.post('http://localhost:2020/deporte', nuevoDeporte);
+        const response = await axios.post(`${apiUrl}/deporte` , nuevoDeporte, { withCredentials: true });
         console.log('Respuesta del servidor:', response.data);
         this.mostrarBotonOk = true;
         this.mensaje = "Deporte creado con exito";
@@ -92,7 +94,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .formulario-container {
   display: flex;
   justify-content: center;

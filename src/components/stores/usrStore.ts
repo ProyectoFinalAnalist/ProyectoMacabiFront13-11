@@ -11,24 +11,24 @@ export const usrStore = defineStore('usuariosStore', {
     actions: {
 
         async logIn(email, clave) {
-
+            
             //si el usuarios es logedo exitosamente devuelve null,
             //en caso contrario devuelve un String con el mensaje de error
 
-            let mensajeError
+            let mensajeError = null
 
             try {
-
-                const url = "http://localhost:5050/usuario/login"
+                const url = `${apiUrl}/usuario/login`
                 const data = {
                     email,
                     clave,
                 };
-                
+
                 const response = await axios.post(url, data, { withCredentials: true });
                 this.currentUser = response.data.payload
 
             } catch (error) {
+
                 mensajeError = error.response.data.message;
             }
 
@@ -37,13 +37,11 @@ export const usrStore = defineStore('usuariosStore', {
 
         async reiniciarSesion() {
 
-            let cookieSesion = getCookie(document.cookie, "tokenMacabi")
-
-
-            const url = apiUrl + '/usuario/me';
+            const cookieSesion = getCookie(document.cookie, "tokenMacabi")
 
             if (cookieSesion != '') {
                 try {
+                    const url = `${apiUrl}/usuario/me`
 
                     const response = await axios.get(url, { withCredentials: true });
                     this.currentUser = response.data.user;
@@ -52,27 +50,22 @@ export const usrStore = defineStore('usuariosStore', {
                     alert("no se pudo relogear");
                     console.log(error.response.data.message);
                 }
-
             }
 
         },
 
         async logOut() {
-
             this.currentUser = null;
 
-            const url = apiUrl + '/usuario/logout';
-            const data = {};
-
             try {
+                const url = `${apiUrl}/usuario/logout`
+                const data = {};
                 const response = await axios.post(url, data, { withCredentials: true });
-            } catch (error) {
+                alert(response.data.message);
+                
+            } catch (error) { 
                 console.log(error)
             }
-
-            
-
-            
         },
 
 
@@ -83,8 +76,24 @@ export const usrStore = defineStore('usuariosStore', {
             return this.currentUser != null;
         },
 
-        isAdmin() {
-            return this.currentUser.idRol == 1;
+        getRol() {
+            let result
+            if (this.currentUser != null) {
+
+                if (this.currentUser.idRol == 1) {
+                    result = 'A'
+                } else if (this.currentUser.idRol == 2) {
+                    result = 'C'
+                } else {
+                    result = 'P'
+                }
+
+            } else {
+                result = null
+            }
+
+            return result
+
         },
     },
 

@@ -38,9 +38,11 @@
         <br>
     </div>
 </template>
+
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { onBeforeMount, ref } from "vue";
+import apiUrl from '../../../../config/config';
 
 export default {
     setup() {
@@ -50,7 +52,7 @@ export default {
         onBeforeMount(async () => { fetchs() })
 
         async function fetchs() {
-            await deporteStore.fetchElements(`http://localhost:2020/deporte/getSports`).then(() => { size.value = deporteStore.getElements.result.length })
+            await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`).then(() => { size.value = deporteStore.getElements.result.length })
         }
 
         return {

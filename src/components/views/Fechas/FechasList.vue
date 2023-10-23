@@ -1,10 +1,6 @@
-
-
 <template>
     <div style="width: 100%; height: 500px;" class="bg bg-light text text-center p-5 h1">LISTA DE FECHAS</div>
     <button @click="nuevaFecha" type="button" class="btn btn-primary">{{agregarFecha}}</button>
-
-  <RouterView></RouterView>
 </template>
 
 <script >

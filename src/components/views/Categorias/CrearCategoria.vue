@@ -1,41 +1,57 @@
 <template>
-  <div class="formulario-container">
-    <div class="formulario-box">
-      <h2>Agregar Categoría</h2>
-      <form @submit.prevent="mostrarConfirmacion">
-        <div class="form-group">
-          <label for="nombreCat">Nombre de la Categoría:</label>
-          <input
-            type="text"
-            id="nombreCat"
-            v-model="nombreCat"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="deporte">Deporte:</label>
-          <select id="deporte" v-model="deporteSeleccionado" class="form-control">
-            <option value="">Seleccione un deporte</option>
-            <option v-for="deporte in deportes" :key="deporte.idDeporte" :value="deporte.idDeporte">{{ deporte.nombre }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="profesor">Profesor:</label>
-          <select id="profesor" v-model="profesorSeleccionado" class="form-control">
-            <option value="">Seleccione un profesor</option>
-            <option v-for="profesor in profesores" :key="profesor.idUsuario" :value="profesor.idUsuario">{{ profesor.nombre + " " + profesor.apellido}}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-success">Crear</button>
-          <button type="button" class="btn btn-secondary" @click="cancelar">Cancelar</button>
-        </div>
-      </form>
+  <div class="container_grid tamaño_xs">
+
+    <div class="titulo_container">
+      Agregar Categoría
     </div>
+
+    <div class="formulario_container">
+
+
+      <div class="form-floating mb-4 mt-3">
+        <input type="text" class="form-control" :class="this.nombreCatError" id="nombreCat" v-model="nombreCat"
+          placeholder="" style="font-weight: 540;">
+        <label for="nombreCat">Nombre de la Categoría</label>
+      </div>
+
+      <div class="form-floating mb-4">
+        <select class="form-select" :class="this.deporteSeleccionadoError" id="deporte-select" v-model="deporteSeleccionado" style="font-weight: 540;"
+          aria-label="Floating label select example">
+
+          <option class="opcion-default" value="default" selected>Seleccione Un Deporte</option>
+
+          <option v-for="deporte in deportes" :key="deporte.idDeporte" :value="deporte.idDeporte">{{ deporte.nombre }}
+          </option>
+
+        </select>
+        <label for="deporte-select">Deporte</label>
+      </div>
+
+      <div class="form-floating mb-4">
+        <select class="form-select" :class="this.profesorSeleccionadoError" id="profesor-select" aria-label="Floating label select example"
+          v-model="profesorSeleccionado" style="font-weight: 540;">
+
+          <option class="opcion-default" value="default" selected>Seleccione Un Profesor</option>
+
+          <option v-for="profesor in profesores" :key="profesor.idUsuario" :value="profesor.idUsuario">{{
+            profesor.nombre + " " + profesor.apellido }}</option>
+
+        </select>
+
+        <label for="profesor-select">Profesor</label>
+      </div>
+
+      <div class="container_buttons">
+        <button type="button" class="btn btn-danger" @click="cancelar">Cancelar</button>
+        <button type="submit" class="btn btn-macabi1" @click="validarCampos">Agregar</button>
+      </div>
+
+    </div>
+
   </div>
 
-    <div class="alert" v-if="mostrarMensaje" >
+
+  <div class="alert" v-if="mostrarMensaje">
     <p>{{ mensaje }}</p>
     <div class="alert-buttons">
       <button v-if="mostrarBotonesSiNo" class="btn btn-success" @click="crearCategoria">Sí</button>
@@ -43,25 +59,37 @@
       <button v-if="mostrarBotonOk" class="btn btn-primary" @click="ocultarMensaje">OK</button>
 
     </div>
-    </div>
+  </div>
 </template>
 
 
 <script>
 import axios from 'axios';
+import apiUrl from "../../../../config/config.js"
 
 export default {
   data() {
     return {
-      nombreCat: "",
-      deporteSeleccionado: "",
-      profesorSeleccionado: "",
+      //bind  de inputs
+      nombreCat: null,
+      deporteSeleccionado: 'default',
+      profesorSeleccionado: 'default',
+
+      nombreCatError: null,
+      deporteSeleccionadoError: null,
+      profesorSeleccionadoError: null,
+
+      //Opciones de Selects
       deportes: [],
       profesores: [],
+
       mostrarBotonesSiNo: false,
       mostrarBotonOk: false,
       mostrarMensaje: false,
+
       mensaje: "",
+
+
     };
   },
   mounted() {
@@ -69,9 +97,44 @@ export default {
     this.obtenerProfesores();
   },
   methods: {
+
+    validarCampos() {
+
+      console.log(this.nombreCatError);
+
+      let error = false
+
+      if (this.nombreCat == null || this.nombreCat == '') {
+        this.nombreCatError = "is-invalid"
+        error = true
+      } else {
+        this.nombreCatError = null
+      }
+      if (this.deporteSeleccionado == 'default') {
+        this.deporteSeleccionadoError = "is-invalid"
+        error = true
+      } else {
+        this.deporteSeleccionadoError = null
+      }
+      if (this.profesorSeleccionado == 'default') {
+        this.profesorSeleccionadoError = "is-invalid"
+        error = true
+      } else {
+        this.profesorSeleccionadoError = null
+      }
+
+      if(!error){
+        
+        this.mostrarConfirmacion()
+        
+      }
+
+    },
+
     obtenerDeportes() {
       // Hacer una solicitud al servidor para obtener la lista de deportes.
-      axios.get('http://localhost:2020/deporte/deportes')
+      axios.get(apiUrl + '/deporte/getAll', { withCredentials: true })
+
         .then(response => {
           this.deportes = response.data.result;
         })
@@ -79,12 +142,14 @@ export default {
           console.error('Error al obtener la lista de deportes:', error);
         });
     },
-    
+
     obtenerProfesores() {
+
       // Hacer una solicitud al servidor para obtener la lista de profesores.
-      axios.get('http://localhost:2020/usuario/profesores')
+      axios.get(apiUrl + '/usuario/3/rol', { withCredentials: true })
         .then(response => {
-          this.profesores = response.data.profesores;
+          console.log(response.data.result);
+          this.profesores = response.data.result;
         })
         .catch(error => {
           console.error('Error al obtener la lista de profesores:', error);
@@ -92,43 +157,51 @@ export default {
     },
 
     mostrarConfirmacion() {
-        console.log('Valor de deporteSeleccionado:', this.nombreCat);
+      console.log('Valor de deporteSeleccionado:', this.nombreCat);
       this.mostrarMensaje = true;
       this.mostrarBotonesSiNo = true;
       this.mostrarBotonOk = false;
       this.mensaje = `¿Estás seguro de crear la categoría "${this.nombreCat}"?`;
+      crearCategoria()
     },
 
     async crearCategoria() {
-  this.mostrarBotonesSiNo= false
-    const nuevaCategoria = {
-      nombreCategoria: this.nombreCat.toString(),
-      idDeporte: this.deporteSeleccionado,
-      idUsuario: this.profesorSeleccionado,
-    };
-    try {
-    const response = await axios.post("http://localhost:2020/categoria", nuevaCategoria);
-     console.log('Respuesta del servidor:', response.data);
-     this.mostrarBotonOk = true;
-     this.mensaje = "Categoria creada con exito";
-     this.nombreCat = "";
-     this.deporteSeleccionado = "",
-     this.profesorSeleccionado= ""
-  } catch (error) {
-    this.mensaje = "Error al crear la categoría. Por favor, inténtalo nuevamente." ;
-    console.error('Error al crear la categoría:', error);
-    this.mostrarBotonOk = true;
-        this.mostrarBotonesSiNo= false
-  }
 
-  this.mostrarMensaje = true;
-},
+
+
+
+      this.mostrarBotonesSiNo = false
+      const nuevaCategoria = {
+        nombreCategoria: this.nombreCat.toString(),
+        idDeporte: this.deporteSeleccionado,
+        idUsuario: this.profesorSeleccionado,
+      };
+
+      console.log(nuevaCategoria);
+
+      try {
+        const response = await axios.post(apiUrl + '/categoria', nuevaCategoria, { withCredentials: true });
+        console.log('Respuesta del servidor:', response.data);
+        this.mostrarBotonOk = true;
+        this.mensaje = "Categoria creada con exito";
+        this.nombreCat = "";
+        this.deporteSeleccionado = "",
+          this.profesorSeleccionado = ""
+      } catch (error) {
+        this.mensaje = "Error al crear la categoría. Por favor, inténtalo nuevamente.";
+        console.error('Error al crear la categoría:', error);
+        this.mostrarBotonOk = true;
+        this.mostrarBotonesSiNo = false
+      }
+
+      this.mostrarMensaje = true;
+    },
 
     ocultarMensaje() {
       this.mostrarMensaje = false;
-       this.mostrarBotonesSiNo= false,
-      this.mostrarBotonOk= false,
-      this.mostrarMensaje= false
+      this.mostrarBotonesSiNo = false,
+        this.mostrarBotonOk = false,
+        this.mostrarMensaje = false
     },
 
     cancelar() {
@@ -138,27 +211,39 @@ export default {
 };
 </script>
 
-<style>
-.formulario-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+<style scoped>
+.container_grid {
+  grid-template-rows: 1fr 4fr;
 }
 
-.formulario-box {
-  background-color: #f4f4f4;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 400px; 
+.form-select option{
+  font-weight: 540;
 }
-.form-group button {
-  margin-right: 10px; 
-  margin-top: 20px;
+
+.opcion-default {
+  color: #adadad;
+  
 }
+
+.btn-macabi1 {
+    color: white;
+    background-color: #004896;
+    border: 1px solid #013a77;
+}
+
+.btn-macabi1:hover {
+    color: white;
+    background-color: #013368;
+}
+
+.btn-macabi1:active  {
+    background-color: #002b58; 
+}
+
+
+
+
+
 
 .alert {
   position: fixed;
@@ -188,14 +273,12 @@ export default {
 }
 
 @keyframes slide-down {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(0); }
-}
+  0% {
+    transform: translateY(-100%);
+  }
 
-@media (max-width: 768px) {
-  .formulario-box {
-    max-width: 90%; 
-    
+  100% {
+    transform: translateY(0);
   }
 }
 </style>

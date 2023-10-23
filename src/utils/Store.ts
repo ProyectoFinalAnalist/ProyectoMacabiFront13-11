@@ -14,15 +14,27 @@ export function useElementStore(nombreStore) {
             },
 
             getElementById() {
-                return (id) => this.elements.find((e) => e.id === id);
+                return (id) => this.elements.result.find((e) => e.id === id);
             },
+
+            getWithKeyValue() {
+                return (key, value) => this.elements.result.find((e) => {
+                    if(e.hasOwnProperty(key)){
+                        return e[key] == value
+                    } else {
+                        return false
+                    }
+                });
+            },
+
         },
 
         actions: {
+            
             async fetchElements(url) {
-                if (!this.elements) {
+                if (true) {  //pongo true porque sino no recarga nunca :) despues vemos que hacemos
                     try {
-                        const response = await axios.get(url)
+                        const response = await axios.get(url, { withCredentials: true })
                         this.elements = response.data
                         //console.log(response.data)
                     } catch (error) {
@@ -41,7 +53,7 @@ export function useElementStore(nombreStore) {
 
             async fetchElementById(url, id) {
                 try {
-                    const response = await axios.get(`${url}/${id}`)
+                    const response = await axios.get(`${url}/${id}`, { withCredentials: true })
                     this.currentElement = response.data
                 } catch (error) {
                     console.error(`Error fetching element with id ${id}:`, error)
@@ -50,7 +62,7 @@ export function useElementStore(nombreStore) {
 
             async createElement(url, newElement) {
                 try {
-                    const response = await axios.post(`${url}`, newElement)
+                    const response = await axios.post(`${url}`, newElement, { withCredentials: true })
                     this.elements.push(response.data)
                 } catch (error) {
                     console.error('Error creating element:', error)

@@ -4,11 +4,13 @@ import { createPinia } from "pinia";
 import { isAuthenticated, login } from "./utils/Auth";
 import './assets/main.css';
 
+import "bootstrap/dist/css/bootstrap.css"
+
 // IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT - IMPORT
 
 // APP
 import App from "./App.vue";
-import Home from "./components/Home.vue";
+import Home from './components/Home.vue'
 import Login from "./components/Login.vue";
 import NewPassword from "./components/NewPassword.vue";
 import Unauthorized from "./components/Unauthorized.vue";
@@ -116,3 +118,5 @@ router.beforeEach((to, from, next) => {
 const pinia = createPinia();
 
 createApp(App).use(pinia).use(router).mount("#app");
+
+import "bootstrap/dist/js/bootstrap.js"

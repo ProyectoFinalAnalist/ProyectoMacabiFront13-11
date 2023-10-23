@@ -1,5 +1,5 @@
 <template>
-    <div v-if="rol == 'A'">
+    <div v-if="this.usuarioStore.getRol == 'A'" class="container">
         <div style="width: 100%;" class="text text-center p-5 h2">Opciones</div>
 
         <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;">
@@ -28,7 +28,8 @@
             </button>
         </div>
     </div>
-    <div v-if="rol == 'C' && elementStore1.getElements != null">
+
+    <div v-else-if="this.usuarioStore.getRol == 'C' && elementStore1.getElements != null">
         <div style="width: 100%;" class="text text-center p-5 h2">Tus Deportes asignados</div>
         <div v-if="elementStore1.getElements.deportes.length > 0" v-for="sport in elementStore1.getElements.deportes">
             <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;"> <button type="button"
@@ -40,7 +41,8 @@
             <div style="width: 100%;" class="text text-center p-5 h5">No tienes deportes asignados :c</div>
         </div>
     </div>
-    <div v-if="rol == 'P' && elementStore2.getElements != null">
+
+    <div v-else-if="this.usuarioStore.getRol == 'P' && elementStore2.getElements != null">
         <div style="width: 100%;" class="text text-center p-5 h2">Tus Categorías asignadas</div>
         <div v-if="elementStore2.getElements.categorias.length > 0"
             v-for="category in elementStore2.getElements.categorias">
@@ -55,26 +57,21 @@
     </div>
     <br>
 </template>
+
 <script>
 import { getRolFromCookie, getIdUsuarioFromCookie } from "../utils/Cookies"
 import { useElementStore } from "../utils/Store"
+import { usrStore } from "./stores/usrStore";
 import { onMounted } from "vue";
 
 export default {
     setup() {
+        const usuarioStore = usrStore()
         let elementStore1 = useElementStore("deportes")()
         let elementStore2 = useElementStore("categorias")()
-        let rol = getRolFromCookie()
 
         const idUsuario = getIdUsuarioFromCookie()
 
-        onMounted(() => {
-            if (rol == 'C') {
-                ObtenerDeportes()
-            } else if (rol == 'P') {
-                ObtenerCategorias()
-            }
-        })
 
         function ObtenerDeportes() {
             elementStore1.fetchElements(`http://localhost:2020/usuario/${idUsuario}/deportes`)
@@ -87,8 +84,15 @@ export default {
         return {
             elementStore1,
             elementStore2,
-            rol,
+            usuarioStore,
         }
     },
 }
 </script>
+
+<style scoped>
+.container{
+    display: flex;
+    flex-direction: column;
+}
+</style>

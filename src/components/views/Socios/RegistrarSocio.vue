@@ -1,57 +1,73 @@
 <template>
     <div>
+        <div class="container_grid tamaño_l" >
 
-        <div class="container_basic">
-            <h1>Registrar Socio</h1>
-            <div>
+            <div class="titulo_container ">
+                Registrar Socio
+            </div>
 
-                <div class="">
-                    <input type="number" required v-model="this.nroSocio">
-                    <span>numero de socio</span>
+            <div class="formulario_container">
+
+                <div class="form-floating mb-3 mt-3">
+                    <input type="number" id="nroSocioInput" class="form-control" :class="this.isInvalid" placeholder=""
+                        v-model="this.nroSocio">
+                    <label for="nroSocioInput">Numero De Socio</label>
                 </div>
 
-                <div class="">
-                    <input type="text" id="nombreInput" required v-model="this.nombre" @keypress="isAlpha($event)">
-                    <span>nombre</span>
+                <div class="form-floating mb-3">
+                    <input type="text" id="nombreInput" class="form-control" :class="this.isInvalid" placeholder=""
+                        v-model="this.nombre" @keypress="isAlpha($event)">
+                    <label for="nombreInput">Nombre</label>
                 </div>
 
-                <div class="">
-                    <input type="text" id="apellidoInput" required v-model="this.apellido" @keypress="isAlpha($event)">
-                    <span>apellido</span>
+                <div class="form-floating mb-3">
+                    <input type="text" id="apellidoInput" class="form-control" :class="this.isInvalid" placeholder=""
+                        v-model="this.apellido" @keypress="isAlpha($event)">
+                    <label for="apellidoInput">Apellido</label>
                 </div>
 
-                <div class="">
-                    <input type="text" id="dniInput" required v-model="this.dni" maxlength="12" @keypress="isNumber($event)">
-                    <span>dni</span>
+                <div class="form-floating mb-3">
+                    <input type="text" id="dniInput" class="form-control" :class="this.isInvalid" placeholder=""
+                        v-model="this.dni" @keypress="isNumber($event)" maxlength="12">
+                    <label for="dniInput">DNI</label>
                 </div>
 
-                <div class="">
-                    <input type="text" required v-model="this.email">
-                    <span>Email</span>
+                <div class="form-floating mb-3">
+                    <input type="email" id="emailInput" class="form-control" :class="this.isInvalid" placeholder=""
+                        v-model="this.email">
+                    <label for="emailInput">Email</label>
                 </div>
 
-                <div class="">
-                    <input type="text" id="telefonoInput" required v-model="this.telefono" maxlength="12" @keypress="isNumber($event)">
-                    <span>Telefono</span>
+                <div class="form-floating mb-3">
+                    <input type="text" id="telefonoInput" class="form-control" :class="this.isInvalid" placeholder=""
+                        v-model="this.telefono" @keypress="isNumber($event)" maxlength="12">
+                    <label for="telefonoInput">Telefono</label>
                 </div>
 
-                <div class="">
-                    <input type="text" required v-model="this.direccion">
-                    <span>Direccion</span>
+                <div class="form-floating mb-3">
+                    <input type="text" id="direccionInput" class="form-control" :class="this.isInvalid" placeholder=""
+                        v-model="this.direccion">
+                    <label for="direccionInput">Direccion</label>
                 </div>
 
-                <div class="">
-                    <input type="date" required v-model="this.fechaNacimiento">
-                    <span>Fecha De Nacimeinto</span>
+                <div class="form-floating mb-3">
+                    <input type="date" id="fechaInput" class="form-control" :class="this.isInvalid" placeholder=""
+                        v-model="this.fechaNacimiento">
+                    <label for="fechaInput">Fecha De Nacimeinto</label>
                 </div>
 
-                <div class="">
-                    <input type="text" required v-model="this.observaciones">
-                    <span>Observaciones</span>
+                <div class="form-floating mb-3">
+                    <input type="text" id="ObservInput" class="form-control" :class="this.isInvalid" placeholder=""
+                        v-model="this.Observaciones">
+                    <label for="ObservInput">Observaciones</label>
                 </div>
 
-                <button type="submit" class="" @click="validarCampos">Registar Socio</button>
-                <button type="submit" class="" @click="">Cancelar</button>
+                <div class="container_buttons">
+                    <button type="submit" class="btn btn-secondary" @click="">Cancelar</button>
+                    <button type="submit"  class="btn btn-macabi1" @click="validarCampos">Registar Socio</button>
+                </div>
+
+
 
                 <tr></tr>
 
@@ -165,5 +181,20 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.btn-macabi1 {
+    color: white;
+    background-color: #004896;
+    border: 1px solid #013a77;
+}
+
+.btn-macabi1:hover {
+    color: white;
+    background-color: #013368;
+}
+
+.btn-macabi1:active  {
+    background-color: #002b58; 
 }
 </style>

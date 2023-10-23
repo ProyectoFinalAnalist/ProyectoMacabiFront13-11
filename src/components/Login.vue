@@ -4,31 +4,35 @@
         <button type="submit" class="" @click="salir">cerrar</button>
     </div>
 
-    <div v-else class="container_basic">
+    <div v-else class="container_grid tamaño_xs">
 
-        <div class="">
-            <h1>INICIAR SESION</h1>
-            <div>
+        <div class="titulo_container">
+            Iniciar Sesion
+        </div>
 
-                <div class=" ">
-                    <input type="text" required v-model="this.email">
-                    <span>email</span>
-                </div>
+        <div class="formulario_container">
 
-                <div class=" ">
-                    <input type="password" required v-model="this.clave">
-                    <span>clave</span>
-                </div>
-
-                <button type="submit" class="" @click="ingresar">Iniciar Sesión</button>
-
-                <button type="submit" class="" @click="">recuperar Clave</button>
-
-                <div v-if="this.error" class="alert alert-danger" role="alert">
-                    {{ this.msjError }}
-                </div>
-
+            <div class="form-floating mb-3 mt-3">
+                <input type="email" class="form-control" id="floatingInput" :class="this.isInvalid"
+                    placeholder="name@example.com" v-model="this.email">
+                <label for="floatingInput">Email</label>
             </div>
+
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingInput" :class="this.isInvalid"
+                    placeholder="name@example.com" v-model="this.clave">
+                <label for="floatingInput">Clave</label>
+            </div>
+
+            <div class="container_buttons">
+                <button type="" class="btn btn-secondary" @click="">recuperar Clave</button>
+                <button type="" class="btn btn-macabi1" @click="ingresar">Iniciar Sesión</button>
+            </div>
+
+            <div v-if="this.error" class="alert alert-danger" role="alert">
+                {{ this.msjError }}
+            </div>
+
         </div>
 
     </div>
@@ -50,6 +54,17 @@ export default {
     async created() {
 
     },
+    computed: {
+
+        isInvalid() {
+            let msj
+            if (this.error == true) {
+                msj = 'is-invalid'
+            }
+            return msj
+        }
+
+    },
     methods: {
         async ingresar() {
 
@@ -63,14 +78,15 @@ export default {
                 let mensajeError = await this.usrStore.logIn(this.email, this.clave);
 
                 if (mensajeError == null) {
-
                     this.error = false;
 
+                    this.email = ""
+                    this.clave = ""
 
                 } else {
+
                     this.error = true;
                     this.msjError = mensajeError;
-
                 }
             }
         },
@@ -84,4 +100,35 @@ export default {
 };
 
 </script>
+
+<style scoped>
+.container_grid {
+    grid-template-rows: 1fr 3fr;
+}
+
+.btn-macabi1 {
+    color: white;
+    background-color: #004896;
+    border: 1px solid #013a77;
+}
+
+.btn-macabi1:hover {
+    color: white;
+    background-color: #013368;
+}
+
+.btn-macabi1:active  {
+    background-color: #002b58; 
+}
+
+.alert {
+    text-align: center;
+}
+
+@media screen and (max-width:700px) {
+    .container_buttons {
+        flex-direction: column;
+    }
+}
+</style>
 
