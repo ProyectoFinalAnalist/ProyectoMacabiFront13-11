@@ -48,11 +48,11 @@ export default {
   }),
   async created() {
     this.minFecha = new Date().toISOString().split('T')[0]
-    const url = "http://localhost:5000"
-    let idCat = this.$route.query.idCategoria;  
-    let nombreDeLaCategoria = await axios.get(`http://localhost:5000/categoria/${idCat}`);
+    const url = "http://localhost:2020"
+    let idCat = this.$route.params.idCategoria;  
+    let nombreDeLaCategoria = await axios.get(`http://localhost:2020/categoria/${idCat}`);
     this.nombreCategoria = nombreDeLaCategoria.data.nombreCategoria
-    let nombreDeporte = await axios.get(`http://localhost:5000/categoria/${idCat}/deporte`);
+    let nombreDeporte = await axios.get(`http://localhost:2020/categoria/${idCat}/deporte`);
     this.nombreDeporte = nombreDeporte.data.nombreCategoria
  },
   methods: {

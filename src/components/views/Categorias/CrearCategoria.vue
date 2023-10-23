@@ -115,8 +115,7 @@ export default {
      this.deporteSeleccionado = "",
      this.profesorSeleccionado= ""
   } catch (error) {
-    this.mensaje = "Error al crear la categoría. Por favor, inténtalo nuevamente." ;
-    console.error('Error al crear la categoría:', error);
+    this.mensaje = error.response.data.message; ;
     this.mostrarBotonOk = true;
         this.mostrarBotonesSiNo= false
   }
