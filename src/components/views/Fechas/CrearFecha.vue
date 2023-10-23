@@ -8,20 +8,21 @@
       </div>
       <div class="form-group">
         <label for="tipoFecha">Tipo de fecha</label>
-    <select id="tipoFecha" class="form-control" v-model="selectedTipoFecha" required>
-      <option v-for="opcion in opciones" :value="opcion.value">{{ opcion.label }}</option>
-    </select>
+        <select id="tipoFecha" class="form-control" v-model="selectedTipoFecha" required>
+          <option v-for="opcion in opciones" :value="opcion.value" >{{ opcion.label }}</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="">Deporte</label>
-        <input  type="text" class="prueba form-control" aria-describedby="emailHelp" :value="nombreDeporte" disabled>
+        <input type="text" class="prueba form-control" aria-describedby="emailHelp" :value="nombreDeporte" disabled>
       </div>
       <div class="form-group">
         <label for="">Fecha</label>
-        <input v-model="fechaElegida" type="date" name="" id="" class="form-control" required :min="minFecha">
+        <input v-model="fechaElegida" type="date" name="" id="" class="form-control" required>
       </div>
       <div class="form-group">
-        <button @click="ingresarFecha" class="btn btn-primary">Confirmar</button>
+        <button v-if="selectedTipoFecha && fechaElegida"  @click="ingresarFecha" class="btn btn-primary">Confirmar</button>
+        <button v-if="!selectedTipoFecha || !fechaElegida" disabled  @click="ingresarFecha" class="btn btn-primary">Confirmar</button>
         <button id="btnVolver" class="btn btn">Volver</button>
       </div>
     </form>
@@ -31,87 +32,91 @@
 
 <script>
 import axios from "axios";
+import apiUrl from '../../../../config/config.js'
+
 export default {
   components: {},
   data: () => ({
-    minFecha:"",
+
+    minFecha: "",
     fechaElegida: null,
     nombreCategoria: null,
     nombreDeporte: null,
     tiposDisponibles: ['Entrenamiento, Citación'],
-    tipoFecha:"",
-    selectedTipoFecha: '', // Aquí almacenarás el valor seleccionado
-      opciones: [
-        { value: 'E', label: 'Entrenamiento' },
-        { value: 'C', label: 'Citación' }],
+    tipoFecha: "",
+    selectedTipoFecha: '', // Aquí almacenarás el valor seleccionado,
+    idCat:0,
+    opciones: [
+      { value: 'E', label: 'Entrenamiento' },
+      { value: 'C', label: 'Citación' }],
   }),
+
   async created() {
-    this.minFecha = new Date().toISOString().split('T')[0]
-    const url = "http://localhost:5000"
-    let idCat = this.$route.query.idCategoria;  
-    let nombreDeLaCategoria = await axios.get(`http://localhost:5000/categoria/${idCat}`);
+
+    this.idCat = this.$route.params.idCategoria,
+      this.minFecha = new Date().toISOString().split('T')[0]
+
+    let nombreDeLaCategoria = await axios.get(`${apiUrl}/categoria/${this.idCat}/nombreCategoria`, { withCredentials: true });
+
     this.nombreCategoria = nombreDeLaCategoria.data.nombreCategoria
-    let nombreDeporte = await axios.get(`http://localhost:5000/categoria/${idCat}/deporte`);
-    this.nombreDeporte = nombreDeporte.data.nombreCategoria
- },
+
+    let nombreDeporteBuscado = await axios.get(`${apiUrl}/categoria/${this.idCat}/nombreDeporte`, { withCredentials: true });
+
+    this.nombreDeporte = nombreDeporteBuscado.data.nombreDeporte
+  },
+
   methods: {
-  async  ingresarFecha(){
-      if(this.confirmarFecha() == true) {
-       
-        
-        if(this.selectedTipoFecha == "E"){
+    async ingresarFecha() {
+      event.preventDefault();
+      if (this.confirmarFecha() == true) {
+
+        if (this.selectedTipoFecha == "E") {
           let parametro = {
-          idCategoria: this.$route.query.idCategoria,
-          fechaCalendario: this.fechaElegida.toString(),
-          tipo: this.selectedTipoFecha
-    };    
-    alert("La fecha es : " + parametro.fechaCalendario + " el id categoria: " + parametro.idCategoria + " y el tipo: " + parametro.tipo)
-    try {
-      let result = await axios.post('http://localhost:5000/fecha/', parametro);
-      this.$router.push({ path: '/fecha' });
+            idCategoria: this.idCat,
+            fechaCalendario: this.fechaElegida,
+            tipo: this.selectedTipoFecha
+          };
 
-    }catch(e){
-     
-      if (e.response && e.response.data && e.response.data.message) {
-          // Si la respuesta contiene un mensaje de error, muéstralo al usuario
-          alert(e.response.data.message)
+          try {
+
+            const result = await axios.post(`${apiUrl}/fecha/`, parametro, { withCredentials: true });
 
 
-    }
-
-      
+            this.$router.push({ path: '/fechas' });
 
 
-    }
+           
+          } catch (e) {
 
-      }else {
-        this.$router.push({
-  path: `/nuevaCitacion/${this.$route.query.idCategoria}`,
-  query: {
-    fecha: this.fechaElegida
-  }
-});
+            if (e.response && e.response.data && e.response.data.message) {
+              alert(e.response.data.message)
+            }
+          }
 
-        
-        
+        } else {
+          this.$router.push({
+            path: `/nuevaCitacion/${this.idCat}`,
+            query: {
+              fecha: this.fechaElegida
+            }
+          });
 
-
-      }
+        }
       }
 
-      
+
     },
     confirmarFecha() {
-  let fechaCorrecta = true;
-  const fechaSeleccionada = new Date(this.fechaElegida);
+      let fechaCorrecta = true;
+      const fechaSeleccionada = new Date(this.fechaElegida);
 
-  if (fechaSeleccionada < new Date()) {
-    alert('No puedes seleccionar una fecha anterior a la fecha actual.');
-    fechaCorrecta = false;
-  }
+      if (fechaSeleccionada < new Date() || fechaSeleccionada.l) {
+        alert('No puedes seleccionar una fecha anterior a la fecha actual.');
+        fechaCorrecta = false;
+      }
 
-  return fechaCorrecta;
-}
+      return fechaCorrecta;
+    }
   },
 };
 </script>
@@ -131,10 +136,11 @@ export default {
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   width: 100%;
-  max-width: 400px; 
+  max-width: 400px;
 }
+
 .form-group button {
-  margin-right: 10px; 
+  margin-right: 10px;
   margin-top: 20px;
   background-color: #014187;
 }
@@ -143,14 +149,12 @@ export default {
   background-color: rgb(130, 130, 130);
 }
 
-.prueba {
-  background-color: #014187;
-}
+
 
 @media (max-width: 768px) {
   .formulario-box {
-    max-width: 90%; 
-    
+    max-width: 90%;
+
   }
 }
 </style>

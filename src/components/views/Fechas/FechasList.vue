@@ -5,17 +5,18 @@
 
 <script >
 export default {
-  name: "FechaList",
-  components: {},
-  data: () => ({
-    agregarFecha:"Agrear nueva fecha"
-  }),
-  methods: {
-      nuevaFecha(){
-        this.$router.push({ path: '/crearfecha', query: { idCategoria: '1' } });
-      }
+name: "FechaList",
+components: {},
+data: () => ({
+  agregarFecha:"Agrear nueva fecha"
+}),
+methods: {
+    nuevaFecha(){
+      let idCategoria = 1
+      this.$router.push({ path: `/crearfecha/${idCategoria}`});
+    }
 
-  },
+},
 };
 
 </script>
