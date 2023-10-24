@@ -15,18 +15,13 @@
                             <p>
                                 <strong>Categorias asignadas: </strong>
                             </p>
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre:</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="categoria in categorias" :key="categoria.idCategoria">
-                                        <td>{{ categoria.nombreCategoria }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <ul class="list-group mt-1 mb-4 text-center" style="font-size: x-large;">
+                                <li class="list-group text-dark" v-on:click="irA(categoria.idCategoria)"
+                                    :class="[categoria.idCategoria == 0 ? 'list-group-item list-group-item-danger' : 'list-group-item list-group-item-action list-group-item-light']"
+                                    v-for="categoria in categorias" :key="categoria.idCategoria">
+                                    {{ categoria.nombreCategoria }}
+                                </li>
+                            </ul>
                             <div class="justify-content-center d-flex">
                                 <button class="btn btn-success mb-3" @click="agregarCategoria">Agregar Categoria</button>
                             </div>
@@ -214,7 +209,7 @@ export default {
                 }
             });
 
-            if (nuevosCoordinadores.length > 0) {
+            if (nuevosCoordinadores.length > 0 && usuariosStore.confirm("modificar", "modificado", "Coordinador/es")) {
                 coordinadores.value = nuevosCoordinadores;
                 updateCoordinadores()
             } else {
@@ -223,20 +218,22 @@ export default {
         }
 
         async function updateCoordinadores() {
+            let registro = { idDeporte: idDeporte, idUsuario: 0 }
+            registro = JSON.parse(JSON.stringify(registro))
+
+            await usuariosStore.deleteElement(`${apiUrl}/deporte/`, idDeporte);
+
             const idsUsuarios = coordinadores.value.map((coordinador) => ({
                 idUsuario: coordinador.idUsuario,
             }));
 
-            const store = useElementStore("auxiliarTabla")()
-            let registro = ""
+            idsUsuarios.forEach(async (idUsuario) => {
+                registro.idUsuario = idUsuario.idUsuario
 
-            await store.fetchElementById(`${apiUrl}/deporte/tablaIntermedia`, idDeporte)
-                .then(() => { registro = JSON.parse(JSON.stringify(store.currentElement.result)) })
-
-            idsUsuarios.forEach(async (e) => {
-                registro.idUsuario = e.idUsuario
                 await usuariosStore.updateElement(`${apiUrl}/deporte/coordinador`, registro, "idDeporte")
             })
+
+            location.reload()
         }
 
         function isChecked(id) {
@@ -245,6 +242,12 @@ export default {
             isChecked = coordinadores.value.some(coordinador => coordinador.idUsuario == id);
 
             return isChecked
+        }
+
+        function irA(id) {
+            if (id != 0) {
+                router.push(`/categorias/${id}`);
+            }
         }
 
         return {
@@ -262,7 +265,8 @@ export default {
             message,
             coordinadoresModal,
             saveSelectedCoordinadores,
-            isChecked
+            isChecked,
+            irA
         }
     }
 }
