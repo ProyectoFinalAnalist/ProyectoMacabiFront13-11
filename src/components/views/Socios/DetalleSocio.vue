@@ -82,6 +82,8 @@
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
+import apiUrl from '../../../../config/config.js'
+
 
 export default {
     setup() {
@@ -93,9 +95,9 @@ export default {
         const idSocio = route.params.id
 
         onMounted(async () => {
-            await sociosStore.fetchElementById(`http://localhost:2020/socio/`, idSocio)
-            await deporteStore.fetchElements(`http://localhost:2020/deporte/getSports`)
-            await categoriasStore.fetchElementById(`http://localhost:2020/sociosXCategoria/categorias`, idSocio)
+            await sociosStore.fetchElementById(`${apiUrl}/socio/`, idSocio)
+            await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
+            await categoriasStore.fetchElementById(`${apiUrl}/sociosXCategoria/categorias`, idSocio)
             data.value;
         })
 
@@ -123,7 +125,7 @@ export default {
         });
 
         function obtenerNombreDeporte(idDeporte) {
-            const deporteEncontrado = deporteStore.getElements.result.find((deporte) => deporte.idDeporte === idDeporte);
+            const deporteEncontrado = deporteStore.getWithKeyValue("idDeporte",idDeporte)
 
             if (deporteEncontrado) { return deporteEncontrado.nombre; } else { return "Nombre no encontrado"; }
         }

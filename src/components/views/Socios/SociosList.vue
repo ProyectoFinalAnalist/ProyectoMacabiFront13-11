@@ -75,6 +75,7 @@
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { onBeforeMount, ref } from "vue";
+import apiUrl from '../../../../config/config.js'
 
 export default {
     setup() {
@@ -89,7 +90,7 @@ export default {
         onBeforeMount(async () => { fetchs() })
 
         async function fetchs() {
-            await sociosStore.fetchElements(`http://localhost:2020/socio/getSocios`)
+            await sociosStore.fetchElements(`${apiUrl}/socio/getSocios`)
                 .then(() => {
                     if (sociosStore.getElements != null) {
                         socios.value = sociosStore.getElements.result

@@ -1,6 +1,5 @@
 <template>
-    
-    <div v-if="rol == 'A'">
+    <div v-if="usuarioStore.getRol == 'A'">
         <div style="width: 100%;" class="text text-center p-5 h2">Opciones de Administrador</div>
 
         <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;">
@@ -20,9 +19,10 @@
         </div>
     </div>
 
-    <div v-if="rol == 'C' && elementStore1.getElements != null">
+    <div v-else-if="usuarioStore.getRol == 'C' && deportesDeUsuario.getElements != null">
         <div style="width: 100%;" class="text text-center p-5 h2">Tus Deportes asignados - Coordinador de Deportes</div>
-        <div v-if="elementStore1.getElements.deportes.length > 0" v-for="sport in elementStore1.getElements.deportes">
+        <div v-if="deportesDeUsuario.getElements.deportes.length > 0"
+            v-for="sport in deportesDeUsuario.getElements.deportes">
             <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;"> <button type="button"
                     class="btn btn-primary" style="width: 100%;"> <router-link :to="'/deportes/' + sport.idDeporte"
                         class="fs-4 text text-white nav nav-link"> Ir a {{ sport.nombre }}</router-link>
@@ -33,10 +33,10 @@
         </div>
     </div>
 
-    <div v-if="rol == 'P' && elementStore2.getElements != null">
+    <div v-else-if="usuarioStore.getRol == 'P' && categoriasDeUsuario.getElements != null">
         <div style="width: 100%;" class="text text-center p-5 h2">Tus Categorías asignadas - Profesor</div>
-        <div v-if="elementStore2.getElements.categorias.length > 0"
-            v-for="category in elementStore2.getElements.categorias">
+        <div v-if="categoriasDeUsuario.getElements.categorias.length > 0"
+            v-for="category in categoriasDeUsuario.getElements.categorias">
             <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;"> <button type="button"
                     class="btn btn-primary" style="width: 100%;"> <router-link :to="'/categorias/' + category.idCategoria"
                         class="fs-4 text text-white nav nav-link"> Ir a {{ category.nombreCategoria }}</router-link>
@@ -46,35 +46,49 @@
             <div style="width: 100%;" class="text text-center p-5 h5">No tienes categorias asignadas :c</div>
         </div>
     </div>
-
 </template>
 
 <script>
-import { getRolFromCookie, getIdUsuarioFromCookie } from "../utils/Cookies"
 import { useElementStore } from "../utils/Store"
 import { usrStore } from "./stores/usrStore";
 import { onMounted } from "vue";
+import { computed, watch } from 'vue';
+
+import apiUrl from "../../config/config";
 
 export default {
     setup() {
         const usuarioStore = usrStore()
-        let elementStore1 = useElementStore("deportes")()
-        let elementStore2 = useElementStore("categorias")()
+        let deportesDeUsuario = useElementStore("deportesDeUsuario")()
+        let categoriasDeUsuario = useElementStore("categoriasDeUsuario")()
 
-        const idUsuario = getIdUsuarioFromCookie()
+        const rol = computed(() => usuarioStore.getRol);
+
+        watch(rol, (rol) => {
+            switch (rol) {
+                case 'C':
+                    console.log("ASDASD");
+                    obtenerDeportes()
+                    break;
+                case 'P':
+                    console.log("123");
+                    obtenerCategorias()
+                    break;
+            }
+        });
 
 
-        function ObtenerDeportes() {
-            elementStore1.fetchElements(`http://localhost:2020/usuarios/${idUsuario}/deportes`)
+        function obtenerDeportes() {
+            deportesDeUsuario.fetchElements(`${apiUrl}/usuario/${usuarioStore.getId}/deportes`)
         }
 
-        function ObtenerCategorias() {
-            elementStore2.fetchElements(`http://localhost:2020/usuarios/${idUsuario}/categorias`)
+        function obtenerCategorias() {
+            categoriasDeUsuario.fetchElements(`${apiUrl}/usuario/${usuarioStore.getId}/categorias`)
         }
 
         return {
-            elementStore1,
-            elementStore2,
+            deportesDeUsuario,
+            categoriasDeUsuario,
             usuarioStore,
         }
     },
@@ -82,7 +96,7 @@ export default {
 </script>
 
 <style scoped>
-.container{
+.container {
     display: flex;
     flex-direction: column;
 }
