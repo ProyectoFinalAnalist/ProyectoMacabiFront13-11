@@ -240,11 +240,6 @@ export default {
     background-color: #002b58; 
 }
 
-
-
-
-
-
 .alert {
   position: fixed;
   top: 0;
