@@ -74,11 +74,11 @@ export default {
         onBeforeMount(async () => { fetchs() })
 
         async function fetchs() {
-            await categoriasStore.fetchElements(`${apiUrl}/categoria/getCategories`)
+            await categoriasStore.fetchElements(`${apiUrl}/categoria/getAll`)
                 .then(() => {
                     categorias.value = categoriasStore.getElements.result
                 })
-            await deporteStore.fetchElements(`${apiUrl}/deporte/getSports`)
+            await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
                 .then(() => {
                     size.value = deporteStore.getElements.result.length
                     deportes.value = deporteStore.getElements.result

@@ -1,17 +1,16 @@
 <template>
-
-
   <div class="componentes">
     <RouterView></RouterView>
   </div>
 
-  
+  <Footer/>
 
 </template>
 
 <script setup>
 import { usrStore } from "./components/stores/usrStore";
 import { onMounted } from "vue";
+import Footer from "./components/dependentComponents/Footer.vue";
 
 const usuarioStore = usrStore()
 
