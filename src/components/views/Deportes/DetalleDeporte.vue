@@ -184,7 +184,7 @@ export default {
         }
 
         function agregarCategoria() {
-            router.push("/crearCategoria")
+            router.push(`/crearCategoria/${idDeporte}`)
         }
 
         const coordinadoresModal = ref(null)

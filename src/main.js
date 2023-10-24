@@ -72,6 +72,7 @@ const routes = [
   { path: "/asignarProfesor", component: AsignarProfesor },
   { path: "/categorias", component: CategoriasList },
   { path: "/crearCategoria", component: CrearCategoria },
+  { path: "/crearCategoria/:idDeporte", component: CrearCategoria },
   { path: "/categorias/:id", component: DetalleCategoria },
 
   // DEPORTES
