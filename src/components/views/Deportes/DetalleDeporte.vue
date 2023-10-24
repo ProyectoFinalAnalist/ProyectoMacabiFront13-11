@@ -176,7 +176,7 @@ export default {
         }
 
         function deleteDeporte() {
-            console.log(categorias.value[0].idCategoria)
+            alert("not implemented")
         }
 
         const updateDeporte = async () => {

@@ -62,8 +62,8 @@ export function useElementStore(nombreStore) {
 
             async createElement(url, newElement) {
                 try {
-                    const response = await axios.post(`${url}`, newElement, { withCredentials: true })
-                    this.elements.push(response.data)
+                    const response = await axios.post(`${url}`, newElement)
+                    //this.elements.push(response.data)
                 } catch (error) {
                     console.error('Error creating element:', error)
                 }

@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import { createPinia } from "pinia";
 import { isAuthenticated, login } from "./utils/Auth";
+
 import './assets/main.css';
 
 import "bootstrap/dist/css/bootstrap.css"
@@ -40,13 +41,12 @@ import NuevaFechaCitacion from "./components/views/Fechas/NuevaFechaCitacion.vue
 import FechasListCategoria from "./components/views/Fechas/FechasListCategoria.vue"
 
 
-
 // SOCIOS
 import RegistrarSocio from "./components/views/Socios/RegistrarSocio.vue"
-import SociosInactivos from "./components/views/Socios/SociosInactivos.vue"
 import SociosList from "./components/views/Socios/SociosList.vue"
 import AgregarSocio from "./components/views/Socios/AgregarSocio.vue"
 import DetalleSocio from "./components/views/Socios/DetalleSocio.vue"
+import UpdateSocio from "./components/views/Socios/UpdateSocio.vue"
 
 // USUARIOS
 import UsuariosInactivos from "./components/views/Usuarios/UsuariosInactivos.vue";
@@ -87,14 +87,12 @@ const routes = [
   { path: "/nuevaCitacion/:idCategoria", component: NuevaFechaCitacion },
   { path: "/fechasCategoria/:id", component: FechasListCategoria },
 
-
   // SOCIOS
   { path: "/registrarSocio", component: RegistrarSocio, },
   { path: "/socios", component: SociosList, },
-  { path: "/sociosInactivos", component: SociosInactivos, },
   { path: "/agregarSocio/:idCategoria", component: AgregarSocio },
-
   { path: "/socios/:id", component: DetalleSocio },
+  { path: "/socios/update/:id", component: UpdateSocio },
 
   // USUARIOS
   { path: "/usuarios", component: UsuariosList },

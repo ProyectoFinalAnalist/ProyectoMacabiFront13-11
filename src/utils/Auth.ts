@@ -3,11 +3,15 @@ import { setCookie,getCookie,getCookieJSON} from './Cookies';
 
 // JUAMPI: hice este método para simular un inicio de sesion, cuando se haga el inicio real se borra
 let auth = false
-let id = 1
+let idUsuario = 1
 // 1 = A dmin
 // 2 = C oordinador
 // 3 = P rofesor
-const url = `http://localhost:2020/usuario/${id}`;
+// 4 = P rofesor
+
+const url = `http://localhost:2020/usuarios/${idUsuario}`;
+
+login()
 
 export function login() {  
     auth = !auth
@@ -16,8 +20,8 @@ export function login() {
         axios.get(url).then(response => {
             if (response.data.success) {
               setCookie(response.data.result);
-              console.log(response.data.result)
-              location.reload();
+              //console.log(response.data.result)
+              //location.reload();
             } else {
               alert("No se encontró un usuario");
             }

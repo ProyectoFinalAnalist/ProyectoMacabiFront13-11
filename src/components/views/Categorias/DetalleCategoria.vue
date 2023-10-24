@@ -6,28 +6,22 @@
                     <div v-if="categoria" class="card-body">
                         <h4>Detalles de la Categoría: <strong>{{ categoria.nombreCategoria }}</strong></h4>
                         <div>
-                            <p>
-                                <strong>Nombre: </strong><input type="text" class="form-control"
+                            <p class="p pe-3">
+                                <strong>Nombre: </strong><input type="text" class="form-control ms-2"
                                     v-model="categoria.nombreCategoria" />
                             </p>
                             <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorNombre">
                                 <strong>El nombre no puede estar vacío</strong>
                             </h6>
-                            <p>
-                                <strong>Deporte al que pertenece: </strong>
-                                <select v-model="categoria.idDeporte">
-                                    <option value="0" disabled>Selecciona el deporte</option>
-                                    <option v-for="deporte in deporteStore.getElements.result" :value="deporte.idDeporte">
-                                        {{ deporte.nombre }}
-                                    </option>
-                                </select>
-                            </p>
-                            <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorDeporte">
-                                <strong>El deporte no puede estar vacío</strong>
+                            <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorNombre2">
+                                <strong>El nombre no puede repetirse</strong>
                             </h6>
-                            <p>
+                            <p class="p pe-3">
+                                <strong>Deporte al que pertenece: </strong>{{ obtenerNombreDeporte(categoria.idDeporte).nombre }}
+                            </p>
+                            <p class="p pe-3">
                                 <strong>Profesor: </strong>
-                                <select v-model="categoria.idUsuario">
+                                <select v-model="categoria.idUsuario" class="form-select ms-2">
                                     <option value="0" disabled>Selecciona el profesor</option>
                                     <option v-for="profesor in usuariosStore.getElements.result"
                                         :value="profesor.idUsuario">
@@ -35,9 +29,6 @@
                                     </option>
                                 </select>
                             </p>
-                            <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorProfesor">
-                                <strong>El profesor no puede estar vacío</strong>
-                            </h6>
                             <div class="d-flex justify-content-center">
                                 <button class="btn btn-primary" @click="updateCategoria">Actualizar Categoría</button>
 
@@ -53,14 +44,13 @@
         </div>
     </div>
     <div class="d-flex justify-content-center">
-        <button class="btn btn-secondary"><router-link to="/categorias" class="nav-item nav-link" href="#">Volver a
-                Categorías</router-link></button>
+        <button class="btn btn-secondary" @click="volverAtras()">Volver</button>
     </div>
 </template>
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
     setup() {
@@ -69,12 +59,14 @@ export default {
         const usuariosStore = useElementStore("usuarios")()
 
         const route = useRoute()
+        const router = useRouter();
         const idCategoria = route.params.id
 
         onMounted(async () => {
             await categoriasStore.fetchElementById(`http://localhost:2020/categoria/`, idCategoria)
+            await categoriasStore.fetchElements(`http://localhost:2020/categoria/getCategories`)
             await deporteStore.fetchElements(`http://localhost:2020/deporte/getSports`)
-            await usuariosStore.fetchElements(`http://localhost:2020/usuario/3/rol`) // 3 para traerme todos los profesores
+            await usuariosStore.fetchElements(`http://localhost:2020/usuarios/3/rol`) // 3 para traerme todos los profesores
             data.value;
         })
 
@@ -111,12 +103,12 @@ export default {
 
             if (validar() && categoriasStore.confirm("modificar", "modificada", "Categoria")) {
                 await categoriasStore.updateElement(`http://localhost:2020/categoria`, catUpdated, "idCategoria");
-               location.reload()
+                location.reload()
             }
         };
 
         const errorNombre = ref(false);
-        const errorDeporte = ref(false);
+        const errorNombre2 = ref(false);
         const errorProfesor = ref(false);
 
         function validar() {
@@ -124,7 +116,15 @@ export default {
 
             let resultado = true;
             if (categoria.value.nombreCategoria.trim() === '') { errorNombre.value = true; resultado = false; }
-            if (categoria.value.idDeporte == null) { errorDeporte.value = true; resultado = false; }
+
+            const categoriaExistente = categoriasStore.getElements.result.find((c) => {
+                return c.nombreCategoria === categoria.value.nombreCategoria && c.idCategoria !== categoria.value.idCategoria;
+            });
+
+            if (categoriaExistente) {
+                errorNombre2.value = true;
+                resultado = false;
+            }
             if (categoria.value.idUsuario == null) { errorProfesor.value = true; resultado = false; }
 
             return resultado;
@@ -132,8 +132,12 @@ export default {
 
         function setearEnFalse() {
             errorNombre.value = false;
-            errorDeporte.value = false;
+            errorNombre2.value = false;
             errorProfesor.value = false;
+        }
+
+        function volverAtras() {
+            router.go(-1);
         }
 
         return {
@@ -148,8 +152,9 @@ export default {
             deporte,
             profesor,
             errorNombre,
-            errorDeporte,
-            errorProfesor
+            errorNombre2,
+            errorProfesor,
+            volverAtras
         }
     }
 }
