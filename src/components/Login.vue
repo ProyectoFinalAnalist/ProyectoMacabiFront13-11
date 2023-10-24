@@ -13,15 +13,15 @@
         <div class="formulario_container">
 
             <div class="form-floating mb-3 mt-3">
-                <input type="email" class="form-control" id="floatingInput" :class="this.isInvalid"
+                <input type="email" class="form-control" id="emailInput" :class="this.isInvalid"
                     placeholder="name@example.com" v-model="this.email">
-                <label for="floatingInput">Email</label>
+                <label for="emailInput">Email</label>
             </div>
 
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingInput" :class="this.isInvalid"
+                <input type="password" class="form-control" id="passwordInput" :class="this.isInvalid"
                     placeholder="name@example.com" v-model="this.clave">
-                <label for="floatingInput">Clave</label>
+                <label for="passwordInput">Clave</label>
             </div>
 
             <div class="container_buttons">
