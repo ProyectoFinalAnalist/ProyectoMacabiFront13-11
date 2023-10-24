@@ -71,7 +71,8 @@
                                             v-model="contacto.telefono" />
                                     </p>
                                     <div class="d-flex justify-content-center">
-                                        <button class="btn btn-primary" @click="updateContacto(contacto)">Actualizar Contacto</button>
+                                        <button class="btn btn-primary" @click="updateContacto(contacto)">Actualizar
+                                            Contacto</button>
                                         <button class="btn btn-danger" @click="deleteContacto">Borrar Contacto</button>
                                     </div>
                                 </div>
@@ -89,15 +90,15 @@
                 <strong>No se pudo cargar el socio :c</strong>
             </h5>
         </div>
+        <h5 v-if="message != null" class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3">
+            <strong>{{ message }}</strong>
+        </h5>
     </div>
     <div class="d-flex justify-content-center">
         <button class="btn btn-secondary"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
                 Socios</router-link></button>
     </div>
     <br>
-    <h5 v-if="message != null" class="alert alert-warning alert-sm mb-0 text-center m-2 mb-3">
-        <strong>{{ message }}</strong>
-    </h5>
     <!--MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / -->
     <div v-if="socio" class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -128,12 +129,15 @@
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
-            <h5 v-if="messageModal != null" class="alert alert-warning alert-sm mb-0 text-center m-2 mb-3">
+            <h5 v-if="messageModal != null" class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3">
                 <strong>{{ messageModal }}</strong>
             </h5>
         </div>
     </div>
 </template>
+<style>
+@import '../../../assets/alert.css';
+</style>
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
@@ -228,6 +232,8 @@ export default {
         const contactoCreate = computed(() => contactoStore.currentElement)
         const messageModal = ref(null)
         let repiteID = false
+        let idContacto = 0
+        let mailContacto = ""
 
         contactoStore.setCurrentElement({
             idSocio: idSocio,
@@ -247,28 +253,27 @@ export default {
 
         function updateContacto(contacto) {
             repiteID = true;
-            
+            idContacto = contacto.idInfoContacto
+            mailContacto = contacto.email
+
             if (validarContacto("message", contacto) && contactoStore.confirm("modificar", "modificado", "Contacto")) {
-                console.log("modificando")
+                console.log("AAAAAAAAAAAAAAAA")
             }
         }
 
-        function hasDuplicateEmail(repiteID) {
+        function hasDuplicateEmail() {
             let hasDuplicateEmail = false
 
-            // if (!repiteID) {
-            //     hasDuplicateEmail = contactoStore.getElements.result.some((contacto) => contacto.email == contactoCreate.value.email);
-            // } // } else {
-            //     hasDuplicateEmail = contactoStore.getElements.result.some((contacto) => contacto.email == contactoCreate.value.email && contacto.idSocio != idSocio);
-            // }
-
-            console.log(hasDuplicateEmail)
+            if (!repiteID) {
+                hasDuplicateEmail = contactoStore.getElements.result.some((contacto) => contacto.email == contactoCreate.value.email);
+            } else {
+                hasDuplicateEmail = contactoStore.getElements.result.some((contacto) => contacto.email == mailContacto && contacto.idInfoContacto != idContacto);
+            }
 
             return hasDuplicateEmail
         }
 
         function validarContacto(tipo, contacto) {
-            console.log("contacto", contacto)
             let msj = ""
             let crear = false;
 
@@ -292,8 +297,8 @@ export default {
                 crear = true
             }
 
-            if(msj != ""){
-                if(tipo === "message"){
+            if (msj != "") {
+                if (tipo === "message") {
                     message.value = msj
                 } else {
                     messageModal.value = msj

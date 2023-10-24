@@ -9,6 +9,9 @@
                         <input type="text" class="form-control m me-5" placeholder="Buscar por nombre..."
                             v-model="busqueda">
                     </div>
+                    <div class="col col-sm m-0 p-0 me-4">
+                        <button class="btn btn-danger" type="button" v-on:click="reiniciar">Reiniciar</button>
+                    </div>
                     <div class="col d-none d-lg-table-cell"></div>
                     <div class="col col-sm d-none d-sm-table-cell">
                         <div class="d-flex justify-content-end mt-2">
@@ -74,11 +77,11 @@ export default {
         onBeforeMount(async () => { fetchs() })
 
         async function fetchs() {
-            await categoriasStore.fetchElements(`${apiUrl}/categoria/getCategories`)
+            await categoriasStore.fetchElements(`${apiUrl}/categoria/getAll`)
                 .then(() => {
                     categorias.value = categoriasStore.getElements.result
                 })
-            await deporteStore.fetchElements(`${apiUrl}/deporte/getSports`)
+            await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
                 .then(() => {
                     size.value = deporteStore.getElements.result.length
                     deportes.value = deporteStore.getElements.result
@@ -125,7 +128,8 @@ export default {
             buscar,
             busqueda,
             categoriasXDeporte,
-            irA
+            irA,
+            reiniciar
         }
     }
 }

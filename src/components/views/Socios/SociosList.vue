@@ -16,6 +16,9 @@
                     <div class="col col-sm m-0 p-0 me-4">
                         <input type="text" class="form-control" placeholder="Buscar..." v-model="busqueda">
                     </div>
+                    <div class="col col-sm m-0 p-0 me-4">
+                        <button class="btn btn-danger" type="button" v-on:click="reiniciar">Reiniciar</button>
+                    </div>
                     <div class="col col-sm d-none d-sm-table-cell">
                         <div class="d-flex justify-content-end">
                             <p>Socios en total: <strong>{{ size }}</strong></p>

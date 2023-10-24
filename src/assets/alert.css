@@ -1,0 +1,19 @@
+.alert {
+    position: fixed;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    padding: 10px;
+    text-align: center;
+    animation: slide-down 2s ease
+  }
+
+@keyframes slide-down {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
