@@ -56,7 +56,7 @@ export default {
   methods: {
 
     async nuevaCitacion() {
-
+      event.preventDefault();
       try {
         let parametro = {
           idCategoria: this.categoria,
@@ -67,10 +67,12 @@ export default {
 
         console.log("La fecha es : " + parametro.fechaCalendario + " el id categoria: " + parametro.idCategoria + " y el tipo: " + parametro.tipo);
         let result = await axios.post(`${apiUrl}/fecha/`, parametro, { withCredentials: true });
-        this.$router.push({ path: '/fecha' });
+        this.$router.push({ path: '/fechas' });
 
       } catch (e) {
         alert(e.response.data.message)
+        this.$router.push({ path: '/fechas' });
+
       }
     }
 

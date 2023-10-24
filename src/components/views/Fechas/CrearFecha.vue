@@ -66,9 +66,11 @@ export default {
   },
 
   methods: {
-    async ingresarFecha() {
+    async ingresarFecha(event) {
       event.preventDefault();
-      if (this.confirmarFecha() == true) {
+
+      let fechaCorrecta = this.confirmarFecha()
+      if (fechaCorrecta == true) {
 
         if (this.selectedTipoFecha == "E") {
           let parametro = {
@@ -110,7 +112,7 @@ export default {
       let fechaCorrecta = true;
       const fechaSeleccionada = new Date(this.fechaElegida);
 
-      if (fechaSeleccionada < new Date() || fechaSeleccionada.l) {
+      if (fechaSeleccionada < new Date() ) {
         alert('No puedes seleccionar una fecha anterior a la fecha actual.');
         fechaCorrecta = false;
       }
