@@ -27,15 +27,15 @@
 </template>
 
 <script>
-import { getRolFromCookie, getCookie, getCookieJSON } from "./utils/Cookies"
-import { isAuthenticated, isAdmin } from './utils/Auth'
+import { getRolFromCookie, getCookie, getCookieJSON} from "./utils/Cookies"
+import {isAuthenticated, isAdmin} from './utils/Auth'
 import { useRouter, useRoute } from "vue-router";
 
 export default {
 
-  setup() {
+    setup(){
     const router = useRouter();
-    const usuario = getCookieJSON();
+    const usuario= getCookieJSON();
     let nombreUsuario;
     let id;
 
@@ -58,57 +58,38 @@ export default {
       isAuthenticated,
       isAdmin
     }
-  },
-  data() {
-    return {
-      rol: "null"
-    };
-  },
-  created() {
-    this.setRol();
-  },
+    },
+    data() {
+        return {
+            rol: "null"
+        };
+    },
+    created() {
+        this.setRol();
+    },
 
-  methods: {
-    setRol() {
-      let rol = "Cuenta de tipo ";
+    methods: {
+        setRol() {
+            let rol = "Cuenta de tipo ";
 
-      onMounted(async () => {
-        await usuarioStore.reiniciarSesion()
-      })
+            switch (getRolFromCookie()) {
+                case 'A':
+                    rol += "Admin";
+                    break;
+                case 'C':
+                    rol += "Coordinador";
+                    break;
+                case 'P':
+                    rol += "Profesor";
+                    break;
+                default:
+                    rol += "null";
+            }
 
-
-
-// export default {
-//     data() {
-//         return {
-//             rol: "null"
-//         };
-//     },
-//     created() {
-//         this.setRol();
-//     },
-//     methods: {
-//         setRol() {
-//             let rol = "Cuenta de tipo ";
-
-//             switch (getRolFromCookie()) {
-//                 case 'A':
-//                     rol += "Admin";
-//                     break;
-//                 case 'C':
-//                     rol += "Coordinador";
-//                     break;
-//                 case 'P':
-//                     rol += "Profesor";
-//                     break;
-//                 default:
-//                     rol += "null";
-//             }
-
-//             this.rol = rol;
-//         }
-//     },
-// }
+            this.rol = rol;
+        }
+    },
+}
 </script>
 
 <style scoped>
