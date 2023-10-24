@@ -20,7 +20,7 @@
     
     
     
-    <div v-if="sociosList.length > 0">
+    <div >
       <div class="d-flex justify-content-between align-items-center">
         <p class="">Socios por asignar: <strong>{{ sociosList.length}}</strong></p>
       </div>
@@ -49,9 +49,7 @@
         </table>
       </div>
     </div>
-    <div v-else>
-        <h2>No hay socios por cargar. Busca el socio por dno o por su nro de socio para agregarlo a la categoria</h2>
-    </div>
+   
 
 <div class=" formulario form-group d-flex justify-content-center align-items-center">
     <button @click="agregarSociosACategoria" class="btn botonHabilitado mr-2"> Agregar socios </button>
