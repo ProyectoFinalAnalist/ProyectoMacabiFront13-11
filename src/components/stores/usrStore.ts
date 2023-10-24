@@ -79,6 +79,11 @@ export const usrStore = defineStore('usuariosStore', {
             return this.currentUser != null;
         },
 
+        
+        getId() {
+            return this.currentUser.idUsuario;
+        },
+
         getRol() {
             let result
             if (this.currentUser != null) {

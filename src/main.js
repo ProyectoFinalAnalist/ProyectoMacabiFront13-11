@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import { createPinia } from "pinia";
-import { isAuthenticated, login } from "./utils/Auth";
 
 import './assets/main.css';
 

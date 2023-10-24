@@ -51,6 +51,8 @@
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import apiUrl from '../../../../config/config.js'
+
 
 export default {
     setup() {
@@ -63,10 +65,10 @@ export default {
         const idCategoria = route.params.id
 
         onMounted(async () => {
-            await categoriasStore.fetchElementById(`http://localhost:2020/categoria/`, idCategoria)
-            await categoriasStore.fetchElements(`http://localhost:2020/categoria/getCategories`)
-            await deporteStore.fetchElements(`http://localhost:2020/deporte/getSports`)
-            await usuariosStore.fetchElements(`http://localhost:2020/usuarios/3/rol`) // 3 para traerme todos los profesores
+            await categoriasStore.fetchElementById(`${apiUrl}/categoria/`, idCategoria)
+            await categoriasStore.fetchElements(`${apiUrl}/categoria/getAll`)
+            await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
+            await usuariosStore.fetchElements(`${apiUrl}/usuario/3/rol`) // 3 para traerme todos los profesores
             data.value;
         })
 

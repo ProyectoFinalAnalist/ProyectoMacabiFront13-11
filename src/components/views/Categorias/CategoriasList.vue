@@ -46,6 +46,7 @@
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { onBeforeMount, ref } from "vue";
+import apiUrl from '../../../../config/config.js'
 
 export default {
     setup() {
@@ -59,11 +60,11 @@ export default {
         onBeforeMount(async () => { fetchs() })
 
         async function fetchs() {
-            await categoriasStore.fetchElements(`http://localhost:2020/categoria/getCategories`)
+            await categoriasStore.fetchElements(`${apiUrl}/categoria/getAll`)
                 .then(() => { size.value = categoriasStore.getElements.result.length })
-            await deporteStore.fetchElements(`http://localhost:2020/deporte/getSports`)
+            await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
                 .then(() => { deportes.value = deporteStore.getElements.result })
-            await usuariosStore.fetchElements(`http://localhost:2020/usuarios/3/rol`) // 3 para traerme todos los profesores
+            await usuariosStore.fetchElements(`${apiUrl}/usuario/3/rol`) // 3 para traerme todos los profesores
                 .then(() => { profesores.value = usuariosStore.getElements.result })
         }
 
