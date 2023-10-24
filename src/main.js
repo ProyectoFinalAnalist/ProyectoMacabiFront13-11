@@ -53,6 +53,7 @@ import UsuariosInactivos from "./components/views/Usuarios/UsuariosInactivos.vue
 import UsuariosList from "./components/views/Usuarios/UsuariosList.vue";
 import CrearUsuario from "./components/views/Usuarios/CrearUsuario.vue";
 import DetalleUsuario from "./components/views/Usuarios/DetalleUsuario.vue";
+import ModificarUsuario from "./components/views/Usuarios/ModificarUsuario.vue";
 
 // ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES
 const routes = [
@@ -100,6 +101,7 @@ const routes = [
   { path: "/usuariosInactivos", component: UsuariosInactivos },
   { path: "/crearusuario", component: CrearUsuario },
   { path: "/usuarios/:id", component: DetalleUsuario },
+  { path: "/modificarusuario/:id", component: ModificarUsuario }
 ];
 
 const router = createRouter({

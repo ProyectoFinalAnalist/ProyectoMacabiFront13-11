@@ -3,6 +3,7 @@ import axios from "axios";
 import getCookie from '../../../utils/getCookie.js'
 
 import apiUrl from '../../../config/config.js'
+import { removeCookie, setCookie } from "../../utils/Cookies.js";
 
 export const usrStore = defineStore('usuariosStore', {
     state: () => ({
@@ -26,6 +27,8 @@ export const usrStore = defineStore('usuariosStore', {
 
                 const response = await axios.post(url, data, { withCredentials: true });
                 this.currentUser = response.data.payload
+                setCookie(response.data.payload)
+
 
             } catch (error) {
 
