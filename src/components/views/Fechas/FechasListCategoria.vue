@@ -43,6 +43,7 @@
 import { ref, onBeforeMount } from "vue";
 import { useElementStore } from '../../../utils/Store';
 import { useRoute } from 'vue-router';
+import apiUrl from '../../../../config/config.js'
 
 export default {
   name: "FechasListCategoria",
@@ -61,14 +62,14 @@ export default {
     async function fetchFechas() {
       const idCategoria = route.params.id;
       try {
-        const response = await fetch(`http://localhost:2020/fecha/${idCategoria}/mostrarFechas`);
+        const response = await fetch(`${apiUrl}/fecha/${idCategoria}/mostrarFechas`);
         const data = await response.json();
         if (data.success) {
           fechas.value = data.result;
           size.value = data.result.length;
 
          if (fechas.value.length === 0) {
-            const categoriaResponse = await fetch(`http://localhost:2020/categoria/${idCategoria}`);
+            const categoriaResponse = await fetch(`${apiUrl}/categoria/${idCategoria}`);
             const categoriaData = await categoriaResponse.json();
 
         if (categoriaData.success) {
