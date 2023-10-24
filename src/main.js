@@ -36,12 +36,12 @@ import CrearFecha from "./components/views/Fechas/CrearFecha.vue"
 import DetalleFecha from "./components/views/Fechas/DetalleFecha.vue"
 import NuevaFechaCitacion from "./components/views/Fechas/NuevaFechaCitacion.vue"
 
-
 // SOCIOS
 import RegistrarSocio from "./components/views/Socios/RegistrarSocio.vue"
 import SociosList from "./components/views/Socios/SociosList.vue"
 import AgregarSocio from "./components/views/Socios/AgregarSocio.vue"
 import DetalleSocio from "./components/views/Socios/DetalleSocio.vue"
+import UpdateSocio from "./components/views/Socios/UpdateSocio.vue"
 
 // USUARIOS
 import UsuariosInactivos from "./components/views/Usuarios/UsuariosInactivos.vue";
@@ -80,12 +80,12 @@ const routes = [
   { path: "/fechas/:id", component: DetalleFecha },
   { path: "/nuevaCitacion/:idCategoria", component: NuevaFechaCitacion },
 
-
   // SOCIOS
   { path: "/registrarSocio", component: RegistrarSocio, },
   { path: "/socios", component: SociosList, },
   { path: "/agregarSocio", component: AgregarSocio },
   { path: "/socios/:id", component: DetalleSocio },
+  { path: "/socios/update/:id", component: UpdateSocio },
 
   // USUARIOS
   { path: "/usuarios", component: UsuariosList },

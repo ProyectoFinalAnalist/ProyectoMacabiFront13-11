@@ -13,11 +13,8 @@
                             <option value="email">Mail</option>
                         </select>
                     </div>
-                    <div class="col col-sm">
+                    <div class="col col-sm m-0 p-0 me-4">
                         <input type="text" class="form-control" placeholder="Buscar..." v-model="busqueda">
-                    </div>
-                    <div class="col col-sm">
-                        <button class="btn btn-danger" type="button" v-on:click="reiniciar">Reiniciar</button>
                     </div>
                     <div class="col col-sm d-none d-sm-table-cell">
                         <div class="d-flex justify-content-end">
@@ -71,9 +68,6 @@
         </div>
         <br>
     </div>
-    <h6 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="errorFiltro">
-        <strong>El filtro no puede estar vacío</strong>
-    </h6>
 </template>
 <script>
 import { useElementStore } from '../../../utils/Store';
@@ -102,8 +96,8 @@ export default {
         }
 
         function buscar() {
+            reiniciar()
             busqueda = this.busqueda
-            errorFiltro.value = false
 
             if (busqueda !== "" && size.value != 0) {
 
@@ -115,7 +109,7 @@ export default {
                     const busquedaLowerCase = String(busqueda).toLowerCase();
                     return propiedadLowerCase.includes(busquedaLowerCase);
                 })
-            } else { errorFiltro.value = true }
+            }
         }
 
 

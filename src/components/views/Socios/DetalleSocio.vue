@@ -6,71 +6,51 @@
                     <div v-if="socio" class="card-body">
                         <h4>Detalles del Socio: <strong>{{ socio.apellido }}, {{ socio.nombre }}</strong></h4>
                         <div>
-                            <p class="p pe-3">
-                                <strong>Numero de Socio: </strong><input disabled type="text" class="form-control"
-                                    v-model="socio.nroSocio" />
-                            </p>
-                            <p class="p pe-3">
-                                <strong>Nombre: </strong><input type="text" class="form-control" v-model="socio.nombre" />
-                            </p>
-                            <p class="p pe-3">
-                                <strong>Apellido: </strong><input type="text" class="form-control"
-                                    v-model="socio.apellido" />
-                            </p>
-                            <p class="p pe-3">
-                                <strong>Dni: </strong><input type="text" class="form-control" v-model="socio.dni" />
-                            </p>
-                            <p class="p pe-3">
-                                <strong>Email: </strong><input type="text" class="form-control" v-model="socio.email" />
-                            </p>
-                            <p class="p pe-3">
-                                <strong>Telefono: </strong><input type="text" class="form-control"
-                                    v-model="socio.telefono" />
-                            </p>
-                            <p class="p pe-3">
-                                <strong>Dirección: </strong><input type="text" class="form-control"
-                                    v-model="socio.direccion" />
-                            </p>
-                            <p class="p pe-3">
-                                <strong>Fecha de Nacimiento: </strong><input type="text" class="form-control"
-                                    v-model="socio.fechaNacimiento" />
-                            </p>
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    <p class="mb-0"><strong>Número de Socio:</strong> {{ socio.nroSocio }}</p>
+                                    <p class="mb-0"><strong>DNI:</strong> {{ socio.dni }}</p>
+                                    <p class="mb-0"><strong>Email:</strong> {{ socio.email }}</p>
+                                    <p class="mb-0"><strong>Teléfono:</strong> {{ socio.telefono }}</p>
+                                    <p class="mb-0"><strong>Dirección:</strong> {{ socio.direccion }}</p>
+                                    <p class="mb-0"><strong>Fecha de Nacimiento:</strong> {{ socio.fechaNacimiento }}</p>
+                                </div>
+                            </div>
+
+                            <hr>
                             <p class="p pe-3">
                                 <strong>Observaciones: </strong>
-                                <textarea style="height: 100px; max-height: 200px;" class="form-control"
+                                <textarea style="height: 200px; max-height: 200px;" disabled class="form-control mt-2"
                                     v-model="socio.observaciones"></textarea>
                             </p>
+                            <hr>
                             <p class="p pe-3">
                                 <strong>Datos de contacto: </strong>
                                 <br>
-                            <div class="card m-3" style="background-color: rgb(236, 236, 236);"
+                            <div v-if="infoContactos == null">
+                                <p class="text-center text-bg-danger p pe-3 ms-3 mt-2 h-2" style="border-radius: 10px;">
+                                    <strong>Socio no posee datos de contacto</strong>
+                                </p>
+                            </div>
+                            <div v-else class="card m-3" style="background-color: rgb(236, 236, 236);"
                                 v-for="contacto in infoContactos">
                                 <div class="card-body">
                                     <h5>Contacto: <strong>{{ contacto.nombre }} {{ contacto.apellido }}</strong></h5>
-                                    <p class="p pe-3">
-                                        <strong>Nombre: </strong><input type="text" class="form-control"
-                                            v-model="contacto.nombre" />
+                                    <p class="p pe-3 mb-0">
+                                        <strong>Email: </strong>{{ contacto.email }}
                                     </p>
-                                    <p class="p pe-3">
-                                        <strong>Apellido: </strong><input type="text" class="form-control"
-                                            v-model="contacto.apellido" />
-                                    </p>
-                                    <p class="p pe-3">
-                                        <strong>Email: </strong><input type="text" class="form-control"
-                                            v-model="contacto.email" />
-                                    </p>
-                                    <p class="p pe-3">
-                                        <strong>Teléfono: </strong><input type="text" class="form-control"
-                                            v-model="contacto.telefono" />
+                                    <p class="p pe-3 mb-0">
+                                        <strong>Teléfono: </strong>{{ contacto.telefono }}
                                     </p>
                                 </div>
                             </div>
                             </p>
+                            <hr>
                             <p class="p pe-3">
                                 <strong>Categorias asociadas: </strong>
                             </p>
                             <table class="table table-striped table-bordered">
-                                <thead>
+                                <thead style="background-color: rgb(255, 255, 255);">
                                     <tr>
                                         <th>Categoria:</th>
                                         <th>Deporte:</th>
@@ -83,11 +63,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="d-flex justify-content-center">
-                                <button class="btn btn-primary" @click="updateSocio">Actualizar Socio</button>
-
-                                <button class="btn btn-danger" @click="deleteSocio">Borrar Socio</button>
-                            </div>
                         </div>
                     </div>
                 </div>
