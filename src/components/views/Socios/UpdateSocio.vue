@@ -138,6 +138,8 @@
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
+import apiUrl from '../../../../config/config.js'
+
 
 export default {
     setup() {
@@ -148,9 +150,9 @@ export default {
         const idSocio = route.params.id
 
         onMounted(async () => {
-            await sociosStore.fetchElements(`http://localhost:2020/socio/getSocios`)
-            await sociosStore.fetchElementById(`http://localhost:2020/socio/`, idSocio)
-            await contactoStore.fetchElements(`http://localhost:2020/contacto/getAllContactos`)
+            await sociosStore.fetchElements(`${apiUrl}/socio/getSocios`)
+            await sociosStore.fetchElementById(`${apiUrl}/socio/`, idSocio)
+            await contactoStore.fetchElements(`${apiUrl}/contacto/getAllContactos`)
             data.value;
         })
 
@@ -211,7 +213,7 @@ export default {
                 if (sociosStore.confirm("modificar", "modificado", "Socio")) {
                     const socioUpdate = JSON.parse(JSON.stringify(sociosStore.currentElement.result))
                     try {
-                        await sociosStore.updateElement(`http://localhost:2020/socio`, socioUpdate, "idSocio")
+                        await sociosStore.updateElement(`${apiUrl}/socio`, socioUpdate, "idSocio")
                         location.reload()
                     } catch (e) {
                         console.log(e)
@@ -240,7 +242,7 @@ export default {
         const crearContacto = (async () => {
             repiteID = false;
             if (validarContacto("messageModal", contactoCreate.value) && contactoStore.confirm("crear", "registrado", "Contacto")) {
-                await contactoStore.createElement("http://localhost:2020/contacto/", JSON.parse(JSON.stringify(contactoCreate.value)));
+                await contactoStore.createElement(`${apiUrl}/contacto/`, JSON.parse(JSON.stringify(contactoCreate.value)));
                 location.reload()
             }
         });

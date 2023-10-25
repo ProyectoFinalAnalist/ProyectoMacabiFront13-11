@@ -1,7 +1,7 @@
 <template>
     <div class="mt-4">
         <div class="row">
-            <div class="col-md-6 offset-md-3" v-if="deporte">
+            <div class="col-md offset-md" v-if="deporte">
                 <div class="card bg-light text-dark mb-5" style="width: 100%;">
                     <div v-if="deporte" class="card-body">
                         <h4>Detalles del Deporte: <strong>{{ deporte.nombre }}</strong></h4>
@@ -144,15 +144,12 @@ export default {
 
         onMounted(async () => {
 
-            // await deporteStore.fetchElementById(`http://localhost:2020/deporte/`, idDeporte);
-            // await categoriasStore.fetchElements(`http://localhost:2020/categoria/${idDeporte}/deporte`);
-            // await usuariosStore.fetchElements(`http://localhost:2020/deporte/${idDeporte}/coordinadores`);
+             await deporteStore.fetchElementById(`${apiUrl}/deporte/`, idDeporte);
+             await categoriasStore.fetchElements(`${apiUrl}/categoria/${idDeporte}/deporte`);
+             await usuariosStore.fetchElements(`${apiUrl}/deporte/${idDeporte}/coordinadores`);
 
             
-            await deporteStore.fetchElements(`${apiUrl}/deporte/${idDeporte}`)
-            await categoriasStore.fetchElements(apiUrl + `/categoria/${idDeporte}/deporte`)
-            await usuariosStore.fetchElements(apiUrl + `/deporte/${idDeporte}/coordinadores`) 
-
+    
 
             data.value;
         });
@@ -180,33 +177,33 @@ export default {
         }
 
         const updateDeporte = async () => {
-            const sportUpdated = JSON.parse(JSON.stringify(deporteStore.currentElement.result))
+            const sportUpdated = await JSON.parse(JSON.stringify(deporteStore.currentElement.result))//Error aca:
             const idsUsuarios = coordinadores.value.map((coordinador) => ({
-                idUsuario: coordinador.idUsuario,
+                idUsuario: coordinador.idUsuario
             }));
 
             if (validar() && categoriasStore.confirm("modificar", "modificado", "Deporte")) {
                 const store = useElementStore("auxiliarTabla")()
                 let registro = ""
-                await store.fetchElementById(`http://localhost:2020/deporte/tablaIntermedia`, idDeporte)
+                await store.fetchElementById(`${apiUrl}/deporte/tablaIntermedia`, idDeporte)
                 .then(() => {registro = JSON.parse(JSON.stringify(store.currentElement.result))})
 
-                await categoriasStore.updateElement(`http://localhost:2020/deporte`, sportUpdated, "idDeporte");
-                await usuariosStore.deleteElement(`http://localhost:2020/deporte/`, idDeporte);
+                await categoriasStore.updateElement(`${apiUrl}/deporte`, sportUpdated, "idDeporte");
+                await usuariosStore.deleteElement(`${apiUrl}/deporte/`, idDeporte);
 
                 idsUsuarios.forEach(async (idUsuario) => {
                     registro.idUsuario = idUsuario.idUsuario
-                    await usuariosStore.updateElement(`http://localhost:2020/deporte/coordinador`, registro, "idDeporte")
+                    await usuariosStore.updateElement(`${apiUrl}/deporte/coordinador`, registro, "idDeporte")
                 })
 
                 //Categorias update
                 const store2 = useElementStore("categoriasUpdate")()
-                await store2.fetchElementById(`http://localhost:2020/categoria`, categorias.value[0].idCategoria)
+                await store2.fetchElementById(`${apiUrl}/categoria`, categorias.value[0].idCategoria)
 
                 categorias.value.forEach(async (categoria) => {
                     categoria.idDeporte = idDeporte
                     registro = JSON.parse(JSON.stringify(categoria))
-                    await categoriasStore.updateElement(`http://localhost:2020/categoria`, registro, "idCategoria");
+                    await categoriasStore.updateElement(`${apiUrl}/categoria`, registro, "idCategoria");
                 })
                 
                 location.reload()
@@ -234,7 +231,7 @@ export default {
 
         const agregarCategoria = async () => {
             const store = useElementStore("auxiliarCategorias")()
-            await store.fetchElements(`http://localhost:2020/categoria/getCategories`).then(() => {
+            await store.fetchElements(`${apiUrl}/categoria/getCategories`).then(() => {
                 categoriasModal.value = store.getElements.result
             })
         }
@@ -269,7 +266,7 @@ export default {
         const agregarCoordinador = async () => {
             const store = useElementStore("auxiliarCoordinadores")()
             // 2 para obtener coordinadores
-            await store.fetchElements(`http://localhost:2020/usuario/2/rol`).then(() => {
+            await store.fetchElements(`${apiUrl}/usuario/2/rol`).then(() => {
                 coordinadoresModal.value = store.getElements.result
             })
         }
