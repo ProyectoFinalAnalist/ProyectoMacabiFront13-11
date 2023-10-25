@@ -84,6 +84,7 @@ export default {
 
         function obtenerCategorias() {
             categoriasDeUsuario.fetchElements(`${apiUrl}/usuario/${usuarioStore.getId}/categorias`)
+            
         }
 
         return {

@@ -109,11 +109,13 @@ export default {
         }
 
         const updateCategoria = async () => {
+            
             const catUpdated = JSON.parse(JSON.stringify(categoriasStore.currentElement.result))
-
+            
             if (validar() && categoriasStore.confirm("modificar", "modificada", "Categoria")) {
-                await categoriasStore.updateElement(`http://localhost:2020/categoria`, catUpdated, "idCategoria");
-                location.reload()
+                console.log(catUpdated);
+                await categoriasStore.updateElement(`${apiUrl}/categoria`, catUpdated, "idCategoria");
+                alert("..")
             }
         };
 
