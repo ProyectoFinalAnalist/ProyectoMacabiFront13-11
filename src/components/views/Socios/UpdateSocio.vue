@@ -217,6 +217,8 @@ export default {
                     const socioUpdate = JSON.parse(JSON.stringify(sociosStore.currentElement.result))
                     try {
                         await sociosStore.updateElement(`${apiUrl}`, socioUpdate, "idSocio")
+                        // await sociosStore.updateElement(`${apiUrl}/socio`, socioUpdate, "idSocio")
+
                         location.reload()
                     } catch (e) {
                         console.log(e)

@@ -158,6 +158,43 @@ export default {
             }
         }
 
+        function deleteDeporte() {
+            alert("not implemented")
+        }
+
+        const updateDeporte = async () => {
+            const sportUpdated = await JSON.parse(JSON.stringify(deporteStore.currentElement.result))//Error aca:
+            const idsUsuarios = coordinadores.value.map((coordinador) => ({
+                idUsuario: coordinador.idUsuario
+            }));
+
+            if (validar() && categoriasStore.confirm("modificar", "modificado", "Deporte")) {
+                const store = useElementStore("auxiliarTabla")()
+                let registro = ""
+                await store.fetchElementById(`${apiUrl}/deporte/tablaIntermedia`, idDeporte)
+                .then(() => {registro = JSON.parse(JSON.stringify(store.currentElement.result))})
+
+                await categoriasStore.updateElement(`${apiUrl}/deporte`, sportUpdated, "idDeporte");
+                await usuariosStore.deleteElement(`${apiUrl}/deporte/`, idDeporte);
+
+                idsUsuarios.forEach(async (idUsuario) => {
+                    registro.idUsuario = idUsuario.idUsuario
+                    await usuariosStore.updateElement(`${apiUrl}/deporte/coordinador`, registro, "idDeporte")
+                })
+
+                //Categorias update
+                const store2 = useElementStore("categoriasUpdate")()
+                await store2.fetchElementById(`${apiUrl}/categoria`, categorias.value[0].idCategoria)
+
+                categorias.value.forEach(async (categoria) => {
+                    categoria.idDeporte = idDeporte
+                    registro = JSON.parse(JSON.stringify(categoria))
+                    await categoriasStore.updateElement(`${apiUrl}/categoria`, registro, "idCategoria");
+                })
+                location.reload()
+            }
+        }
+
         function validarNombre() {
             let resultado = false
 
@@ -173,10 +210,8 @@ export default {
 
             return resultado
         }
-
-        function deleteDeporte() {
-            alert("not implemented")
-        }
+        
+        const categoriasModal = ref(null)
 
         function agregarCategoria() {
             router.push(`/crearCategoria/${idDeporte}`)
@@ -188,7 +223,6 @@ export default {
             const coordinadoresStore = useElementStore("coordinadores")()
             await coordinadoresStore.fetchElements(`${apiUrl}/usuario/2/rol`)
             coordinadoresModal.value = coordinadoresStore.getElements.result
-
         }
 
         function saveSelectedCoordinadores() {
