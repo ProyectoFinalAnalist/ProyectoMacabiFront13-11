@@ -1,7 +1,7 @@
 <template>
     <div class="mt-4">
         <div class="row">
-            <div class="col-md-6 offset-md-3" v-if="deporte">
+            <div class="col-md offset-md" v-if="deporte">
                 <div class="card bg-light text-dark mb-5" style="width: 100%;">
                     <div v-if="deporte" class="card-body">
                         <h4>Detalles del Deporte: <strong>{{ deporte.nombre }}</strong></h4>
