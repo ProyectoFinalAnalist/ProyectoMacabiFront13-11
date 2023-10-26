@@ -4,7 +4,7 @@
             <div class="col-md-6 offset-md-3" v-if="socio">
                 <div class="card bg-light text-dark mb-5">
                     <div v-if="socio" class="card-body">
-                        <h4>Detalles del Socio: <strong>{{ socio.apellido }}, {{ socio.nombre }}</strong></h4>
+                        <h4>Detalles del Socio: <strong>{{ nombre }}</strong></h4>
                         <div>
                             <p class="p pe-3">
                                 <strong>Numero de Socio: </strong><input disabled type="text" class="form-control"
@@ -53,7 +53,7 @@
                             <div class="card mt-3 ms-3 me-0 mb-3" style="background-color: rgb(236, 236, 236);"
                                 v-for="contacto in infoContactos">
                                 <div class="card-body">
-                                    <h5>Contacto: <strong>{{ contacto.nombre }} {{ contacto.apellido }}</strong></h5>
+                                    <h5>Contacto: <strong>{{ nombreContacto }}</strong></h5>
                                     <p class="p pe-3">
                                         <strong>Nombre: </strong><input type="text" class="form-control"
                                             v-model="contacto.nombre" />
@@ -67,11 +67,12 @@
                                             v-model="contacto.email" />
                                     </p>
                                     <p class="p pe-3">
-                                        <strong>Teléfono: </strong><input type="text" class="form-control"
+                                        <strong>Teléfono: </strong><input type="number" min="0" class="form-control"
                                             v-model="contacto.telefono" />
                                     </p>
                                     <div class="d-flex justify-content-center">
-                                        <button class="btn btn-primary" @click="updateContacto(contacto)">Actualizar Contacto</button>
+                                        <button class="btn btn-primary" @click="updateContacto(contacto)">Actualizar
+                                            Contacto</button>
                                         <button class="btn btn-danger" @click="deleteContacto">Borrar Contacto</button>
                                     </div>
                                 </div>
@@ -89,15 +90,15 @@
                 <strong>No se pudo cargar el socio :c</strong>
             </h5>
         </div>
+        <h5 v-if="message != null" class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3">
+            <strong>{{ message }}</strong>
+        </h5>
     </div>
     <div class="d-flex justify-content-center">
         <button class="btn btn-secondary"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
                 Socios</router-link></button>
     </div>
     <br>
-    <h5 v-if="message != null" class="alert alert-warning alert-sm mb-0 text-center m-2 mb-3">
-        <strong>{{ message }}</strong>
-    </h5>
     <!--MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / -->
     <div v-if="socio" class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -119,7 +120,7 @@
                         <strong>Email: </strong><input type="text" class="form-control" v-model="contactoCreate.email" />
                     </p>
                     <p class="p pe-3">
-                        <strong>Teléfono: </strong><input type="text" class="form-control"
+                        <strong>Teléfono: </strong><input type="number" min="0" class="form-control"
                             v-model="contactoCreate.telefono" />
                     </p>
                 </div>
@@ -128,16 +129,20 @@
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
-            <h5 v-if="messageModal != null" class="alert alert-warning alert-sm mb-0 text-center m-2 mb-3">
+            <h5 v-if="messageModal != null" class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3">
                 <strong>{{ messageModal }}</strong>
             </h5>
         </div>
     </div>
 </template>
+<style>
+@import '../../../assets/alert.css';
+</style>
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
+import apiUrl from '../../../../config/config.js'
 
 export default {
     setup() {
@@ -147,10 +152,13 @@ export default {
         const route = useRoute()
         const idSocio = route.params.id
 
+        const nombre = ref(null)
+        const nombreContacto = ref(null)
+
         onMounted(async () => {
-            await sociosStore.fetchElements(`http://localhost:2020/socio/getSocios`)
-            await sociosStore.fetchElementById(`http://localhost:2020/socio/`, idSocio)
-            await contactoStore.fetchElements(`http://localhost:2020/contacto/getAllContactos`)
+            await sociosStore.fetchElements(`${apiUrl}/socio/getSocios`)
+            await sociosStore.fetchElementById(`${apiUrl}/socio/`, idSocio)
+            await contactoStore.fetchElements(`${apiUrl}/contacto/getAllContactos`)
             data.value;
         })
 
@@ -160,9 +168,11 @@ export default {
         const data = computed(() => {
             if (sociosStore.currentElement != null) {
                 socio.value = sociosStore.currentElement.result;
+                nombre.value = `${socio.value.apellido}, ${socio.value.nombre}`
 
                 if (socio.value.InfoContactos.length != 0) {
                     infoContactos.value = socio.value.InfoContactos
+                    nombreContacto.value = `${infoContactos.value[0].apellido}, ${infoContactos.value[0].nombre}`
                 }
             }
         });
@@ -175,8 +185,13 @@ export default {
             const dni = socio.value.dni;
             const email = socio.value.email;
 
-            const hasDuplicateDNI = sociosStore.getElements.result.some((socio) => socio.dni === dni && socio.idSocio != idSocio);
-            const hasDuplicateEmail = sociosStore.getElements.result.some((socio) => socio.email === email && socio.idSocio != idSocio);
+            let hasDuplicateDNI = false
+            let hasDuplicateEmail = false
+
+            if (sociosStore.getElements.result.length > 0) {
+                hasDuplicateDNI = sociosStore.getElements.result.some((socio) => socio.dni === dni && socio.idSocio != idSocio);
+                hasDuplicateEmail = sociosStore.getElements.result.some((socio) => socio.email === email && socio.idSocio != idSocio);
+            }
 
             if (hasDuplicateDNI) {
                 message.value = "El DNI no puede repetirse";
@@ -211,7 +226,7 @@ export default {
                 if (sociosStore.confirm("modificar", "modificado", "Socio")) {
                     const socioUpdate = JSON.parse(JSON.stringify(sociosStore.currentElement.result))
                     try {
-                        await sociosStore.updateElement(`http://localhost:2020/socio`, socioUpdate, "idSocio")
+                        await sociosStore.updateElement(`${apiUrl}/socio`, socioUpdate, "idSocio")
                         location.reload()
                     } catch (e) {
                         console.log(e)
@@ -227,7 +242,6 @@ export default {
 
         const contactoCreate = computed(() => contactoStore.currentElement)
         const messageModal = ref(null)
-        let repiteID = false
 
         contactoStore.setCurrentElement({
             idSocio: idSocio,
@@ -238,37 +252,21 @@ export default {
         });
 
         const crearContacto = (async () => {
-            repiteID = false;
-            if (validarContacto("messageModal", contactoCreate.value) && contactoStore.confirm("crear", "registrado", "Contacto")) {
-                await contactoStore.createElement("http://localhost:2020/contacto/", JSON.parse(JSON.stringify(contactoCreate.value)));
+            if (validarContacto("messageModal", contactoCreate.value) && contactoStore.confirm("crear", "registrado", "contacto")) {
+                await contactoStore.createElement(`${apiUrl}/contacto/`, JSON.parse(JSON.stringify(contactoCreate.value)));
                 location.reload()
             }
         });
 
-        function updateContacto(contacto) {
-            repiteID = true;
-            
-            if (validarContacto("message", contacto) && contactoStore.confirm("modificar", "modificado", "Contacto")) {
-                console.log("modificando")
+        const updateContacto = (async (contacto) => {
+
+            if (validarContacto("message", contacto) && contactoStore.confirm("modificar", "modificado","Contacto de " + nombreContacto.value)) {
+                await contactoStore.updateElement(`${apiUrl}/contacto/`, JSON.parse(JSON.stringify(contacto)), "idInfoContacto");
+                location.reload()
             }
-        }
-
-        function hasDuplicateEmail(repiteID) {
-            let hasDuplicateEmail = false
-
-            // if (!repiteID) {
-            //     hasDuplicateEmail = contactoStore.getElements.result.some((contacto) => contacto.email == contactoCreate.value.email);
-            // } // } else {
-            //     hasDuplicateEmail = contactoStore.getElements.result.some((contacto) => contacto.email == contactoCreate.value.email && contacto.idSocio != idSocio);
-            // }
-
-            console.log(hasDuplicateEmail)
-
-            return hasDuplicateEmail
-        }
+        });
 
         function validarContacto(tipo, contacto) {
-            console.log("contacto", contacto)
             let msj = ""
             let crear = false;
 
@@ -280,8 +278,6 @@ export default {
                 msj = "El apellido debe tener un minimo de 2 caracteres y un maximo de 24.";
             } else if (!soloLetras.test(contacto.apellido)) {
                 msj = "El apellido debe contener solo letras.";
-            } else if (hasDuplicateEmail()) {
-                msj = "El correo electrónico no puede repetirse";
             } else if (!validateMail.test(contacto.email)) {
                 msj = "Formato Email incorrecto";
             } else if (contacto.telefono < 0) {
@@ -292,8 +288,8 @@ export default {
                 crear = true
             }
 
-            if(msj != ""){
-                if(tipo === "message"){
+            if (msj != "") {
+                if (tipo === "message") {
                     message.value = msj
                 } else {
                     messageModal.value = msj
@@ -329,7 +325,9 @@ export default {
             deleteContacto,
             crearContacto,
             contactoCreate,
-            messageModal
+            messageModal,
+            nombre,
+            nombreContacto
         }
     }
 }

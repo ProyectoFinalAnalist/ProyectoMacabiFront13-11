@@ -50,6 +50,9 @@
         </table>
       </div>
     </div>
+    <div v-if="sociosList.length == 0">
+        <p class="no-fechas">{{mensaje}}</p>
+      </div>
    
     <div class=" formulario form-group d-flex justify-content-center align-items-center">
       <button @click="agregarSociosACategoria" class="btn botonHabilitado mr-2"> Agregar socios </button>
@@ -70,6 +73,7 @@ export default {
   name: "AgregarSocio",
   components: {},
   data: () => ({
+    mensaje:"No se buscaron socios para agregar",
     titulo: "Agregar socios a la categoria: ",
     tituloBotonDni: "Busqueda por dni",
     tituloBotonNroSocio: "Busqueda por nroSocio",
@@ -158,6 +162,17 @@ export default {
 
   background-color: #014187;
   color: white
+}
+
+.no-fechas {
+  text-align: center;
+  padding: 10px;
+  background-color: rgb(1,65,135);
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  margin: 20px auto;
+  max-width: 300px;
+  color:white;
 }
 
 @media (max-width: 768px) {

@@ -9,7 +9,7 @@ let idUsuario = 1
 // 3 = P rofesor
 // 4 = P rofesor
 
-const url = `http://localhost:2020/usuarios/${idUsuario}`;
+const url = `http://localhost:2020/usuario/${idUsuario}`;
 
 login()
 

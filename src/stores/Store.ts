@@ -24,7 +24,7 @@ export function useElementStore(nombreStore) {
       async fetchElements() {
         if (!this.elements) {
           try {
-            const response = await axios.get(url)
+            const response = await axios.get(url + "/getAll")
             this.elements = response.data.result
           } catch (error) {
             console.error('Error fetching elements:', error)

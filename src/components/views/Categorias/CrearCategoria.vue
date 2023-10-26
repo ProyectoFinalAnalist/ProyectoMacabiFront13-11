@@ -18,9 +18,9 @@
         <select class="form-select" :class="this.deporteSeleccionadoError" id="deporte-select" v-model="deporteSeleccionado" style="font-weight: 540;"
           aria-label="Floating label select example">
 
-          <option class="opcion-default" value="default" selected>Seleccione Un Deporte</option>
+          <option class="opcion-default" value="default" :selected="isSelected(0)">Seleccione Un Deporte</option>
 
-          <option v-for="deporte in deportes" :key="deporte.idDeporte" :value="deporte.idDeporte">{{ deporte.nombre }}
+          <option v-for="deporte in deportes" :key="deporte.idDeporte" :selected="isSelected(deporte)" :value="deporte.idDeporte">{{ deporte.nombre }}
           </option>
 
         </select>
@@ -67,6 +67,8 @@
 import axios from 'axios';
 import apiUrl from "../../../../config/config.js"
 
+import { useRoute } from "vue-router";
+
 export default {
   data() {
     return {
@@ -88,15 +90,28 @@ export default {
       mostrarMensaje: false,
 
       mensaje: "",
-
+      
+      select: false,
+      route: useRoute(),
+      idDeporte: null
 
     };
   },
   mounted() {
     this.obtenerDeportes();
     this.obtenerProfesores();
+
+    this.idDeporte = this.$route.params.idDeporte;
   },
   methods: {
+
+    isSelected(deporte){
+      if(!this.select && this.idDeporte != null && deporte.idDeporte == this.idDeporte){
+        this.deporteSeleccionado = deporte.idDeporte
+        this.select = true
+      }
+      this.select
+    },
 
     validarCampos() {
 
@@ -187,6 +202,7 @@ export default {
         this.nombreCat = "";
         this.deporteSeleccionado = "",
           this.profesorSeleccionado = ""
+          this.$router.go(-1);
       } catch (error) {
         this.mensaje = "Error al crear la categoría. Por favor, inténtalo nuevamente.";
         console.error('Error al crear la categoría:', error);
@@ -195,7 +211,12 @@ export default {
       }
 
       this.mostrarMensaje = true;
+
+      
+
     },
+
+ 
 
     ocultarMensaje() {
       this.mostrarMensaje = false;

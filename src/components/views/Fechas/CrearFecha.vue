@@ -18,7 +18,7 @@
       </div>
       <div class="form-group">
         <label for="">Fecha</label>
-        <input v-model="fechaElegida" type="date" name="" id="" class="form-control" required>
+        <input v-model="fechaElegida" type="date" name="" id="fecha" class="form-control" required :min="fechaMin">
       </div>
       <div class="form-group">
         <button v-if="selectedTipoFecha && fechaElegida"  @click="ingresarFecha" class="btn btn-primary">Confirmar</button>
@@ -37,7 +37,7 @@ import apiUrl from '../../../../config/config.js'
 export default {
   components: {},
   data: () => ({
-
+    fechaMin:"",
     minFecha: "",
     fechaElegida: null,
     nombreCategoria: null,
@@ -52,6 +52,15 @@ export default {
   }),
 
   async created() {
+
+
+      const date = new Date()
+      date.setDate(date.getDate() - 1);
+
+      this.fechaMin = date.toISOString().slice(0, 10);
+
+      console.log("Ahora la fecha de hoy es " + this.fechaMin);
+    
 
     this.idCat = this.$route.params.idCategoria,
       this.minFecha = new Date().toISOString().split('T')[0]
@@ -68,9 +77,7 @@ export default {
   methods: {
     async ingresarFecha(event) {
       event.preventDefault();
-
-      let fechaCorrecta = this.confirmarFecha()
-      if (fechaCorrecta == true) {
+     
 
         if (this.selectedTipoFecha == "E") {
           let parametro = {
@@ -104,21 +111,36 @@ export default {
           });
 
         }
-      }
+      
 
 
     },
     confirmarFecha() {
       let fechaCorrecta = true;
       const fechaSeleccionada = new Date(this.fechaElegida);
+      let diaDeHoy = new Date()
 
-      if (fechaSeleccionada < new Date() ) {
+      console.log("LA fecha elegida es: " + fechaSeleccionada);
+      console.log("LA fecha de hoyes: " + diaDeHoy);
+
+
+      if (fechaSeleccionada < diaDeHoy ) {
         alert('No puedes seleccionar una fecha anterior a la fecha actual.');
         fechaCorrecta = false;
       }
 
       return fechaCorrecta;
-    }
+    },
+    obtenerFechaDeHoy() {
+  let fecha = document.getElementById("fecha");
+  console.log("La fecha q tengo es " + fecha);
+  const fechaActual = new Date();
+  const year = fechaActual.getFullYear();
+  const month = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+  const day = (fechaActual.getDate() - 1).toString().padStart(2, '0'); // Restar 1 día aquí
+  const fechaMin = `${year}-${month}-${day}`;
+  fecha.min = fechaMin;
+}
   },
 };
 </script>

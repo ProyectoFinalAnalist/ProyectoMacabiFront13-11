@@ -4,7 +4,7 @@
             <div class="col-md-6 offset-md-3" v-if="categoria">
                 <div class="card bg-light text-dark mb-5">
                     <div v-if="categoria" class="card-body">
-                        <h4>Detalles de la Categoría: <strong>{{ categoria.nombreCategoria }}</strong></h4>
+                        <h4>Detalles de la Categoría: <strong>{{ nombre }}</strong></h4>
                         <div>
                             <p class="p pe-3">
                                 <strong>Nombre: </strong><input type="text" class="form-control ms-2"
@@ -17,8 +17,13 @@
                                 <strong>El nombre no puede repetirse</strong>
                             </h6>
                             <p class="p pe-3">
-                                <strong>Deporte al que pertenece: </strong>{{ obtenerNombreDeporte(categoria.idDeporte).nombre }}
+                                <strong>Deporte al que pertenece: </strong>
                             </p>
+                            <ul class="list-group mt-1 mb-4 text-center">
+                                <li class="list-group text-dark list-group-item list-group-item-light">
+                                    <strong>{{ obtenerNombreDeporte(categoria.idDeporte).nombre }}</strong>
+                                </li>
+                            </ul>
                             <p class="p pe-3">
                                 <strong>Profesor: </strong>
                                 <select v-model="categoria.idUsuario" class="form-select ms-2">
@@ -64,6 +69,8 @@ export default {
         const router = useRouter();
         const idCategoria = route.params.id
 
+        const nombre = ref(null)
+
         onMounted(async () => {
             await categoriasStore.fetchElementById(`${apiUrl}/categoria/`, idCategoria)
             await categoriasStore.fetchElements(`${apiUrl}/categoria/getAll`)
@@ -81,6 +88,7 @@ export default {
                 categoria.value = categoriasStore.currentElement.result;
                 deporte.value = obtenerNombreDeporte(categoria.value.idDeporte);
                 profesor.value = obtenerProfesor(categoria.value.idUsuario)
+                nombre.value = categoria.value.nombreCategoria
             }
         });
 
@@ -101,11 +109,13 @@ export default {
         }
 
         const updateCategoria = async () => {
+            
             const catUpdated = JSON.parse(JSON.stringify(categoriasStore.currentElement.result))
-
+            
             if (validar() && categoriasStore.confirm("modificar", "modificada", "Categoria")) {
-                await categoriasStore.updateElement(`http://localhost:2020/categoria`, catUpdated, "idCategoria");
-                location.reload()
+                console.log(catUpdated);
+                await categoriasStore.updateElement(`${apiUrl}/categoria`, catUpdated, "idCategoria");
+                alert("..")
             }
         };
 
@@ -156,7 +166,8 @@ export default {
             errorNombre,
             errorNombre2,
             errorProfesor,
-            volverAtras
+            volverAtras,
+            nombre
         }
     }
 }
