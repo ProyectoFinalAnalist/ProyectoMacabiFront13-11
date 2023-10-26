@@ -10,7 +10,6 @@
         <option value="nombre">Nombre</option>
         <option value="apellido">Apellido</option>
         <option value="email">Mail</option>
-        <option value="dni">DNI</option>
     </select>
     <div class="col-md-4"> <!-- Adjust the col-md-6 width to your preference -->
         <input type="text" class="form-control bg-light border-1 pr-5 mr-2" placeholder="Buscar..." v-model="busqueda">
@@ -53,7 +52,7 @@
       const elementStore = useElementStore("usuario")()
       const busqueda = "";
   
-      onMounted(() => {
+       onMounted(() => {
         elementStore.currentElement = null
         elementStore.fetchElements()
       })
