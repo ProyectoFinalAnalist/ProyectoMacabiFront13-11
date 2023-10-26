@@ -55,7 +55,7 @@ export default {
 
 
       const date = new Date()
-      date.setDate(date.getDate() - 1);
+      date.setDate(date.getDate());
 
       this.fechaMin = date.toISOString().slice(0, 10);
 
@@ -131,16 +131,7 @@ export default {
 
       return fechaCorrecta;
     },
-    obtenerFechaDeHoy() {
-  let fecha = document.getElementById("fecha");
-  console.log("La fecha q tengo es " + fecha);
-  const fechaActual = new Date();
-  const year = fechaActual.getFullYear();
-  const month = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
-  const day = (fechaActual.getDate() - 1).toString().padStart(2, '0'); // Restar 1 día aquí
-  const fechaMin = `${year}-${month}-${day}`;
-  fecha.min = fechaMin;
-}
+ 
   },
 };
 </script>

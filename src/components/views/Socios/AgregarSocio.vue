@@ -136,7 +136,7 @@ export default {
         this.sociosList.forEach(socio => {
           parametro.socios.push({ idSocio: socio.idSocio })
         });
-        let response = await axios.post(`${apiUrl}/sociosXCategoria/${this.idCat}/agregar`, parametro, { withCredentials: true })
+        let response = await axios.post(`${apiUrl}/ocisosXCategoria/${this.idCat}/agregar`, parametro, { withCredentials: true })
 
         alert(response.data.message)
         if (response.data.idSociosYaExistentes.length > 0) {

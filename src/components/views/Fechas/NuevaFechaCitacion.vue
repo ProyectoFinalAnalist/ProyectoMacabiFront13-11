@@ -15,6 +15,11 @@
         <input type="checkbox" :name="'seleccionar-' + user.id" :value="{ idSocio: user.idSocio }"
           v-model="usersElegidos">
       </div>
+      <div v-if="users.length == 0"><p class="no-fechas">{{mensajeNoHaySocios}}</p></div>
+
+      
+        
+    
       <div class="form-group">
         <button @click="nuevaCitacion" class="btn btn-primary">Confirmar</button>
       </div>
@@ -31,14 +36,10 @@ export default {
   name: "NuevaFechaCitacion",
   components: {},
   data: () => ({
+    mensajeNoHaySocios:"No hay socios asignados a esta categoria. Podes generar la fecha y asignar socios a la citación más tarde",
     fechaCitacion: "21/05/1997",
     categoria: "",
-    users: [
-      { id: 1, socio: '001', nombre: 'Usuario 1', apellido: 'Apellido 1' },
-      { id: 2, socio: '002', nombre: 'Usuario 2', apellido: 'Apellido 2' },
-      { id: 3, socio: '003', nombre: 'Usuario 3', apellido: 'Apellido 3' }
-      // Puedes agregar más usuarios aquí
-    ],
+    users: [],
     usersElegidos: [],
   }),
   async created() {
@@ -122,6 +123,16 @@ export default {
 .form-control {
   flex: 1;
   margin: 0 10px;
+}
+.no-fechas {
+  text-align: center;
+  padding: 10px;
+  background-color: rgb(1,65,135);
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  margin: 20px auto;
+  max-width: 300px;
+  color:white;
 }
 </style>
 
