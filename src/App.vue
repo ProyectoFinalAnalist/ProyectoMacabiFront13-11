@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { usrStore } from "./components/stores/usrStore";
+import { usrStore } from './stores/usrStore.ts'
 import { onMounted } from "vue";
 import Footer from "./components/dependentComponents/Footer.vue";
 import Navbar from "./components/dependentComponents/Navbar.vue";

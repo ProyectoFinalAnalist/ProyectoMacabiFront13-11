@@ -1,9 +1,8 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import getCookie from '../../../utils/getCookie.js'
+import apiUrl from '../../config/config.js'
+import { removeCookie, setCookie, getCookie } from "../utils/Cookies.js";
 
-import apiUrl from '../../../config/config.js'
-import { removeCookie, setCookie } from "../../utils/Cookies.js";
 
 export const usrStore = defineStore('usuariosStore', {
     state: () => ({
@@ -27,6 +26,7 @@ export const usrStore = defineStore('usuariosStore', {
 
                 const response = await axios.post(url, data, { withCredentials: true });
                 this.currentUser = response.data.payload
+                
                 setCookie(response.data.payload)
 
 
@@ -40,7 +40,7 @@ export const usrStore = defineStore('usuariosStore', {
 
         async reiniciarSesion() {
 
-            const cookieSesion = getCookie(document.cookie, "tokenMacabi")
+            const cookieSesion = getCookie("tokenMacabi")
 
             if (cookieSesion != '') {
                 try {
@@ -48,6 +48,7 @@ export const usrStore = defineStore('usuariosStore', {
 
                     const response = await axios.get(url, { withCredentials: true });
                     this.currentUser = response.data.user;
+
 
                 } catch (error) {
                     alert("no se pudo relogear");
@@ -58,12 +59,14 @@ export const usrStore = defineStore('usuariosStore', {
         },
 
         async logOut() {
+
             this.currentUser = null;
 
             try {
                 const url = `${apiUrl}/usuario/logout`
                 const data = {};
                 const response = await axios.post(url, data, { withCredentials: true });
+                removeCookie("usuario")
                 alert(response.data.message);
                 
             } catch (error) { 

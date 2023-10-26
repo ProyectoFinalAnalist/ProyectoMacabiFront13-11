@@ -50,7 +50,7 @@
 
 <script>
 import { useElementStore } from "../utils/Store"
-import { usrStore } from "./stores/usrStore";
+import { usrStore } from '../stores/usrStore.ts'
 import { onMounted } from "vue";
 import { computed, watch } from 'vue';
 
@@ -67,11 +67,9 @@ export default {
         watch(rol, (rol) => {
             switch (rol) {
                 case 'C':
-                    console.log("ASDASD");
                     obtenerDeportes()
                     break;
                 case 'P':
-                    console.log("123");
                     obtenerCategorias()
                     break;
             }

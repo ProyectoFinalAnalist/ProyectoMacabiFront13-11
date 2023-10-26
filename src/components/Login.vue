@@ -13,8 +13,8 @@
 		<div class="formulario_container">
 
 			<div class="form-floating mb-3 mt-3">
-				<input type="email" class="form-control" id="emailInput" :class="this.isInvalid" placeholder="name@example.com"
-					v-model="this.email">
+				<input type="email" class="form-control" id="emailInput" :class="this.isInvalid"
+					placeholder="name@example.com" v-model="this.email">
 				<label for="emailInput">Email</label>
 			</div>
 
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { usrStore } from './stores/usrStore.ts'
+import { usrStore } from '../stores/usrStore.ts'
 
 export default {
 	data() {
@@ -63,6 +63,22 @@ export default {
 	async created() {
 
 	},
+	mounted() {
+
+		if (this.usrStore.isLogged) {
+			this.$router.push("/miUsuario");
+		}
+
+		document.title = "Iniciar Sesion"
+
+	},
+	updated() {
+		console.log(this.usrStore.isLogged)
+        if (this.usrStore.isLogged) {
+            this.$router.push("/miUsuario");
+        }
+
+    },
 	computed: {
 
 		isInvalid() {
@@ -89,8 +105,7 @@ export default {
 				if (mensajeError == null) {
 					this.error = false;
 
-					this.email = ""
-					this.clave = ""
+					this.$router.push("/miUsuario");
 
 				} else {
 
