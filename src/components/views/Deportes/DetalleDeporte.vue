@@ -4,7 +4,7 @@
             <div class="col-md offset-md" v-if="deporte">
                 <div class="card bg-light text-dark mb-5" style="width: 100%;">
                     <div v-if="deporte" class="card-body">
-                        <h4>Detalles del Deporte: <strong>{{ deporte.nombre }}</strong></h4>
+                        <h4>Detalles del Deporte: <strong>{{ nombre }}</strong></h4>
                         <div>
                             <p>
                                 <strong>Nombre: </strong><input type="text" class="form-control" v-model="deporte.nombre" />
@@ -117,6 +117,7 @@ export default {
         const router = useRouter()
 
         const idDeporte = route.params.id
+        const nombre = ref(null)
 
         onMounted(async () => {
             await deporteStore.fetchElementById(`${apiUrl}/deporte/`, idDeporte)
@@ -141,6 +142,7 @@ export default {
                 coordinadores.value = usuariosStore.getElements.coordinadores.CoordinadoresAsignados
 
                 deportes.value = deporteStore.getElements.result.filter(deporte => deporte.idDeporte != idDeporte)
+                nombre.value = deporte.value.nombre
             }
         });
 
@@ -300,7 +302,8 @@ export default {
             coordinadoresModal,
             saveSelectedCoordinadores,
             isChecked,
-            irA
+            irA,
+            nombre
         }
     }
 }

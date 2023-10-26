@@ -4,7 +4,7 @@
             <div class="col-md-6 offset-md-3" v-if="socio">
                 <div class="card bg-light text-dark mb-5">
                     <div v-if="socio" class="card-body">
-                        <h4>Detalles del Socio: <strong>{{ socio.apellido }}, {{ socio.nombre }}</strong></h4>
+                        <h4>Detalles del Socio: <strong>{{ nombre }}</strong></h4>
                         <div>
                             <p class="p pe-3">
                                 <strong>Numero de Socio: </strong><input disabled type="text" class="form-control"
@@ -53,7 +53,7 @@
                             <div class="card mt-3 ms-3 me-0 mb-3" style="background-color: rgb(236, 236, 236);"
                                 v-for="contacto in infoContactos">
                                 <div class="card-body">
-                                    <h5>Contacto: <strong>{{ contacto.nombre }} {{ contacto.apellido }}</strong></h5>
+                                    <h5>Contacto: <strong>{{ nombreContacto }}</strong></h5>
                                     <p class="p pe-3">
                                         <strong>Nombre: </strong><input type="text" class="form-control"
                                             v-model="contacto.nombre" />
@@ -152,6 +152,9 @@ export default {
         const route = useRoute()
         const idSocio = route.params.id
 
+        const nombre = ref(null)
+        const nombreContacto = ref(null)
+
         onMounted(async () => {
             await sociosStore.fetchElements(`${apiUrl}/socio/getSocios`)
             await sociosStore.fetchElementById(`${apiUrl}/socio/`, idSocio)
@@ -165,9 +168,11 @@ export default {
         const data = computed(() => {
             if (sociosStore.currentElement != null) {
                 socio.value = sociosStore.currentElement.result;
+                nombre.value = `${socio.value.apellido}, ${socio.value.nombre}`
 
                 if (socio.value.InfoContactos.length != 0) {
                     infoContactos.value = socio.value.InfoContactos
+                    nombreContacto.value = `${infoContactos.value[0].apellido}, ${infoContactos.value[0].nombre}`
                 }
             }
         });
@@ -180,8 +185,13 @@ export default {
             const dni = socio.value.dni;
             const email = socio.value.email;
 
-            const hasDuplicateDNI = sociosStore.getElements.result.some((socio) => socio.dni === dni && socio.idSocio != idSocio);
-            const hasDuplicateEmail = sociosStore.getElements.result.some((socio) => socio.email === email && socio.idSocio != idSocio);
+            let hasDuplicateDNI = false
+            let hasDuplicateEmail = false
+
+            if (sociosStore.getElements.result.length > 0) {
+                hasDuplicateDNI = sociosStore.getElements.result.some((socio) => socio.dni === dni && socio.idSocio != idSocio);
+                hasDuplicateEmail = sociosStore.getElements.result.some((socio) => socio.email === email && socio.idSocio != idSocio);
+            }
 
             if (hasDuplicateDNI) {
                 message.value = "El DNI no puede repetirse";
@@ -232,9 +242,6 @@ export default {
 
         const contactoCreate = computed(() => contactoStore.currentElement)
         const messageModal = ref(null)
-        let repiteID = false
-        let idContacto = 0
-        let mailContacto = ""
 
         contactoStore.setCurrentElement({
             idSocio: idSocio,
@@ -245,7 +252,6 @@ export default {
         });
 
         const crearContacto = (async () => {
-            repiteID = false;
             if (validarContacto("messageModal", contactoCreate.value) && contactoStore.confirm("crear", "registrado", "Contacto")) {
                 await contactoStore.createElement(`${apiUrl}/contacto/`, JSON.parse(JSON.stringify(contactoCreate.value)));
                 location.reload()
@@ -253,27 +259,12 @@ export default {
         });
 
         const updateContacto = (async (contacto) => {
-            repiteID = true;
-            idContacto = contacto.idInfoContacto
-            mailContacto = contacto.email
 
             if (validarContacto("message", contacto) && contactoStore.confirm("modificar", "modificado", "Contacto")) {
                 await contactoStore.updateElement(`${apiUrl}/contacto/`, JSON.parse(JSON.stringify(contacto)), "idInfoContacto");
                 location.reload()
             }
         });
-
-        function hasDuplicateEmail() {
-            let hasDuplicateEmail = false
-
-            if (!repiteID) {
-                hasDuplicateEmail = contactoStore.getElements.result.some((contacto) => contacto.email == contactoCreate.value.email);
-            } else {
-                hasDuplicateEmail = contactoStore.getElements.result.some((contacto) => contacto.email == mailContacto && contacto.idInfoContacto != idContacto);
-            }
-
-            return hasDuplicateEmail
-        }
 
         function validarContacto(tipo, contacto) {
             let msj = ""
@@ -287,8 +278,6 @@ export default {
                 msj = "El apellido debe tener un minimo de 2 caracteres y un maximo de 24.";
             } else if (!soloLetras.test(contacto.apellido)) {
                 msj = "El apellido debe contener solo letras.";
-            } else if (hasDuplicateEmail()) {
-                msj = "El correo electrónico no puede repetirse";
             } else if (!validateMail.test(contacto.email)) {
                 msj = "Formato Email incorrecto";
             } else if (contacto.telefono < 0) {
@@ -336,7 +325,9 @@ export default {
             deleteContacto,
             crearContacto,
             contactoCreate,
-            messageModal
+            messageModal,
+            nombre,
+            nombreContacto
         }
     }
 }
