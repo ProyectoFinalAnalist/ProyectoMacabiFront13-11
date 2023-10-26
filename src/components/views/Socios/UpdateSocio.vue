@@ -252,7 +252,7 @@ export default {
         });
 
         const crearContacto = (async () => {
-            if (validarContacto("messageModal", contactoCreate.value) && contactoStore.confirm("crear", "registrado", "Contacto")) {
+            if (validarContacto("messageModal", contactoCreate.value) && contactoStore.confirm("crear", "registrado", "contacto")) {
                 await contactoStore.createElement(`${apiUrl}/contacto/`, JSON.parse(JSON.stringify(contactoCreate.value)));
                 location.reload()
             }
@@ -260,7 +260,7 @@ export default {
 
         const updateContacto = (async (contacto) => {
 
-            if (validarContacto("message", contacto) && contactoStore.confirm("modificar", "modificado", "Contacto")) {
+            if (validarContacto("message", contacto) && contactoStore.confirm("modificar", "modificado","Contacto de " + nombreContacto.value)) {
                 await contactoStore.updateElement(`${apiUrl}/contacto/`, JSON.parse(JSON.stringify(contacto)), "idInfoContacto");
                 location.reload()
             }
