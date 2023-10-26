@@ -27,7 +27,7 @@
             <tr v-for="socio in sociosAsistenciaFecha" :key="socio.idSocio">
               <td>{{ socio.nombreSocio }}</td>
               <td>{{ socio.apellidoSocio }}</td>
-              <td>{{ mapearEstado(socio.estado) }}</td>
+              <td>{{ mapearEstado(socio.estado) ? socio.estado : 'Sin asignar' }}</td>
             </tr>
           </tbody>
         </table>
