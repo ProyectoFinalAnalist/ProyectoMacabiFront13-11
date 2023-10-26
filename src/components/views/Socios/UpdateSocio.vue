@@ -189,8 +189,8 @@ export default {
             let hasDuplicateEmail = false
 
             if (sociosStore.getElements.result.length > 0) {
-                hasDuplicateDNI = sociosStore.getElements.result.some((socio) => socio.dni === dni && socio.idSocio !== idSocio);
-                hasDuplicateEmail = sociosStore.getElements.result.some((socio) => socio.email === email && socio.idSocio !== idSocio);
+                hasDuplicateDNI = sociosStore.getElements.result.some((socio) => socio.dni === dni && socio.idSocio != idSocio);
+                hasDuplicateEmail = sociosStore.getElements.result.some((socio) => socio.email === email && socio.idSocio != idSocio);
             }
 
             if (hasDuplicateDNI) {
@@ -242,9 +242,6 @@ export default {
 
         const contactoCreate = computed(() => contactoStore.currentElement)
         const messageModal = ref(null)
-        let repiteID = false
-        let idContacto = 0
-        let mailContacto = ""
 
         contactoStore.setCurrentElement({
             idSocio: idSocio,
@@ -255,7 +252,6 @@ export default {
         });
 
         const crearContacto = (async () => {
-            repiteID = false;
             if (validarContacto("messageModal", contactoCreate.value) && contactoStore.confirm("crear", "registrado", "Contacto")) {
                 await contactoStore.createElement(`${apiUrl}/contacto/`, JSON.parse(JSON.stringify(contactoCreate.value)));
                 location.reload()
@@ -263,29 +259,12 @@ export default {
         });
 
         const updateContacto = (async (contacto) => {
-            repiteID = true;
-            idContacto = contacto.idInfoContacto
-            mailContacto = contacto.email
 
             if (validarContacto("message", contacto) && contactoStore.confirm("modificar", "modificado", "Contacto")) {
                 await contactoStore.updateElement(`${apiUrl}/contacto/`, JSON.parse(JSON.stringify(contacto)), "idInfoContacto");
                 location.reload()
             }
         });
-
-        function hasDuplicateEmail() {
-            let hasDuplicateEmail = false
-
-            if (contactoStore.getElements != null) {
-                if (!repiteID) {
-                    hasDuplicateEmail = contactoStore.getElements.result.some((contacto) => contacto.email == contactoCreate.value.email);
-                } else {
-                    hasDuplicateEmail = contactoStore.getElements.result.some((contacto) => contacto.email == mailContacto && contacto.idInfoContacto != idContacto);
-                }
-            }
-
-            return hasDuplicateEmail
-        }
 
         function validarContacto(tipo, contacto) {
             let msj = ""
@@ -299,8 +278,6 @@ export default {
                 msj = "El apellido debe tener un minimo de 2 caracteres y un maximo de 24.";
             } else if (!soloLetras.test(contacto.apellido)) {
                 msj = "El apellido debe contener solo letras.";
-            } else if (hasDuplicateEmail()) {
-                msj = "El correo electrónico no puede repetirse";
             } else if (!validateMail.test(contacto.email)) {
                 msj = "Formato Email incorrecto";
             } else if (contacto.telefono < 0) {
