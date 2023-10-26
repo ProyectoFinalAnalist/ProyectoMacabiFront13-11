@@ -8,7 +8,7 @@
         <h2>Fecha: {{ fechaDetalle.fechaCalendario }}</h2>
         <p>Profesor Asignado: {{profesor}} </p>
         <p>Tipo: {{ mapearTipo(fechaDetalle.tipo) }}</p>
-        <p>Categoria: {{ fechaDetalle.Categorium.nombreCategoria }}</p>
+        <p>Categoria: {{ fechaDetalle.Categorium ? fechaDetalle.Categorium.nombreCategoria : 'Sin categoría' }}</p>
         <p>Deporte: {{ deporte }}</p>
       </div>
       <div>
@@ -114,7 +114,7 @@ export default {
         const response = await fetch(`${apiUrl}/usuario/${idCategoria}`);
         if (response.ok) {
           const data = await response.json();
-          console.log("EEEE", data)
+          
           return data.result.nombre + " " + data.result.apellido;
         } else {
           console.error("Error al obtener nombre del profesor");
