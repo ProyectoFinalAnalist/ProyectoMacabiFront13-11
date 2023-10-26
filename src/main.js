@@ -12,6 +12,7 @@ import "bootstrap/dist/css/bootstrap.css"
 import App from "./App.vue";
 import Home from './components/Home.vue'
 import Login from "./components/Login.vue";
+import MiUsuario from "./components/MiUsuario.vue"
 import NewPassword from "./components/NewPassword.vue";
 import Unauthorized from "./components/Unauthorized.vue";
 
@@ -59,6 +60,7 @@ const routes = [
   // APP 
   { path: "/", component: Home, },
   { path: "/login", component: Login, },
+  { path: "/miUsuario", component: MiUsuario, },
   { path: "/newPassword", component: NewPassword, },
   { path: "/unauthorized", component: Unauthorized, },
 

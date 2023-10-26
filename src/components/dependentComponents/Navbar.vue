@@ -1,15 +1,13 @@
 <template>
     <header class="header">
 
-
-
         <div class="nav-links"> <router-link to="/">HOME</router-link> </div>
 
         <div class="logo"> <img src="" alt="Logo"> </div>
 
 
         <div v-if="!usrStore.isLogged" class="nav-links"> <router-link to="/login"> INICIAR SESION </router-link> </div>
-        <div v-else class="nav-links"> <router-link to="/login"> {{ usrStore.currentUser.nombre }} </router-link>
+        <div v-else class="nav-links"> <router-link to="/miUsuario"> {{ usrStore.currentUser.nombre }} </router-link>
         </div>
 
         <h1 class="titulo-sm"> MACABI </h1>
@@ -30,7 +28,7 @@
                 </div>
 
                 <div v-else class="overlay-option">
-                    <router-link @click="closeNavMenu" to="/login"> {{ usrStore.currentUser.nombre }}</router-link>
+                    <router-link @click="closeNavMenu" to="/miUsuario"> {{ usrStore.currentUser.nombre }}</router-link>
                 </div>
 
             </div>
@@ -40,7 +38,7 @@
 </template>
 
 <script>
-import { usrStore } from '../stores/usrStore.ts'
+import { usrStore } from '../../stores/usrStore.ts'
 
 export default {
     data() {
