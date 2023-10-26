@@ -202,6 +202,7 @@ export default {
         this.nombreCat = "";
         this.deporteSeleccionado = "",
           this.profesorSeleccionado = ""
+          this.$router.go(-1);
       } catch (error) {
         this.mensaje = "Error al crear la categoría. Por favor, inténtalo nuevamente.";
         console.error('Error al crear la categoría:', error);
@@ -211,9 +212,11 @@ export default {
 
       this.mostrarMensaje = true;
 
-      this.$router.go(-1);
+      
 
     },
+
+ 
 
     ocultarMensaje() {
       this.mostrarMensaje = false;

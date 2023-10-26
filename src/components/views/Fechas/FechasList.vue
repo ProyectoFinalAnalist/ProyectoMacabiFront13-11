@@ -53,6 +53,8 @@
 <script>
 import { ref, onBeforeMount, watch } from "vue";
 import { useElementStore } from '../../../utils/Store';
+import apiUrl from '../../../../config/config.js'
+
 
 export default {
   name: "FechaList",
@@ -72,7 +74,7 @@ export default {
 
     async function fetchFechas() {
       try {
-        await fechaStore.fetchElements(`http://localhost:2020/fecha/fechas`);
+        await fechaStore.fetchElements(`${apiUrl}/fecha/fechas`);
         if (fechaStore.getElements && fechaStore.getElements.result) {
           size.value = fechaStore.getElements.result.length;
           fechasFiltradas.value = [...fechaStore.getElements.result];
