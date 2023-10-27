@@ -143,5 +143,6 @@ export default {
             buscar
         }
     }
+    
 }
 </script>

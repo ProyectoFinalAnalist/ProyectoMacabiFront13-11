@@ -73,8 +73,10 @@
         </div>
     </div>
     <div class="d-flex justify-content-center">
-        <button class="btn btn-secondary"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
-                Socios</router-link></button>
+        <button class="btn btn-secondary"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a Socios</router-link></button>
+                <button @click="editarSocio" class="btn btn-secondary">Modificar socio</button>
+
+
     </div>
     <br>
 </template>
@@ -133,10 +135,14 @@ export default {
         function deleteSocio() {
             alert("not implemented")
         }
+        
+        
+        
 
         const updateSocio = async () => {
             alert("not implemented")
         };
+
 
         return {
             socio,
@@ -147,6 +153,16 @@ export default {
             categorias,
             obtenerNombreDeporte
         }
-    }
+    },
+    data() {
+    return {
+      agregarFecha: "Agregar nueva fecha",
+    };
+  },methods: {
+     editarSocio() {
+         const idSocio = this.$route.params.id
+        this.$router.push({ path: "/socios/update/" + idSocio });
+        }
+  },
 }
 </script>

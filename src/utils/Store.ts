@@ -68,7 +68,7 @@ export function useElementStore(nombreStore) {
 
 			async createElement(url, newElement) {
 				try {
-					const response = await axios.post(`${url}`, newElement)
+					const response = await axios.post(`${url}`, newElement , { withCredentials: true })
 					//this.elements.push(response.data)
 				} catch (error) {
 					console.error('Error creating element:', error)
@@ -78,7 +78,7 @@ export function useElementStore(nombreStore) {
 			async updateElement(url, updatedElement, idField) {
 				try {
 					//console.log(updatedElement)
-					const response = await axios.put(`${url}/${updatedElement[idField]}`, updatedElement);
+					const response = await axios.put(`${url}/${updatedElement[idField]}`, updatedElement, { withCredentials: true });
 				} catch (error) {
 					console.error(`Error updating Element with ${idField} ${updatedElement[idField]}:`, error);
 				}
@@ -86,7 +86,7 @@ export function useElementStore(nombreStore) {
 
 			async deleteElement(url, id) {
 				try {
-					await axios.delete(`${url}/${id}`)
+					await axios.delete(`${url}/${id}` , { withCredentials: true })
 					//this.elements = this.elements.filter((e) => e.id !== id)
 				} catch (error) {
 					console.error(`Error deleting Element with id ${id}:`, error)
