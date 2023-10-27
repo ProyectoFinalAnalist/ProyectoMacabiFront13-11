@@ -42,6 +42,8 @@
           >Volver a Inicio</router-link
         >
       </button>
+      <button  class="btn btn-primary" @click="editarFecha">Editar fecha</button>
+      <button  class="btn btn-danger" @click="asignarAsistencia">Asignar/Modificar asistencias</button>
     </div>
   </div>
 </template>
@@ -159,6 +161,20 @@ export default {
       deporte,
       profesor
     };
+  }, data() {
+    return {
+    };
+  },
+  methods: {
+    editarFecha(){
+      const idFecha = this.$route.params.idFecha;
+      this.$router.push({ path: "/editarFecha/" + idFecha });
+
+    },
+    asignarAsistencia(){
+      alert("No implementado")
+
+    }
   },
 };
 </script>

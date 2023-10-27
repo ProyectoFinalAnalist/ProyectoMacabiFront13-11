@@ -43,6 +43,10 @@ import CrearFecha from "./components/views/Fechas/CrearFecha.vue"
 import DetalleFecha from "./components/views/Fechas/DetalleFecha.vue"
 import NuevaFechaCitacion from "./components/views/Fechas/NuevaFechaCitacion.vue"
 import FechasListCategoria from "./components/views/Fechas/FechasListCategoria.vue"
+import EditarFecha from "./components/views/Fechas/EditarFecha.vue"
+
+
+
 
 
 // SOCIOS
@@ -91,6 +95,7 @@ const routes = [
 
   // FECHAS
   { path: "/fechas", component: FechasList, },
+  { path: "/editarFecha/:idFecha", component: EditarFecha, },
   { path: "/crearfecha/:idCategoria", component: CrearFecha },
   { path: "/fechas/:id", component: DetalleFecha },
   { path: "/nuevaCitacion/:idCategoria", component: NuevaFechaCitacion },
