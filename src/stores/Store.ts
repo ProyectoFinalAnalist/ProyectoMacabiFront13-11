@@ -24,7 +24,7 @@ export function useElementStore(nombreStore) {
       async fetchElements() {
         if (!this.elements) {
           try {
-            const response = await axios.get(url + "/getAll")
+            const response = await axios.get(url + "/getAll", { withCredentials: true })
             this.elements = response.data.result
           } catch (error) {
             console.error('Error fetching elements:', error)
@@ -40,7 +40,7 @@ export function useElementStore(nombreStore) {
       },
       async fetchElementById(id) {
         try {
-          const response = await axios.get(`${url}/${id}`)
+          const response = await axios.get(`${url}/${id}`, { withCredentials: true })
           this.currentElement = response.data.result
         } catch (error) {
           console.error(`Error fetching element with id ${id}:`, error)
@@ -49,7 +49,7 @@ export function useElementStore(nombreStore) {
 
       async createElement(newElement) {
         try {
-          const response = await axios.post(`${url}`, newElement)
+          const response = await axios.post(`${url}`, newElement, { withCredentials: true })
           this.elements.push(response.data)
         } catch (error) {
           console.error('Error creating element:', error)
@@ -58,7 +58,7 @@ export function useElementStore(nombreStore) {
 
       async updateElement(updatedElement) {
         try {
-          const response = await axios.put(`${url}/${updatedElement.idUsuario}`, updatedElement) 
+          const response = await axios.put(`${url}/${updatedElement.idUsuario}`, updatedElement , { withCredentials: true }) 
           const index = this.elements.findIndex((e) => e.idUsuario === updatedElement.idUsuario)
           this.elements[index] = response.data.result
         } catch (error) {
@@ -69,7 +69,7 @@ export function useElementStore(nombreStore) {
       async patchElement(updatedElement) {
         console.log("🚀 ~ file: Store.ts:70 ~ patchElement ~ updatedElement:", updatedElement)
         try {
-          const response = await axios.patch(`${url}/${updatedElement.idUsuario}`, updatedElement) 
+          const response = await axios.patch(`${url}/${updatedElement.idUsuario}`, updatedElement , { withCredentials: true }) 
           const index = this.elements.findIndex((e) => e.idUsuario === updatedElement.idUsuario)
           this.elements[index] = response.data.result
         } catch (error) {
@@ -79,7 +79,7 @@ export function useElementStore(nombreStore) {
 
       async deleteElement(id) {
         try {
-          await axios.delete(`${url}/${id}`)
+          await axios.delete(`${url}/${id}` , { withCredentials: true })
           this.elements = this.elements.filter((e) => e.id !== id)
         } catch (error) {
           console.error(`Error deleting Element with id ${id}:`, error)

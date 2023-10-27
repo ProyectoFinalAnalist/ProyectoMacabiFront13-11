@@ -27,8 +27,11 @@
                         :key="deporte.idDeporte">
                         <div class="d-flex justify-content-between align-items-center">
                             <strong class="text-uppercase">{{ deporte.nombre }}</strong>
-                            <router-link :to="`/deportes/${deporte.idDeporte}`" class="btn btn-primary">Ver
-                                detalles</router-link>
+                            <div>
+                                <router-link :to="`/detalleDeporte/${deporte.idDeporte}`" class="btn btn-primary">Ver
+                                detalles</router-link><router-link :to="`/editarDeporte/${deporte.idDeporte}`" class="btn btn-primary">Editar deporte</router-link>
+                            </div>
+                            
                         </div>
                         <ul class="list-group mt-1">
                             <li class="list-group text-dark" v-on:click="irA(categoria.idCategoria)"
@@ -117,7 +120,7 @@ export default {
 
         function irA(id) {
             if (id != 0) {
-                router.push(`/categorias/${id}`);
+                router.push(`/detalleCategoria/${id}`);
             }
         }
 

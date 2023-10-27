@@ -99,7 +99,7 @@
         })
         
         const updateUsuario = async ()=> {
-            showErrores.value= utilsUsuario.validar(elementStore.currentElement, elementStore.elements)
+            showErrores.value=  utilsUsuario.validar(elementStore.currentElement, elementStore.elements)
 
             if (!utilsUsuario.errores(showErrores.value) &&  utils.confirm("modificar", "modificado", "Usuario")) {
                 await elementStore.patchElement(usuario.value);

@@ -24,7 +24,7 @@
         <div v-if="deportesDeUsuario.getElements.deportes.length > 0"
             v-for="sport in deportesDeUsuario.getElements.deportes">
             <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;"> <button type="button"
-                    class="btn btn-primary" style="width: 100%;"> <router-link :to="'/deportes/' + sport.idDeporte"
+                    class="btn btn-primary" style="width: 100%;"> <router-link :to="'/detalleDeporte/' + sport.idDeporte"
                         class="fs-4 text text-white nav nav-link"> Ir a {{ sport.nombre }}</router-link>
                 </button> </div>
         </div>
@@ -38,7 +38,7 @@
         <div v-if="categoriasDeUsuario.getElements.categorias.length > 0"
             v-for="category in categoriasDeUsuario.getElements.categorias">
             <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;"> <button type="button"
-                    class="btn btn-primary" style="width: 100%;"> <router-link :to="'/categorias/' + category.idCategoria"
+                    class="btn btn-primary" style="width: 100%;"> <router-link :to="'/detalleCategoria/' + category.idCategoria"
                         class="fs-4 text text-white nav nav-link"> Ir a {{ category.nombreCategoria }}</router-link>
                 </button> </div>
         </div>
@@ -55,6 +55,8 @@ import { onMounted } from "vue";
 import { computed, watch } from 'vue';
 
 import apiUrl from "../../config/config";
+
+
 
 export default {
     setup() {

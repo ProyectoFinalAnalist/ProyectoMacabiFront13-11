@@ -29,9 +29,10 @@
     </div>
     
     <div class="d-flex justify-content-center align-items-center">
-      <button class="btn btn-danger">
-        <router-link to="/crearFecha" class="nav-item nav-link" href="#">Crear Fecha</router-link>
+      <button @click="nuevaFecha" class="btn btn-danger">
+        Crear fecha
       </button>
+
       <button class="btn btn-secondary">
         <router-link to="/" class="nav-item nav-link" href="#">Volver a Inicio</router-link>
       </button>
@@ -111,6 +112,7 @@ export default {
   },
   methods: {
     nuevaFecha() {
+      const idCategoria = this.$route.params.id
       this.$router.push({ path: "/crearfecha/" + idCategoria });
     },
   },

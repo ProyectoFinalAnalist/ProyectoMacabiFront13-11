@@ -21,7 +21,7 @@
                             <td>{{ categoria.nombreCategoria }}</td>
                             <td class="d-none d-sm-table-cell">{{ obtenerNombreDeporte(categoria.idDeporte) }}</td>
                             <td>{{ obtenerProfesor(categoria.idUsuario) }}</td>
-                            <td><router-link :to="`/categorias/${categoria.idCategoria}`"><strong>Ver
+                            <td><router-link :to="`/detalleCategoria/${categoria.idCategoria}`"><strong>Ver
                                         detalles</strong></router-link></td>
                         </tr>
                     </tbody>

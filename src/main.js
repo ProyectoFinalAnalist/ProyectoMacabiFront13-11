@@ -26,12 +26,16 @@ import AsignarProfesor from "./components/views/Categorias/AsignarProfesor.vue";
 import CategoriasList from "./components/views/Categorias/CategoriasList.vue";
 import CrearCategoria from "./components/views/Categorias/CrearCategoria.vue";
 import DetalleCategoria from "./components/views/Categorias/DetalleCategoria.vue";
+import ModificarCategoria from "./components/views/Categorias/ModificarCategoria.vue";
+
+
 
 // DEPORTES
 import AsignarCoordinador from "./components/views/Deportes/AsignarCoordinador.vue";
 import DeportesList from "./components/views/Deportes/DeporteList.vue";
 import CrearDeporte from "./components/views/Deportes/CrearDeporte.vue";
 import DetalleDeporte from "./components/views/Deportes/DetalleDeporte.vue";
+import editarDeporte from "./components/views/Deportes/EditarDeporte.vue";
 
 // FECHAS
 import FechasList from "./components/views/Fechas/FechasList.vue"
@@ -74,13 +78,16 @@ const routes = [
   { path: "/categorias", component: CategoriasList },
   { path: "/crearCategoria", component: CrearCategoria },
   { path: "/crearCategoria/:idDeporte", component: CrearCategoria },
-  { path: "/categorias/:id", component: DetalleCategoria },
+  { path: "/modificarCategoria/:id", component: ModificarCategoria },
+  { path: "/detalleCategoria/:id", component: DetalleCategoria },
+
 
   // DEPORTES
   { path: "/asignarCoordinador", component: AsignarCoordinador },
   { path: "/deportes", component: DeportesList },
   { path: "/crearDeporte", component: CrearDeporte },
-  { path: "/deportes/:id", component: DetalleDeporte },
+  { path: "/editarDeporte/:id", component: editarDeporte },
+  { path: "/detalleDeporte/:id", component: DetalleDeporte },
 
   // FECHAS
   { path: "/fechas", component: FechasList, },

@@ -22,6 +22,7 @@
                 <div class="overlay-option">
                     <router-link @click="closeNavMenu" to="/">HOME</router-link>
                 </div>
+               
 
                 <div v-if="!this.usrStore.isLogged" class="overlay-option">
                     <router-link @click="closeNavMenu" to="/login"> INICIAR SESION </router-link>
