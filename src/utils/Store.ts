@@ -84,12 +84,12 @@ export function useElementStore(nombreStore) {
 				}
 			},
 
-			async deleteElement(url, id) {
+			async deleteElement(url) {
 				try {
-					await axios.delete(`${url}/${id}` , { withCredentials: true })
+					await axios.delete(url , { withCredentials: true })
 					//this.elements = this.elements.filter((e) => e.id !== id)
 				} catch (error) {
-					console.error(`Error deleting Element with id ${id}:`, error)
+					console.error(`Error deleting Element`, error)
 				}
 			},
 

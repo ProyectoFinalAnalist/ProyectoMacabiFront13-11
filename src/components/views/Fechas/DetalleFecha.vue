@@ -42,7 +42,7 @@
           >Volver a Inicio</router-link
         >
       </button>
-      <button  class="btn btn-primary" @click="editarFecha">Editar fecha</button>
+      <router-link class="btn btn-primary m-3" :to="`/editarfecha/${fechaDetalle.idFecha}`">Editar Fecha</router-link>
       <button  class="btn btn-danger" @click="asignarAsistencia">Asignar/Modificar asistencias</button>
     </div>
   </div>
@@ -82,6 +82,7 @@ export default {
       try {
         await fechaStore.fetchElements(`${apiUrl}/fecha/fechas/${idFecha}`);
         fechaDetalle.value = fechaStore.getElements.result[0];
+        console.log("🚀 ~ file: DetalleFecha.vue:85 ~ fetchs ~ fechaDetalle.value :", fechaDetalle.value )
 
         if (fechaDetalle.value && fechaDetalle.value.idCategoria) {
           const idCategoria = fechaDetalle.value.idCategoria;
@@ -150,7 +151,6 @@ export default {
         return "Sin asignar";
       }
     }
-
     return {
       sociosAsistenciaFecha,
       fechaDetalle,
@@ -166,11 +166,7 @@ export default {
     };
   },
   methods: {
-    editarFecha(){
-      const idFecha = this.$route.params.idFecha;
-      this.$router.push({ path: "/editarFecha/" + idFecha });
 
-    },
     asignarAsistencia(){
       alert("No implementado")
 
