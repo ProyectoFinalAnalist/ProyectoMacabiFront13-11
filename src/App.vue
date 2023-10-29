@@ -2,6 +2,7 @@
 	<Navbar />
 
 	<div class="componentes">
+		<h1>hol  a</h1>
 		<RouterView></RouterView>
 	</div>
 
