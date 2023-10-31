@@ -143,12 +143,17 @@ export default {
         return "Presente";
       } else if (estado == "A") {
         return "Ausente";
-      } else if (estado == "L") {
-        return "Lesionado";
+      } else if (estado == "J") {
+        return "Justificado";
       }
       else if (estado == null) {
         return "Sin asignar";
       }
+    }
+
+      function asignarAsistencia() {
+
+      router.push({ path: `/tomarAsistencia/${idFecha}` });
     }
 
     return {
@@ -159,7 +164,8 @@ export default {
       mapearTipo,
       obtenerDeporte,
       deporte,
-      profesor
+      profesor,
+      asignarAsistencia
     };
   }, data() {
     return {
@@ -171,10 +177,7 @@ export default {
       this.$router.push({ path: "/editarFecha/" + idFecha });
 
     },
-    asignarAsistencia(){
-      alert("No implementado")
-
-    }
+   
   },
 };
 </script>

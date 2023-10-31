@@ -79,7 +79,7 @@ const routes = [
   // ASISTENCIAS
   { path: "/historialAsistencia/:id", component: HistorialAsistencias },
   { path: "/sociosPorFecha", component: SociosXFecha },
-  { path: "/tomarAsistencia", component: TomarAsistencia },
+  { path: "/tomarAsistencia/:id", component: TomarAsistencia },
 
   // CATEGORIAS
   { path: "/asignarProfesor", component: AsignarProfesor },
