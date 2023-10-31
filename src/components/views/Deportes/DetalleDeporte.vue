@@ -19,7 +19,6 @@ export default {
   },
   created(){
     this.idDeporte =  this.$route.params.id;
-    alert(this.idDeporte)
   },
   methods: {
     
