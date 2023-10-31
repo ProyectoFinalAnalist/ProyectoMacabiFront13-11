@@ -73,7 +73,7 @@
                                     <div class="d-flex justify-content-center">
                                         <button class="btn btn-primary" @click="updateContacto(contacto)">Actualizar
                                             Contacto</button>
-                                        <button class="btn btn-danger" @click="deleteContacto">Borrar Contacto</button>
+                                        <button class="btn btn-danger" @click="deleteContacto(contacto)">Borrar Contacto</button>
                                     </div>
                                 </div>
                             </div>
@@ -299,9 +299,12 @@ export default {
             return crear
         }
 
-        function deleteContacto() {
-            alert("not implemented")
-        }
+        const deleteContacto = (async (contacto) => {
+            if (contactoStore.confirm("eliminar", "eliminado", `Contacto de ${contacto.nombre}`)) {
+                await contactoStore.deleteElement(`${apiUrl}/contacto/`, contacto.idInfoContacto);
+                location.reload()
+            }
+        });
 
         function obtenerFechaMax() {
             let fecha = document.getElementById("fecha")
