@@ -44,10 +44,10 @@
                 <input
                   type="radio"
                   v-model="socio.estado"
-                  value="L"
-                  :checked="socio.estado === 'L'"
+                  value="J"
+                  :checked="socio.estado === 'J'"
                 />
-                Lesionado
+                Justificado
                 <input
                   type="radio"
                   v-model="socio.estado"
@@ -173,8 +173,8 @@ export default {
         return "Presente";
       } else if (estado == "A") {
         return "Ausente";
-      } else if (estado == "L") {
-        return "Lesionado";
+      } else if (estado == "J") {
+        return "Justificado";
       } else if (estado == null) {
         return "Sin asignar";
       }

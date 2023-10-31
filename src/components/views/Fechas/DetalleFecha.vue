@@ -143,8 +143,8 @@ export default {
         return "Presente";
       } else if (estado == "A") {
         return "Ausente";
-      } else if (estado == "L") {
-        return "Lesionado";
+      } else if (estado == "J") {
+        return "Justificado";
       }
       else if (estado == null) {
         return "Sin asignar";
