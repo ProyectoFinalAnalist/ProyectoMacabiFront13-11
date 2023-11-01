@@ -5,7 +5,7 @@
                 <div class="text-center">
             <h4>Detalle Usuario</h4>
         </div>
-                <div class="card bg-light text-dark mb-5">
+                <div class="card bg-light text-dark mb-4">
             <div class="card-body">
                 <p>
                 <strong class="font-weight-bold" >Nombre</strong>

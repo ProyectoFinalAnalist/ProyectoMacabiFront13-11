@@ -1,24 +1,24 @@
 <template>
-    <div class="container mt-4">
+    <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3" v-if="socio">
-                <div class="card bg-light text-dark mb-5">
+                <div class="card bg-light text-dark mb-4">
                     <div v-if="socio" class="card-body">
                         <h4>Detalles del Socio: <strong>{{ socio.apellido }}, {{ socio.nombre }}</strong></h4>
                         <div>
                             <div class="card mt-3">
                                 <div class="card-body">
-                                    <p class="mb-0"><strong>Número de Socio:</strong> {{ socio.nroSocio }}</p>
-                                    <p class="mb-0"><strong>DNI:</strong> {{ socio.dni }}</p>
-                                    <p class="mb-0"><strong>Email:</strong> {{ socio.email }}</p>
-                                    <p class="mb-0"><strong>Teléfono:</strong> {{ socio.telefono }}</p>
-                                    <p class="mb-0"><strong>Dirección:</strong> {{ socio.direccion }}</p>
-                                    <p class="mb-0"><strong>Fecha de Nacimiento:</strong> {{ socio.fechaNacimiento }}</p>
+                                    <p class="mb-1"><strong>Número de Socio:</strong> {{ socio.nroSocio }}</p>
+                                    <p class="mb-1"><strong>DNI:</strong> {{ socio.dni }}</p>
+                                    <p class="mb-1"><strong>Email:</strong> {{ socio.email }}</p>
+                                    <p class="mb-1"><strong>Teléfono:</strong> {{ socio.telefono }}</p>
+                                    <p class="mb-1"><strong>Dirección:</strong> {{ socio.direccion }}</p>
+                                    <p class="mb-1"><strong>Fecha de Nacimiento:</strong> {{ socio.fechaNacimiento }}</p>
                                 </div>
                             </div>
 
                             <hr>
-                            <p class="p pe-3">
+                            <p>
                                 <strong>Observaciones: </strong>
                                 <textarea style="height: 200px; max-height: 200px;" disabled class="form-control mt-2"
                                     v-model="socio.observaciones"></textarea>
@@ -27,10 +27,10 @@
                             <p class="p pe-3">
                                 <strong>Datos de contacto: </strong>
                                 <br>
-                            <div v-if="infoContactos == null">
-                                <p class="text-center text-bg-danger p pe-3 ms-3 mt-2 h-2" style="border-radius: 10px;">
-                                    <strong>Socio no posee datos de contacto</strong>
-                                </p>
+                            <div v-if="infoContactos == null" class="p pe-2 ps-4">
+                                <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3">
+                                    <strong>{{ socio.nombre }} no posee datos de contacto</strong>
+                                </h6>
                             </div>
                             <div v-else class="card m-3" style="background-color: rgb(236, 236, 236);"
                                 v-for="contacto in infoContactos">
@@ -46,7 +46,7 @@
                             </div>
                             </p>
                             <hr>
-                            <p class="p pe-3">
+                            <p>
                                 <strong>Categorias asociadas: </strong>
                             </p>
                             <table class="table table-striped table-bordered">
@@ -73,13 +73,22 @@
         </div>
     </div>
     <div class="d-flex justify-content-center">
-        <button class="btn btn-secondary"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a Socios</router-link></button>
-                <button @click="editarSocio" class="btn btn-secondary">Modificar socio</button>
-
-
+        <button @click="editarSocio" class="btn btn-success">Modificar socio</button>
+        <button class="btn btn-secondary"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
+                Socios</router-link></button>
     </div>
-    <br>
 </template>
+<style scoped>
+h6 {
+    background-color: #f8d7da;
+    border-color: #f0959e;
+    color: #723b47;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    padding: 8px;
+}
+</style>
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
@@ -127,7 +136,7 @@ export default {
         });
 
         function obtenerNombreDeporte(idDeporte) {
-            const deporteEncontrado = deporteStore.getWithKeyValue("idDeporte",idDeporte)
+            const deporteEncontrado = deporteStore.getWithKeyValue("idDeporte", idDeporte)
 
             if (deporteEncontrado) { return deporteEncontrado.nombre; } else { return "Nombre no encontrado"; }
         }
@@ -135,9 +144,9 @@ export default {
         function deleteSocio() {
             alert("not implemented")
         }
-        
-        
-        
+
+
+
 
         const updateSocio = async () => {
             alert("not implemented")
@@ -155,14 +164,14 @@ export default {
         }
     },
     data() {
-    return {
-      agregarFecha: "Agregar nueva fecha",
-    };
-  },methods: {
-     editarSocio() {
-         const idSocio = this.$route.params.id
-        this.$router.push({ path: "/socios/update/" + idSocio });
+        return {
+            agregarFecha: "Agregar nueva fecha",
+        };
+    }, methods: {
+        editarSocio() {
+            const idSocio = this.$route.params.id
+            this.$router.push({ path: "/socios/update/" + idSocio });
         }
-  },
+    },
 }
 </script>

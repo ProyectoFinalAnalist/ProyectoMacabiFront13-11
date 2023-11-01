@@ -1,42 +1,46 @@
 <template>
-    <div class="container mt-4">
+    <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3" v-if="socio">
-                <div class="card bg-light text-dark mb-5">
+                <div class="card bg-light text-dark mb-4">
                     <div v-if="socio" class="card-body">
                         <h4>Detalles del Socio: <strong>{{ nombre }}</strong></h4>
+                        <div class="text-end"><code>*campos obligatorios</code></div>
                         <div>
-                            <p class="p pe-3">
-                                <strong>Numero de Socio: </strong><input disabled type="text" class="form-control"
-                                    v-model="socio.nroSocio" />
+                            <p class="p pe-2 ps-2">
+                                <strong>Numero de Socio: <code>*</code></strong><input disabled type="text"
+                                    class="form-control" v-model="socio.nroSocio" />
                             </p>
-                            <p class="p pe-3">
-                                <strong>Nombre: </strong><input type="text" class="form-control" v-model="socio.nombre" />
+                            <p class="p pe-2 ps-2">
+                                <strong>Nombre: <code>*</code></strong><input type="text" class="form-control"
+                                    v-model="socio.nombre" />
                             </p>
-                            <p class="p pe-3">
-                                <strong>Apellido: </strong><input type="text" class="form-control"
+                            <p class="p pe-2 ps-2">
+                                <strong>Apellido: <code>*</code></strong><input type="text" class="form-control"
                                     v-model="socio.apellido" />
                             </p>
-                            <p class="p pe-3">
-                                <strong>Dni: </strong><input type="number" min="0" class="form-control"
+                            <p class="p pe-2 ps-2">
+                                <strong>Dni: <code>*</code></strong><input type="number" min="0" class="form-control"
                                     v-model="socio.dni" />
                             </p>
-                            <p class="p pe-3">
-                                <strong>Email: </strong><input type="email" class="form-control" v-model="socio.email" />
+                            <p class="p pe-2 ps-2">
+                                <strong>Email: <code>*</code></strong><input type="email" class="form-control"
+                                    v-model="socio.email" />
                             </p>
-                            <p class="p pe-3">
-                                <strong>Telefono: </strong><input type="number" class="form-control"
+                            <p class="p pe-2 ps-2">
+                                <strong>Telefono: <code>*</code></strong><input type="number" class="form-control"
                                     v-model="socio.telefono" />
                             </p>
-                            <p class="p pe-3">
-                                <strong>Dirección: </strong><input type="text" class="form-control"
+                            <p class="p pe-2 ps-2">
+                                <strong>Dirección: <code>*</code></strong><input type="text" class="form-control"
                                     v-model="socio.direccion" />
                             </p>
-                            <p class="p pe-3">
-                                <strong>Fecha de Nacimiento: </strong><input type="date" id="fecha" max="2000-02-02"
-                                    v-on:click="obtenerFechaMax()" class="form-control" v-model="socio.fechaNacimiento" />
+                            <p class="p pe-2 ps-2">
+                                <strong>Fecha de Nacimiento: <code>*</code></strong><input type="date" id="fecha"
+                                    max="2000-02-02" v-on:click="obtenerFechaMax()" class="form-control"
+                                    v-model="socio.fechaNacimiento" />
                             </p>
-                            <p class="p pe-3">
+                            <p class="p pe-2 ps-2">
                                 <strong>Observaciones: </strong>
                                 <textarea style="height: 100px; max-height: 200px;" class="form-control"
                                     v-model="socio.observaciones"></textarea>
@@ -47,37 +51,39 @@
                                 <button class="btn btn-danger" @click="deleteSocio">Borrar Socio</button>
                             </div>
                             <hr>
-                            <p class="p pe-3">
+                            <p class="p pe-2 ps-2">
                                 <strong>Datos de contacto: </strong>
                                 <br>
                             <div class="card mt-3 ms-3 me-0 mb-3" style="background-color: rgb(236, 236, 236);"
                                 v-for="contacto in infoContactos">
                                 <div class="card-body">
                                     <h5>Contacto: <strong>{{ nombreContacto }}</strong></h5>
-                                    <p class="p pe-3">
-                                        <strong>Nombre: </strong><input type="text" class="form-control"
+                                    <div class="text-end"><code>*campos obligatorios</code></div>
+                                    <p class="p pe-2 ps-2">
+                                        <strong>Nombre: <code>*</code></strong><input type="text" class="form-control"
                                             v-model="contacto.nombre" />
                                     </p>
-                                    <p class="p pe-3">
-                                        <strong>Apellido: </strong><input type="text" class="form-control"
+                                    <p class="p pe-2 ps-2">
+                                        <strong>Apellido: <code>*</code></strong><input type="text" class="form-control"
                                             v-model="contacto.apellido" />
                                     </p>
-                                    <p class="p pe-3">
-                                        <strong>Email: </strong><input type="text" class="form-control"
+                                    <p class="p pe-2 ps-2">
+                                        <strong>Email: <code>*</code></strong><input type="text" class="form-control"
                                             v-model="contacto.email" />
                                     </p>
-                                    <p class="p pe-3">
-                                        <strong>Teléfono: </strong><input type="number" min="0" class="form-control"
-                                            v-model="contacto.telefono" />
+                                    <p class="p pe-2 ps-2">
+                                        <strong>Teléfono: <code>*</code></strong><input type="number" min="0"
+                                            class="form-control" v-model="contacto.telefono" />
                                     </p>
                                     <div class="d-flex justify-content-center">
                                         <button class="btn btn-primary" @click="updateContacto(contacto)">Actualizar
                                             Contacto</button>
-                                        <button class="btn btn-danger" @click="deleteContacto(contacto)">Borrar Contacto</button>
+                                        <button class="btn btn-danger" @click="deleteContacto(contacto)">Borrar
+                                            Contacto</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-center">
+                            <div class="d-flex justify-content-center mt-4">
                                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">Agregar
                                     Contacto</button>
                             </div>
@@ -98,35 +104,38 @@
         <button class="btn btn-secondary"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
                 Socios</router-link></button>
     </div>
-    <br>
     <!--MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / -->
     <div v-if="socio" class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Crear Contacto para {{ socio.nombre }}, {{ socio.apellido
-                    }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Crear Contacto para <br><strong>{{ socio.nombre }}, {{
+                        socio.apellido
+                    }}</strong></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="p pe-3">
-                        <strong>Nombre: </strong><input type="text" class="form-control" v-model="contactoCreate.nombre" />
+                    <p class="p pe-2 ps-2">
+                        <strong>Nombre: <code>*</code></strong><input type="text" class="form-control"
+                            v-model="contactoCreate.nombre" />
                     </p>
-                    <p class="p pe-3">
-                        <strong>Apellido: </strong><input type="text" class="form-control"
+                    <p class="p pe-2 ps-2">
+                        <strong>Apellido: <code>*</code></strong><input type="text" class="form-control"
                             v-model="contactoCreate.apellido" />
                     </p>
-                    <p class="p pe-3">
-                        <strong>Email: </strong><input type="text" class="form-control" v-model="contactoCreate.email" />
+                    <p class="p pe-2 ps-2">
+                        <strong>Email: <code>*</code></strong><input type="text" class="form-control"
+                            v-model="contactoCreate.email" />
                     </p>
-                    <p class="p pe-3">
-                        <strong>Teléfono: </strong><input type="number" min="0" class="form-control"
+                    <p class="p pe-2 ps-2W">
+                        <strong>Teléfono: <code>*</code></strong><input type="number" min="0" class="form-control"
                             v-model="contactoCreate.telefono" />
                     </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" @click="crearContacto">Crear</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <div class="text-start"><code>*campos obligatorios</code></div>
                 </div>
             </div>
             <h5 v-if="messageModal != null" class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3">
@@ -260,7 +269,7 @@ export default {
 
         const updateContacto = (async (contacto) => {
 
-            if (validarContacto("message", contacto) && contactoStore.confirm("modificar", "modificado","Contacto de " + nombreContacto.value)) {
+            if (validarContacto("message", contacto) && contactoStore.confirm("modificar", "modificado", "Contacto de " + nombreContacto.value)) {
                 await contactoStore.updateElement(`${apiUrl}/contacto/`, JSON.parse(JSON.stringify(contacto)), "idInfoContacto");
                 location.reload()
             }

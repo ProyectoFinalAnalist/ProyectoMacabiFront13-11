@@ -1,7 +1,7 @@
 <template>
-    <div class="container mt-3">
+    <div class="container">
         <div v-if="sociosStore.getElements != null">
-            <div style="width: 100%;" class="text text-center pb-3 pt-5 h1">LISTA DE SOCIOS</div>
+            <div class="text text-center h1">SOCIOS</div>
             <br>
             <form @submit.prevent="buscar()">
                 <div class="row d-flex justify-content-start">
@@ -22,7 +22,7 @@
                         <button class="btn btn-danger" type="button" v-on:click="reiniciar">Reiniciar</button>
                     </div>
                     <div class="col col-sm d-none d-sm-table-cell">
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-end mt-3 mb-0">
                             <p>Socios en total: <strong>{{ size }}</strong></p>
                         </div>
                     </div>
@@ -30,8 +30,8 @@
             </form>
             <br>
             <div v-if="sociosStore.getElements != null || size > 0">
-                <table class="table table-striped table-bordered">
-                    <thead>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
                         <tr>
                             <th class="d-none d-sm-table-cell">NroSocio:
                                 <button class="btn bg-success" @click="ordenar('nroSocio')"></button>
@@ -42,18 +42,15 @@
                                 <button class="btn bg-success" @click="ordenar('dni')"></button>
                             </th>
                             <th class="d-none d-sm-table-cell">Email:</th>
-                            <th>Detalles:</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="socio in socios" :key="socio.idSocio">
+                        <tr v-for="socio in socios" :key="socio.idSocio" @click="irA(socio.idSocio)">
                             <td class="d-none d-sm-table-cell">{{ socio.nroSocio }}</td>
                             <td>{{ socio.nombre }}</td>
                             <td>{{ socio.apellido }}</td>
                             <td class="d-none d-sm-table-cell">{{ socio.dni }}</td>
                             <td class="d-none d-sm-table-cell">{{ socio.email }}</td>
-                            <td><router-link :to="`/socios/${socio.idSocio}`"><strong>Ver
-                                        detalles</strong></router-link></td>
                         </tr>
                     </tbody>
                 </table>
@@ -64,7 +61,7 @@
         </h5>
         <br>
         <div class="d-flex justify-content-center align-items-center">
-            <button class="btn btn-danger">
+            <button class="btn btn-success">
                 <router-link to="/registrarSocio" class="nav-item nav-link" href="#">Crear Socio</router-link>
             </button>
             <button class="btn btn-secondary">
@@ -76,7 +73,8 @@
 </template>
 <script>
 import { useElementStore } from '../../../utils/Store';
-import { onBeforeMount, ref, computed } from "vue";
+import { onBeforeMount, ref } from "vue";
+import { useRouter } from "vue-router";
 import apiUrl from '../../../../config/config.js'
 
 export default {
@@ -88,6 +86,7 @@ export default {
         let filtro = ""
         let busqueda = ""
         const orden = ref(true)
+        const router = useRouter();
 
         onBeforeMount(async () => { fetchs() })
 
@@ -130,6 +129,12 @@ export default {
             });
         }
 
+        function irA(id) {
+            if (id != 0) {
+                router.push(`/socios/${id}`);
+            }
+        }
+
         return {
             sociosStore,
             size,
@@ -138,7 +143,8 @@ export default {
             busqueda,
             errorFiltro,
             ordenar,
-            buscar
+            buscar,
+            irA
         }
     }
 

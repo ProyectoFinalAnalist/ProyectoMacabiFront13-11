@@ -2,7 +2,7 @@
     <div class="container mt-4 ">
         <div class="row">
             <div class="col-md-6 offset-md-3" v-if="usuario">
-                <div class="card bg-light text-dark mb-5">
+                <div class="card bg-light text-dark mb-4">
                     <div class="card-body">
                         <h4 class="text-center mt-2"><strong>Registrar Usuario</strong></h4>
                         <div class="text-end"><code>*campos obligatorios</code></div>
@@ -90,9 +90,7 @@
         </div>
     </div>
     <div class="d-flex justify-content-center align-items-center">
-        <button class="btn btn-secondary">
-            <router-link to="/" class="nav-item nav-link" href="#">Volver</router-link>
-        </button>
+        <button class="btn btn-secondary" v-on:click="volver()">Volver</button>
     </div>
 </template>
 <style scoped>
@@ -167,6 +165,9 @@ export default {
                 this.mostrar = "text"
             } else this.mostrar = "password"
             this.mostrarBool = !this.mostrarBool
+        },
+        volver(){
+            this.$router.go(-1)
         }
     }
 };
