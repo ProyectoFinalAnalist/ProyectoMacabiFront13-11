@@ -1,13 +1,16 @@
 <template>
-    <div class="container mt-4">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-6 offset-md-3" v-if="contactosEmergencia != null">
+                <h3 class="text-center"><strong>MODIFICAR CONTACTOS DE EMERGENCIA</strong></h3>
+                <div class="text-end mb-1"><code>*campos obligatorios</code></div>
                 <div class="card bg-light text-dark mt-3 ms-3 me-0 mb-3" v-for="contacto in contactosEmergencia">
                     <div class="card-body">
-                        <h4>Detalles del Contacto: <strong>{{ obtenerNombre(contacto.idContactoEmergencia) }}</strong></h4>
+                        <h4 class="mb-3">Detalles del Contacto: <strong>{{ obtenerNombre(contacto.idContactoEmergencia)
+                        }}</strong></h4>
                         <div>
                             <p class="p pe-2 ps-2">
-                                <strong>Nombre: *</strong><input type="text" class="form-control"
+                                <strong>Nombre: <code>*</code></strong><input type="text" class="form-control"
                                     v-model="contacto.nombre" />
                             </p>
                             <p class="p pe-2 ps-2">
@@ -23,10 +26,12 @@
                                     v-model="contacto.observaciones"></textarea>
                             </p>
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-primary" @click="updateContactoEmergencia(contacto)">Actualizar
-                                    Contacto</button>
-                                <button class="btn btn-danger" @click="deleteContactoEmergencia(contacto)">Borrar
-                                    Contacto</button>
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" @click="updateContactoEmergencia(contacto)">Actualizar
+                                        Contacto</button>
+                                    <button class="btn btn-danger" @click="deleteContactoEmergencia(contacto)">Borrar
+                                        Contacto</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -40,11 +45,13 @@
             <strong>{{ message }}</strong>
         </h5>
     </div>
-    <div class="d-flex justify-content-center ms-3">
-        <button class="btn btn-secondary"><router-link to="/contactosEmergencia" class="nav-item nav-link" href="#">Volver a
-                Contactos</router-link></button>
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">Agregar
-            Contacto</button>
+    <div class="d-flex justify-content-center ms-3 mt-3">
+        <div class="btn-group">
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">Agregar
+                Contacto</button>
+            <button class="btn btn-dark"><router-link to="/contactosEmergencia" class="nav-item nav-link" href="#">Volver a
+                    Contactos</router-link></button>
+        </div>
     </div>
     <br>
     <!--MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / -->
@@ -57,7 +64,7 @@
                 </div>
                 <div class="modal-body">
                     <p class="p pe-3">
-                        <strong>Nombre: * </strong><input type="text" class="form-control"
+                        <strong>Nombre: <code>*</code></strong><input type="text" class="form-control"
                             v-model="contactoCreate.nombre" />
                     </p>
                     <p class="p pe-3">
@@ -76,6 +83,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" @click="crearContactoEmergencia">Crear</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <div class="text-start"><code>*campos obligatorios</code></div>
                 </div>
             </div>
             <h5 v-if="messageModal != null" class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3">
