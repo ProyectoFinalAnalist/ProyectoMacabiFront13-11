@@ -1,7 +1,7 @@
 <template>
     <div class="mb-5">
         <div v-if="usuarioStore.getRol == 'A'">
-            <div style="width: 100%;" class="text text-center p-5 h2">Opciones de Administrador</div>
+            <div style="width: 100%;" class="text text-center pb-4 h1 fw-bold">Opciones de Administrador</div>
 
             <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;">
                 <button type="button" class="btn btn-primary" style="width: 100%;">
@@ -21,7 +21,7 @@
         </div>
 
         <div v-else-if="usuarioStore.getRol == 'C' && deportesDeUsuario.getElements != null">
-            <div style="width: 100%;" class="text text-center p-5 h2">Tus Deportes asignados - Coordinador de Deportes</div>
+            <div style="width: 100%;" class="text text-center pb-4 h1 fw-bold">Tus Deportes asignados - Coordinador de Deportes</div>
             <div v-if="deportesDeUsuario.getElements.deportes.length > 0"
                 v-for="sport in deportesDeUsuario.getElements.deportes">
                 <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;"> <button type="button"
@@ -36,7 +36,7 @@
         </div>
 
         <div v-else-if="usuarioStore.getRol == 'P' && categoriasDeUsuario.getElements != null">
-            <div style="width: 100%;" class="text text-center p-5 h2">Tus Categorías asignadas - Profesor</div>
+            <div style="width: 100%;" class="text text-center pb-4 h1 fw-bold">Tus Categorías asignadas - Profesor</div>
             <div v-if="categoriasDeUsuario.getElements.categorias.length > 0"
                 v-for="category in categoriasDeUsuario.getElements.categorias">
                 <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;"> <button type="button"
@@ -50,10 +50,10 @@
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;">
+    <div class="d-flex justify-content-center pb-5" style="width: 50%; margin: 0 auto;">
         <button type="button" class="btn btn-danger" style="width: 100%;">
-            <router-link to="/contactosEmergencia" class="fs-4 text text-white nav nav-link">CONTACTOS DE
-                EMERGENCIA</router-link>
+            <router-link to="/contactosEmergencia" class="fs-4 text text-white nav nav-link"><strong>CONTACTOS DE
+                EMERGENCIA</strong></router-link>
         </button>
     </div>
 </template>

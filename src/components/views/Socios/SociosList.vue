@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid ps-5 pe-5">
         <div v-if="sociosStore.getElements != null">
             <div class="text text-center h1">SOCIOS</div>
             <br>
@@ -9,7 +9,7 @@
                         <select id="filtro" class="form-select">
                             <option disabled>Filtrar por:</option>
                             <option value="nroSocio">Número de Socio</option>
-                            <option value="nombre">Nombre</option>
+                            <option selected value="nombre">Nombre</option>
                             <option value="apellido">Apellido</option>
                             <option value="dni">Dni</option>
                             <option value="email">Mail</option>
@@ -31,7 +31,7 @@
             <br>
             <div v-if="sociosStore.getElements != null || size > 0">
                 <table class="table table-bordered table-hover">
-                    <thead class="table-light">
+                    <thead>
                         <tr>
                             <th class="d-none d-sm-table-cell">NroSocio:
                                 <button class="btn bg-success" @click="ordenar('nroSocio')"></button>
@@ -41,7 +41,7 @@
                             <th class="d-none d-sm-table-cell">Dni:
                                 <button class="btn bg-success" @click="ordenar('dni')"></button>
                             </th>
-                            <th class="d-none d-sm-table-cell">Email:</th>
+                            <th class="d-none d-lg-table-cell">Email:</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,7 +50,7 @@
                             <td>{{ socio.nombre }}</td>
                             <td>{{ socio.apellido }}</td>
                             <td class="d-none d-sm-table-cell">{{ socio.dni }}</td>
-                            <td class="d-none d-sm-table-cell">{{ socio.email }}</td>
+                            <td class="d-none d-lg-table-cell">{{ socio.email }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -61,16 +61,21 @@
         </h5>
         <br>
         <div class="d-flex justify-content-center align-items-center">
-            <button class="btn btn-success">
-                <router-link to="/registrarSocio" class="nav-item nav-link" href="#">Crear Socio</router-link>
-            </button>
-            <button class="btn btn-secondary">
-                <router-link to="/" class="nav-item nav-link" href="#">Volver a Inicio</router-link>
-            </button>
+            <div class="btn-group">
+                <button class="btn btn-macabi1">
+                    <router-link to="/registrarSocio" class="nav-item nav-link" href="#">Crear Socio</router-link>
+                </button>
+                <button class="btn btn-dark">
+                    <router-link to="/" class="nav-item nav-link" href="#">Volver a Inicio</router-link>
+                </button>
+            </div>
         </div>
-        <br>
     </div>
+    <br>
 </template>
+<style>
+@import '../../../assets/btn.css';
+</style>
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { onBeforeMount, ref } from "vue";
@@ -116,6 +121,7 @@ export default {
 
         function reiniciar() {
             socios.value = null
+            size.value = 0
         }
 
         function ordenar(columna) {

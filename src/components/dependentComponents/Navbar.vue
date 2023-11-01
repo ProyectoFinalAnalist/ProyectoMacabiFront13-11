@@ -22,7 +22,7 @@
                 <div class="overlay-option">
                     <router-link @click="closeNavMenu" to="/">HOME</router-link>
                 </div>
-               
+
 
                 <div v-if="!this.usrStore.isLogged" class="overlay-option">
                     <router-link @click="closeNavMenu" to="/login"> INICIAR SESION </router-link>
@@ -66,16 +66,13 @@ export default {
     display: grid;
     grid-template-columns: 2fr 2fr 1fr 2fr 2fr;
     background-color: black;
-
+    width: 100%;
     transition: 1s;
 
-    max-width: 1000px;
-
     margin: 0 auto;
-
-    padding: 5px 2%;
-    border-radius: 5px;
-    margin-top: 5px;
+    left: 0;
+    bottom: 0;
+    padding: 10px 15%;
     font-family: "Montserrat", sans-serif;
     text-transform: uppercase;
 }
@@ -94,15 +91,15 @@ export default {
 }
 
 .header .nav-links a {
-    padding: 3px 25px;
-    font-size: 1.5rem;
+    padding: 5px 25px;
+    font-size: 5rem;
     color: #ffffff;
-    border-radius: 2px;
+    border-radius: 10px;
     letter-spacing: 0.1rem;
     transition: 0.5s;
     z-index: 1;
 
-    font-size: 12px;
+    font-size: 100%;
 }
 
 .router-link-active {
@@ -157,7 +154,7 @@ export default {
 
 @media screen and (max-width:1000px) {
     .header {
-        width: 99%;
+        width: 100%;
         min-width: 1pc;
         margin-top: 0px;
 
@@ -222,7 +219,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+
 
 }
 

@@ -31,16 +31,9 @@ onMounted(async () => {
 	flex-direction: column;
 	align-items: center;
 
-	margin-top: 50px;
 	overflow-x: hidden;
 	height: auto;
-	padding: 15px;
-}
-
-@media screen and (max-width:800px) {
-	.componentes {
-		margin-top: 20px;
-	}
+	padding-top: 40px;
 }
 </style>
 

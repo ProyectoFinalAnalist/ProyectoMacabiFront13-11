@@ -103,14 +103,18 @@
                     v-model="this.observaciones">
                 <label for="ObservInput">Observaciones</label>
             </div>
-
-            <div class="container_buttons">
-                <button type="submit" class="btn btn-secondary" @click="">Cancelar</button>
+            
+            <div class="d-flex justify-content-center align-items-center">
                 <button type="submit" class="btn btn-macabi1" @click="validarCampos">Registar Socio</button>
             </div>
 
         </div>
     </div>
+    <br>
+    <div class="d-flex justify-content-center align-items-center">
+        <button type="submit" class="btn btn-dark" @click="volver">Cancelar</button>
+    </div>
+    <br>
 </template>
 
 <script>
@@ -226,7 +230,7 @@ export default {
 
                 this.$router.push(`/socios/${response.data.result.idSocio}`);
 
-                
+
             } catch (error) {
 
                 console.log(error);
@@ -260,6 +264,10 @@ export default {
 
             });
 
+        },
+
+        volver() {
+            this.$router.go(-1)
         }
 
     }
@@ -280,21 +288,6 @@ export default {
 .doble_input {
     display: flex;
     justify-content: space-between;
-}
-
-.btn-macabi1 {
-    color: white;
-    background-color: #004896;
-    border: 1px solid #013a77;
-}
-
-.btn-macabi1:hover {
-    color: white;
-    background-color: #013368;
-}
-
-.btn-macabi1:active {
-    background-color: #002b58;
 }
 
 @media screen and (max-width:630px) {

@@ -1,11 +1,11 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-6 offset-md-3" v-if="socio">
+                <h3 class="text-center">Detalles del Socio: <strong>{{ socio.apellido }}, {{ socio.nombre }}</strong></h3>
+                <div class="text-end mb-1"><code>*campos obligatorios</code></div>
                 <div class="card bg-light text-dark mb-4">
                     <div v-if="socio" class="card-body">
-                        <h4>Detalles del Socio: <strong>{{ nombre }}</strong></h4>
-                        <div class="text-end"><code>*campos obligatorios</code></div>
                         <div>
                             <p class="p pe-2 ps-2">
                                 <strong>Numero de Socio: <code>*</code></strong><input disabled type="text"
@@ -46,9 +46,11 @@
                                     v-model="socio.observaciones"></textarea>
                             </p>
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-primary" @click="updateSocio">Actualizar Socio</button>
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" @click="updateSocio">Actualizar Socio</button>
 
-                                <button class="btn btn-danger" @click="deleteSocio">Borrar Socio</button>
+                                    <button class="btn btn-danger" @click="deleteSocio">Borrar Socio</button>
+                                </div>
                             </div>
                             <hr>
                             <p class="p pe-2 ps-2">
@@ -76,10 +78,12 @@
                                             class="form-control" v-model="contacto.telefono" />
                                     </p>
                                     <div class="d-flex justify-content-center">
-                                        <button class="btn btn-primary" @click="updateContacto(contacto)">Actualizar
-                                            Contacto</button>
-                                        <button class="btn btn-danger" @click="deleteContacto(contacto)">Borrar
-                                            Contacto</button>
+                                        <div class="btn-group">
+                                            <button class="btn btn-primary" @click="updateContacto(contacto)">Actualizar
+                                                Contacto</button>
+                                            <button class="btn btn-danger" @click="deleteContacto(contacto)">Borrar
+                                                Contacto</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -101,15 +105,17 @@
         </h5>
     </div>
     <div class="d-flex justify-content-center">
-        <button class="btn btn-secondary"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
+        <button class="btn btn-dark"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
                 Socios</router-link></button>
     </div>
+    <br>
     <!--MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / -->
     <div v-if="socio" class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Crear Contacto para <br><strong>{{ socio.nombre }}, {{
+                    <h5 class="modal-title" id="exampleModalLabel">Crear Contacto para:</h5>
+                    <h5 class="modal-title ps-2"><strong> {{ socio.nombre }}, {{
                         socio.apellido
                     }}</strong></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
