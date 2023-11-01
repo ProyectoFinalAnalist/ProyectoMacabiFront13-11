@@ -63,6 +63,10 @@ import CrearUsuario from "./components/views/Usuarios/CrearUsuario.vue";
 import DetalleUsuario from "./components/views/Usuarios/DetalleUsuario.vue";
 import ModificarUsuario from "./components/views/Usuarios/ModificarUsuario.vue";
 
+// CONTACTOS DE EMERGENCIA
+import ContactoEmergenciaAdmin from "./components/views/ContactoEmergencia/ContactoEmergenciaAdmin.vue"
+import ContactoEmergenciaList from "./components/views/ContactoEmergencia/ContactoEmergenciaList.vue"
+
 // ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES - ROUTES
 const routes = [
   // APP 
@@ -75,7 +79,7 @@ const routes = [
   // ASISTENCIAS
   { path: "/historialAsistencia/:id", component: HistorialAsistencias },
   { path: "/sociosPorFecha", component: SociosXFecha },
-  { path: "/tomarAsistencia", component: TomarAsistencia },
+  { path: "/tomarAsistencia/:id", component: TomarAsistencia },
 
   // CATEGORIAS
   { path: "/asignarProfesor", component: AsignarProfesor },
@@ -113,7 +117,11 @@ const routes = [
   { path: "/usuariosInactivos", component: UsuariosInactivos },
   { path: "/crearusuario", component: CrearUsuario },
   { path: "/usuarios/:id", component: DetalleUsuario },
-  { path: "/modificarusuario/:id", component: ModificarUsuario }
+  { path: "/modificarusuario/:id", component: ModificarUsuario },
+
+  // CONTACTOS DE EMERGENCIA
+  { path: "/contactosEmergencia", component: ContactoEmergenciaList },
+  { path: "/contactosEmergencia/admin", component: ContactoEmergenciaAdmin },
 ];
 
 const router = createRouter({

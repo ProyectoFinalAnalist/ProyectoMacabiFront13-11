@@ -5,6 +5,8 @@
     <router-link to="/">Volver al la lista de deportes</router-link>
     <td><router-link :to="`/modificarCategoria/${this.idCategoria}`"><strong>Editar categoria</strong></router-link></td>
     <td><router-link :to="`/fechasCategoria/${this.idCategoria}`"><strong>Fechas</strong></router-link></td>
+    <td><router-link :to="`/agregarSocio/${this.idCategoria}`"><strong>Añadir socio a la categoria</strong></router-link></td>
+
 
 
 
