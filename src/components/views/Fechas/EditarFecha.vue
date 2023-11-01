@@ -49,7 +49,9 @@
               <td>{{ socio.apellidoSocio }}</td>
               <td>{{ mapearEstado(socio.estado) }}</td>
               <td>
-                <button class="btn btn-danger" @click="eliminarSocio(socio)">x</button>
+                <button class="btn btn-danger" @click="eliminarSocio(socio)">
+                  x
+                </button>
               </td>
             </tr>
           </tbody>
@@ -65,11 +67,9 @@
           >Volver a Inicio</router-link
         >
       </button>
-      <router-link
-        class="btn btn-primary m-3"
-        :to="`/editarfecha/${fechaDetalle.idFecha}`"
-        >Editar Fecha</router-link
-      >
+      <button class="btn btn-primary m-3" @click="editFecha()">
+        Editar Fecha
+      </button>
     </div>
   </div>
 </template>
@@ -92,7 +92,7 @@ export default {
     const size = ref(0);
     const deporte = ref("");
     const profesor = ref("");
-    const listaSociosBorrar= []
+    const listaSociosBorrar = [];
     onBeforeMount(async () => {
       await fetchs();
     });
@@ -182,19 +182,39 @@ export default {
     }
 
     function eliminarSocio(socio) {
-      listaSociosBorrar.push(socio.idSocio)
-      sociosAsistenciaFecha.value = sociosAsistenciaFecha.value.filter(e=>e!=socio)
+      listaSociosBorrar.push(socio.idSocio);
+      sociosAsistenciaFecha.value = sociosAsistenciaFecha.value.filter(
+        (e) => e != socio
+      );
     }
 
-    async function editarFecha() {
-      await eliminarSociosDeFechaRequest();                                                                                                                                                                                                                   
-    }
-
-    async function eliminarSociosDeFechaRequest(){
-      for (const idSocio of listaSociosBorrar) {
-        await asistenciaStore.deleteElement(`${apiUrl}/asistencia/${idFecha}/${idSocio}`)
+    async function editFechaCalendario(){
+      try {
+        await fechaStore.patchElement(`${apiUrl}/fecha/${idFecha}`,{fechaCalendario: fechaDetalle.value.fechaCalendario,idCategoria:fechaDetalle.value.idCategoria })
+        
+      } catch (error) {
+        console.log("🚀 ~ file: EditarFecha.vue:196 ~ editFechaCalendario ~ error:", error.message.substring(error.message.length - 3))
+        if(error.message.substring(error.message.length - 3)== 400) throw "La fecha calendario ya existe"
       }
-      
+    }
+
+    async function editFecha() {
+      try {
+      await eliminarSociosDeFechaRequest();
+      await editFechaCalendario();
+      router.push(`/fechas/${idFecha}`); 
+      } catch (error) {
+        alert("Error detectado en el ingreso de campos: " + error)
+      }
+
+    }
+
+    async function eliminarSociosDeFechaRequest() {
+      for (const idSocio of listaSociosBorrar) {
+        await asistenciaStore.deleteElementCustom(
+          `${apiUrl}/asistencia/${idFecha}/${idSocio}`
+        );
+      }
     }
 
     return {
@@ -206,7 +226,7 @@ export default {
       obtenerDeporte,
       deporte,
       profesor,
-      editarFecha,
+      editFecha,
       eliminarSocio,
     };
   },
