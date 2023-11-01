@@ -99,7 +99,7 @@ const routes = [
 
   // FECHAS
   { path: "/fechas", component: FechasList, },
-  { path: "/editarFecha/:idFecha", component: EditarFecha, },
+  { path: "/editarFecha/:id", component: EditarFecha, },
   { path: "/crearfecha/:idCategoria", component: CrearFecha },
   { path: "/fechas/:id", component: DetalleFecha },
   { path: "/nuevaCitacion/:idCategoria", component: NuevaFechaCitacion },
