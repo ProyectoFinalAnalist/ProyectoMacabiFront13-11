@@ -84,12 +84,30 @@ export function useElementStore(nombreStore) {
 				}
 			},
 
-			async deleteElement(url, id) {
+			async patchElement(url, updatedElement) {
+				try {
+				 await axios.patch(url ,updatedElement,  { withCredentials: true }) 
+				} catch (error) {
+				  console.log("🚀 ~ file: Store.ts:92 ~ patchElement ~ error:", error)
+				  throw new Error(`Error updating Element: `+ error)
+				}
+			  },
+
+			  async deleteElement(url, id) {
 				try {
 					await axios.delete(`${url}/${id}` , { withCredentials: true })
 					//this.elements = this.elements.filter((e) => e.id !== id)
 				} catch (error) {
 					console.error(`Error deleting Element with id ${id}:`, error)
+				}
+			},
+
+			async deleteElementCustom(url) {
+				try {
+					await axios.delete(url , { withCredentials: true })
+					//this.elements = this.elements.filter((e) => e.id !== id)
+				} catch (error) {
+					console.error(`Error deleting Element`, error)
 				}
 			},
 
