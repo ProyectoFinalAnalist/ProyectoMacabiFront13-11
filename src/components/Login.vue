@@ -33,7 +33,7 @@
 			</div>
 
 			<div class="container_buttons">
-				<button type="" class="btn btn-secondary" @click="">recuperar Clave</button>
+				<button type="" class="btn btn-secondary" @click="">Recuperar Clave</button>
 				<button type="" class="btn btn-macabi1" @click="ingresar">Iniciar Sesión</button>
 			</div>
 

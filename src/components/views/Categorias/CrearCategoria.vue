@@ -18,9 +18,9 @@
         <select class="form-select" :class="this.deporteSeleccionadoError" id="deporte-select" v-model="deporteSeleccionado" style="font-weight: 540;"
           aria-label="Floating label select example">
 
-          <option class="opcion-default" value="default" :selected="isSelected(0)">Seleccione Un Deporte</option>
+          <option class="opcion-default" value="default" disabled :selected="isSelected(0)">Seleccione Un Deporte</option>
 
-          <option v-for="deporte in deportes" :key="deporte.idDeporte" :selected="isSelected(deporte)" :value="deporte.idDeporte">{{ deporte.nombre }}
+          <option v-for="deporte in deportes" :key="deporte.idDeporte" :disabled="isDisabled()" :selected="isSelected(deporte)" :value="deporte.idDeporte">{{ deporte.nombre }}
           </option>
 
         </select>
@@ -31,7 +31,7 @@
         <select class="form-select" :class="this.profesorSeleccionadoError" id="profesor-select" aria-label="Floating label select example"
           v-model="profesorSeleccionado" style="font-weight: 540;">
 
-          <option class="opcion-default" value="default" selected>Seleccione Un Profesor</option>
+          <option class="opcion-default" value="default" disabled selected>Seleccione Un Profesor</option>
 
           <option v-for="profesor in profesores" :key="profesor.idUsuario" :value="profesor.idUsuario">{{
             profesor.nombre + " " + profesor.apellido }}</option>
@@ -111,6 +111,10 @@ export default {
         this.select = true
       }
       this.select
+    },
+
+    isDisabled(){
+      return this.idDeporte != null
     },
 
     validarCampos() {

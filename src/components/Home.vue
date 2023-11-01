@@ -5,17 +5,17 @@
 
             <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;">
                 <button type="button" class="btn btn-primary" style="width: 100%;">
-                    <router-link to="/usuarios" class="fs-4 text text-white nav nav-link">Ir a Usuarios</router-link>
+                    <router-link to="/usuarios" class="fs-4 text text-white nav nav-link">Usuarios</router-link>
                 </button>
             </div>
             <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;">
                 <button type="button" class="btn btn-primary" style="width: 100%;">
-                    <router-link to="/socios" class="fs-4 text text-white nav nav-link">Ir a Socios</router-link>
+                    <router-link to="/socios" class="fs-4 text text-white nav nav-link">Socios</router-link>
                 </button>
             </div>
             <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;">
                 <button type="button" class="btn btn-primary" style="width: 100%;">
-                    <router-link to="/deportes" class="fs-4 text text-white nav nav-link">Ir a Deportes</router-link>
+                    <router-link to="/deportes" class="fs-4 text text-white nav nav-link">Deportes</router-link>
                 </button>
             </div>
         </div>
@@ -25,8 +25,9 @@
             <div v-if="deportesDeUsuario.getElements.deportes.length > 0"
                 v-for="sport in deportesDeUsuario.getElements.deportes">
                 <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;"> <button type="button"
-                        class="btn btn-primary" style="width: 100%;"> <router-link :to="'/detalleDeporte/' + sport.idDeporte"
-                            class="fs-4 text text-white nav nav-link"> Ir a {{ sport.nombre }}</router-link>
+                        class="btn btn-primary" style="width: 100%;"> <router-link
+                            :to="'/detalleDeporte/' + sport.idDeporte" class="fs-4 text text-white nav nav-link">{{
+                                sport.nombre }}</router-link>
                     </button> </div>
             </div>
             <div v-else>
@@ -40,8 +41,8 @@
                 v-for="category in categoriasDeUsuario.getElements.categorias">
                 <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;"> <button type="button"
                         class="btn btn-primary" style="width: 100%;"> <router-link
-                            :to="'/detalleCategoria/' + category.idCategoria" class="fs-4 text text-white nav nav-link"> Ir a {{
-                                category.nombreCategoria }}</router-link>
+                            :to="'/detalleCategoria/' + category.idCategoria" class="fs-4 text text-white nav nav-link">{{
+                                category.nombreCategoria }} - {{ category.Deporte.nombre }}</router-link>
                     </button> </div>
             </div>
             <div v-else>
@@ -50,10 +51,11 @@
         </div>
     </div>
     <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;">
-                <button type="button" class="btn btn-danger" style="width: 100%;">
-                    <router-link to="/contactosEmergencia" class="fs-4 text text-white nav nav-link">CONTACTOS DE EMERGENCIA</router-link>
-                </button>
-            </div>
+        <button type="button" class="btn btn-danger" style="width: 100%;">
+            <router-link to="/contactosEmergencia" class="fs-4 text text-white nav nav-link">CONTACTOS DE
+                EMERGENCIA</router-link>
+        </button>
+    </div>
 </template>
 
 <script>
@@ -93,7 +95,7 @@ export default {
 
         obtenerCategorias() {
             this.categoriasDeUsuario.fetchElements(`${apiUrl}/usuario/${this.usuarioStore.getId}/categorias`)
-        }
+        },
     },
 }
 

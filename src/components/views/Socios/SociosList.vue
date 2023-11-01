@@ -8,8 +8,10 @@
                     <div class="col col-sm">
                         <select id="filtro" class="form-select">
                             <option disabled>Filtrar por:</option>
+                            <option value="nroSocio">Número de Socio</option>
                             <option value="nombre">Nombre</option>
                             <option value="apellido">Apellido</option>
+                            <option value="dni">Dni</option>
                             <option value="email">Mail</option>
                         </select>
                     </div>
@@ -74,7 +76,7 @@
 </template>
 <script>
 import { useElementStore } from '../../../utils/Store';
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, ref, computed } from "vue";
 import apiUrl from '../../../../config/config.js'
 
 export default {
@@ -91,34 +93,30 @@ export default {
 
         async function fetchs() {
             await sociosStore.fetchElements(`${apiUrl}/socio/getSocios`)
-                .then(() => {
-                    if (sociosStore.getElements != null) {
-                        socios.value = sociosStore.getElements.result
-                        size.value = socios.value.length
-                    }
-                })
         }
 
         function buscar() {
-            reiniciar()
-            busqueda = this.busqueda
+            reiniciar();
+            busqueda = this.busqueda;
 
-            if (busqueda !== "" && size.value != 0) {
-
-                filtro = document.getElementById("filtro").value
-
-                socios.value = socios.value.filter(item => {
-                    const propiedad = item[filtro]
+            if (busqueda !== "") {
+                filtro = document.getElementById("filtro").value;
+                socios.value = sociosStore.getElements.result.filter(item => {
+                    const propiedad = item[filtro];
                     const propiedadLowerCase = String(propiedad).toLowerCase();
                     const busquedaLowerCase = String(busqueda).toLowerCase();
                     return propiedadLowerCase.includes(busquedaLowerCase);
-                })
+                });
+
+                size.value = socios.value.length || 0;
+            } else {
+                size.value = 0;
             }
         }
 
 
         function reiniciar() {
-            socios.value = sociosStore.getElements.result
+            socios.value = null
         }
 
         function ordenar(columna) {
@@ -143,6 +141,6 @@ export default {
             buscar
         }
     }
-    
+
 }
 </script>
