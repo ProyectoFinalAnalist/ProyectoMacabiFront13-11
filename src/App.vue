@@ -33,7 +33,8 @@ onMounted(async () => {
 
 	overflow-x: hidden;
 	height: auto;
-	padding-top: 40px;
+	padding-top: 50px;
+	margin-bottom: 130px;
 }
 </style>
 

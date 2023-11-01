@@ -50,9 +50,9 @@
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center pb-5" style="width: 50%; margin: 0 auto;">
-        <button type="button" class="btn btn-danger" style="width: 100%;">
-            <router-link to="/contactosEmergencia" class="fs-4 text text-white nav nav-link"><strong>CONTACTOS DE
+    <div class="d-flex justify-content-center mb-5 text-center" style="width: 50%; margin: 0 auto;">
+        <button type="button btn-lg" class="btn btn-danger" style="width: 100%;">
+            <router-link to="/contactosEmergencia" class="text-white nav nav-link"><strong>CONTACTOS DE
                 EMERGENCIA</strong></router-link>
         </button>
     </div>

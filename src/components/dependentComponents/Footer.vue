@@ -5,8 +5,11 @@
                 <h2>MACABI DEPORTES</h2>
             </div>
             <hr>
-            <div class="text text-end">
-                <h6>{{ year }} - Macabi Buenos Aires</h6>
+            <div class="d-flex justify-content-between flex-column flex-sm-row align-items-center">
+                <img src="../icons/logo-footer-.png" alt="Logo">
+                <div class="text text-end pt-5">
+                    <h6>{{ year }} - Macabi Buenos Aires</h6>
+                </div>
             </div>
         </div>
     </footer>
@@ -14,7 +17,7 @@
   
 <style scoped>
 #footer {
-    height: 140px;
+    height: auto;
     left: 0;
     bottom: 0;
     position: absolute;

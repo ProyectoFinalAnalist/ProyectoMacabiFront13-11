@@ -76,7 +76,7 @@
             </h5>
         </div>
     </div>
-    <div class="d-flex justify-content-center align-items-center mb-3">
+    <div class="d-flex justify-content-center align-items-center mb-4">
             <div class="btn-group">
                 <button @click="editarSocio" class="btn btn-macabi1">Modificar socio</button>
         <button class="btn btn-dark"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a

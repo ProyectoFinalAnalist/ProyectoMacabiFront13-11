@@ -1,10 +1,9 @@
 <template>
     <header class="header">
 
+        <div class="logo"> <img src="../icons/logo-nav.png" alt="Logo"> </div>
+
         <div class="nav-links"> <router-link to="/">HOME</router-link> </div>
-
-        <div class="logo"> <img src="" alt="Logo"> </div>
-
 
         <div v-if="!usrStore.isLogged" class="nav-links"> <router-link to="/login"> INICIAR SESION </router-link> </div>
         <div v-else class="nav-links"> <router-link to="/miUsuario"> {{ usrStore.currentUser.nombre }} </router-link>
@@ -111,12 +110,11 @@ export default {
 .logo {
     margin: auto 0;
     text-align: center;
-    border-radius: 50%;
 }
 
 .logo img {
     height: auto;
-    width: 35px;
+    width: 40px;
 }
 
 .btn-menu {
@@ -172,9 +170,8 @@ export default {
     }
 
     .logo img {
-        display: block;
-        width: 50px;
         height: auto;
+        width: 40px;
     }
 
     .nav-links {
