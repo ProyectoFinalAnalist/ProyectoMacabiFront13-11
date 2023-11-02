@@ -8,17 +8,12 @@
                     <div v-if="socio" class="card-body">
                         <div>
                             <p>
-                                <strong class="h5 fw-bold">Datos: </strong>
-                            <div class="card mt-2">
-                                <div class="card-body">
-                                    <p class="mb-2"><strong>Número de Socio:</strong> {{ socio.nroSocio }}</p>
-                                    <p class="mb-2"><strong>DNI:</strong> {{ socio.dni }}</p>
-                                    <p class="mb-2"><strong>Email:</strong> {{ socio.email }}</p>
-                                    <p class="mb-2"><strong>Teléfono:</strong> {{ socio.telefono }}</p>
-                                    <p class="mb-2"><strong>Dirección:</strong> {{ socio.direccion }}</p>
-                                    <p class="mb-2"><strong>Fecha de Nacimiento:</strong> {{ socio.fechaNacimiento }}</p>
-                                </div>
-                            </div>
+                            <p class="mb-2"><strong>Número de Socio:</strong> {{ socio.nroSocio }}</p>
+                            <p class="mb-2"><strong>DNI:</strong> {{ socio.dni }}</p>
+                            <p class="mb-2"><strong>Email:</strong> {{ socio.email }}</p>
+                            <p class="mb-2"><strong>Teléfono:</strong> {{ socio.telefono }}</p>
+                            <p class="mb-2"><strong>Dirección:</strong> {{ socio.direccion }}</p>
+                            <p class="mb-2"><strong>Fecha de Nacimiento:</strong> {{ socio.fechaNacimiento }}</p>
                             </p>
                             <hr>
                             <p>
@@ -29,17 +24,18 @@
                             <hr>
                             <p class="p pe-3">
                                 <strong class="h5 fw-bold">Datos de contacto: </strong>
-                                <br>
+                            </p>
                             <div v-if="infoContactos == null" class="p pe-2 ps-4">
                                 <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3">
                                     <strong>{{ socio.nombre }} no posee datos de contacto</strong>
                                 </h6>
                             </div>
-                            <div v-else class="card m-3" style="background-color: rgb(236, 236, 236);"
+                            <div v-else class="card" style="background-color: rgb(236, 236, 236);"
                                 v-for="contacto in infoContactos">
                                 <div class="card-body">
                                     <h5>Contacto: <br></h5>
-                                    <h5 class="text-center"><strong>{{ contacto.nombre }} {{ contacto.apellido }}</strong></h5>
+                                    <h5 class="text-center"><strong>{{ contacto.nombre }} {{ contacto.apellido }}</strong>
+                                    </h5>
                                     <p class="p pe-3 mb-2 mt-4">
                                         <strong>Email: </strong>{{ contacto.email }}
                                     </p>
@@ -48,7 +44,7 @@
                                     </p>
                                 </div>
                             </div>
-                            </p>
+
                             <hr>
                             <p>
                                 <strong class="h5 fw-bold">Categorias asociadas: </strong>
@@ -77,12 +73,12 @@
         </div>
     </div>
     <div class="d-flex justify-content-center align-items-center mb-4">
-            <div class="btn-group">
-                <button @click="editarSocio" class="btn btn-macabi1">Modificar socio</button>
-        <button class="btn btn-dark"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
-                Socios</router-link></button>
-            </div>
+        <div class="btn-group">
+            <button @click="editarSocio" class="btn btn-macabi1">Modificar socio</button>
+            <button class="btn btn-dark"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
+                    Socios</router-link></button>
         </div>
+    </div>
 </template>
 <style scoped>
 @import '../../../assets/btn.css';

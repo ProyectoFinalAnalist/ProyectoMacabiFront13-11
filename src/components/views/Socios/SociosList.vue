@@ -4,8 +4,8 @@
             <div class="text text-center h1">SOCIOS</div>
             <br>
             <form @submit.prevent="buscar()">
-                <div class="row d-flex justify-content-start">
-                    <div class="col col-sm">
+                <div class="row g-2">
+                    <div class="col-12 col-md-auto">
                         <select id="filtro" class="form-select">
                             <option disabled>Filtrar por:</option>
                             <option value="nroSocio">Número de Socio</option>
@@ -15,13 +15,13 @@
                             <option value="email">Mail</option>
                         </select>
                     </div>
-                    <div class="col col-sm m-0 p-0 me-4">
+                    <div class="col-12 col-md-auto">
                         <input type="text" class="form-control" placeholder="Buscar..." v-model="busqueda">
                     </div>
-                    <div class="col col-sm m-0 p-0 me-4">
+                    <div class="col-12 col-md-auto">
                         <button class="btn btn-danger" type="button" v-on:click="reiniciar">Reiniciar</button>
                     </div>
-                    <div class="col col-sm d-none d-sm-table-cell">
+                    <div class="col text-md-end">
                         <div class="d-flex justify-content-end mt-3 mb-0">
                             <p>Socios en total: <strong>{{ size }}</strong></p>
                         </div>
@@ -126,14 +126,14 @@ export default {
         function ordenar(columna) {
             orden.value = !orden.value
 
-            if(socios.value != null) {
+            if (socios.value != null) {
                 socios.value.sort((a, b) => {
-                const factorOrden = orden.value ? -1 : 1;
-                if (a[columna] < b[columna]) return -1 * factorOrden;
-                if (a[columna] > b[columna]) return 1 * factorOrden;
-                return 0;
-            });
-            } 
+                    const factorOrden = orden.value ? -1 : 1;
+                    if (a[columna] < b[columna]) return -1 * factorOrden;
+                    if (a[columna] > b[columna]) return 1 * factorOrden;
+                    return 0;
+                });
+            }
         }
 
         function irA(id) {

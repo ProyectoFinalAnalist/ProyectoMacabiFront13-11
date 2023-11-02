@@ -282,7 +282,7 @@ export default {
 
         function irA(id) {
             if (id != 0) {
-                router.push(`/categorias/${id}`);
+                router.push(`/detalleCategoria/${id}`);
             }
         }
 
