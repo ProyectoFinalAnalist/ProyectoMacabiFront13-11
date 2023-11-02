@@ -56,6 +56,7 @@ export default {
 
       const date = new Date()
       date.setDate(date.getDate());
+      date.setFullYear(date.getFullYear() - 1)
 
       this.fechaMin = date.toISOString().slice(0, 10);
 
