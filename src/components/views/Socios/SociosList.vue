@@ -126,12 +126,14 @@ export default {
         function ordenar(columna) {
             orden.value = !orden.value
 
-            socios.value.sort((a, b) => {
+            if(socios.value != null) {
+                socios.value.sort((a, b) => {
                 const factorOrden = orden.value ? -1 : 1;
                 if (a[columna] < b[columna]) return -1 * factorOrden;
                 if (a[columna] > b[columna]) return 1 * factorOrden;
                 return 0;
             });
+            } 
         }
 
         function irA(id) {
