@@ -13,6 +13,9 @@
                         <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.nombre">
                             <strong>El nombre no puede contener números o estar vacío</strong>
                         </h6>
+                        <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.nombreSize">
+                            <strong>El nombre debe tener un minimo de 2 caracteres y un maximo de 24</strong>
+                        </h6>
                         <p class="p pe-2 ps-2">
                             <strong>Apellido: <code>*</code></strong><input class="form-control" type="text"
                                 v-model="usuario.apellido" placeholder="Ingrese el apellido del usuario" />
@@ -20,10 +23,12 @@
                         <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.apellido">
                             <strong>El apellido no puede contener números o estar vacío</strong>
                         </h6>
+                        <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.apellidoSize">
+                            <strong>El apellido debe tener un minimo de 2 caracteres y un maximo de 24</strong>
+                        </h6>
                         <p class="p pe-2 ps-2"><strong>Mail: <code>*</code></strong><input class="form-control" type="email"
                                 v-model="usuario.email" placeholder="correo@ejemplo.com" /></p>
-                        <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3"
-                            v-if="showErrores.emailExistente">
+                        <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.emailExistente">
                             <strong>Error, este MAIL ya se encuentra registrado</strong>
                         </h6>
                         <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-else-if="showErrores.email">
@@ -31,8 +36,7 @@
                         </h6>
                         <p class="p pe-2 ps-2"><strong>Dni: <code>*</code></strong><input class="form-control" type="number"
                                 v-model="usuario.dni" placeholder="12345678" /></p>
-                        <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3"
-                            v-if="showErrores.dniExistente">
+                        <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.dniExistente">
                             <strong>Error, este DNI ya se encuentra registrado</strong>
                         </h6>
                         <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-else-if="showErrores.dni">
@@ -79,13 +83,22 @@
                             <strong>Direccion: <code>*</code></strong><input class="form-control" type="text"
                                 v-model="usuario.direccion" placeholder="Ingrese el direccion" />
                         </p>
-
-                        <div class="d-flex justify-content-center">
-                            <button class="btn btn-macabi1 m-1" @click="updateUsuario">
-                                Actualizar usuario
-                            </button>
-                        </div>
-
+                        <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.direccion">
+                            <strong>La dirección debe tener un minimo de 5 caracteres y un maximo de 50</strong>
+                        </h6>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center align-items-center mb-3">
+                    <div class="btn-group">
+                        <button class="btn btn-macabi1" @click="updateUsuario">
+                            Actualizar Usuario
+                        </button>
+                        <button class="btn btn-success" @click="updatePass">
+                            Cambiar contraseña
+                        </button>
+                        <button class="btn btn-danger" @click="deleteUsuario">
+                            Eliminar Usuario
+                        </button>
                     </div>
                 </div>
             </div>
@@ -131,14 +144,10 @@ export default {
         const utils = new Utils()
         const utilsUsuario = new UtilsUsuario()
         const showErrores = ref({})
-        const nombre = ref(null)
+        const nombre = computed(() => `${usuario.value.apellido}, ${usuario.value.nombre}`);
 
         onMounted(() => {
-            elementStore.fetchElements().then(() => {
-                if (usuario.value != null) {
-                    nombre.value = `${usuario.value.apellido}, ${usuario.value.nombre}`
-                }
-            })
+            elementStore.fetchElements()
         })
 
         const updateUsuario = async () => {
@@ -152,8 +161,18 @@ export default {
             }
         };
 
+        function deleteUsuario() {
+            alert("not implemented")
+        }
+
+
         function volver() {
             router.go(-1)
+        }
+
+
+        function updatePass() {
+            alert("not implemented")
         }
 
         return {
@@ -161,7 +180,9 @@ export default {
             usuario,
             showErrores,
             nombre,
-            volver
+            volver,
+            deleteUsuario,
+            updatePass
         };
     }
 };
