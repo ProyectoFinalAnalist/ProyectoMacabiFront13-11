@@ -12,13 +12,23 @@
         }}</button>
         <button v-if="socioBuscado" class="btn botonHabilitado" @click.prevent="buscarSocio('S')">{{ tituloBotonNroSocio
         }}</button>
+
+      <button v-if="socioBuscado" class="btn botonHabilitado" @click.prevent="buscarPorApellido()">{{ tituloBotonPorApellido
+        }}</button>
+
         <!-- El .prevent() hace q el form no recargue cuando se se toque el boton </div> -->
       </div>
       <div v-else>
         <button class="btn " disabled>{{ tituloBotonDni }}</button>
         <button class="btn " disabled>{{ tituloBotonNroSocio }}</button>
+        <button class="btn " disabled>{{ tituloBotonPorApellido
+        }}</button>
       </div>
     </form>
+
+
+
+
     
     <div >
       <div class="d-flex justify-content-between align-items-center">
@@ -63,6 +73,8 @@
 
   </div>
 
+
+
 </template>
 
 
@@ -76,12 +88,14 @@ export default {
     mensaje:"No se buscaron socios para agregar",
     titulo: "Agregar socios a la categoria: ",
     tituloBotonDni: "Busqueda por dni",
+    tituloBotonPorApellido:"Buscar por apellido",
     tituloBotonNroSocio: "Busqueda por nroSocio",
     idCat: 0,
     tipoBusqueda: 'D',
     sociosList: [],
     socioBuscado: "",
-    nombreCategoria: ""
+    nombreCategoria: "",
+    sociosBuscadosPorApellido: [],
   }),
   async created() {
     this.idCat = this.$route.params.idCategoria
@@ -90,6 +104,44 @@ export default {
 
   },
   methods: {
+   async buscarPorApellido(){
+      try {
+        console.log("Socio buscado:" + this.socioBuscado);
+       let sociosApellido = await axios.get(`${apiUrl}/socio/getSociosPorApellido/${this.socioBuscado}`, { withCredentials: true });
+       this.sociosBuscadosPorApellido = sociosApellido.data.result
+       let sociosExistentes = false;
+       let sociosInexistentes = false;
+       this.sociosBuscadosPorApellido.forEach(socio => {
+        if (!this.yaExisteSocioEnLista(socio.nroSocio)) {
+          this.sociosList.push(socio)
+          sociosInexistentes = true;
+        } else {
+          sociosExistentes = true
+        }
+        
+       });
+
+       if(sociosExistentes && sociosInexistentes) {
+          alert("Solo se agregaron socios con el apellido similar que no se encuentran en la lista previa")
+        }else {
+          if(sociosExistentes && !sociosInexistentes) {
+            alert("Todos los socios con apellidos similares, ya se encuentran en la lista")
+          }
+        }
+       
+
+       
+    //   this.sociosBuscadosPorApellido.forEach(socio => {
+  //console.log(`Nombre: ${socio.nombre}, Apellido: ${socio.apellido}`);
+
+       
+        
+
+      }catch(e){
+        alert(e.response.data.message)
+      }
+      
+    },
     async buscarSocio(opcion) {
       this.tipoBusqueda = opcion;
       try {
@@ -130,6 +182,35 @@ export default {
       this.sociosList.splice(index, 1)
     },
 
+     /*
+    eliminarDeListaSociosApellido(index) {
+      
+      this.sociosBuscadosPorApellido.splice(index, 1)
+    },
+
+ 
+    agregarAsociosPorAgregar(socio,index) {
+      this.sociosList.push(socio)
+      this.sociosBuscadosPorApellido.splice(index, 1)
+
+  },
+*/
+  validarSocioExisteEnListaPorAgregar(idSocioNueva){
+    existe = false
+    let pos = 0
+    while(!existe && pos < this.sociosList.length){
+
+      if(this.sociosList[0].idSocio == idSocioNueva) {
+        existe = true
+      }
+      pos++
+
+    }
+
+    return existe
+  },
+
+  
     async agregarSociosACategoria() {
       try {
         let parametro = { socios: [] }
@@ -141,10 +222,13 @@ export default {
         alert(response.data.message)
         if (response.data.idSociosYaExistentes.length > 0) {
           alert("Se intentaron agregar " + response.data.idSociosYaExistentes.length + " socios que ya estaban asignados");
+        
+          this.sociosList = []
 
         }
       } catch (e) {
         alert(e.response.data.message)
+        this.sociosList = []
 
       }
     },
@@ -161,6 +245,11 @@ export default {
 .botonHabilitado {
 
   background-color: #014187;
+  color: white
+}
+
+.btnBorrar {
+  background-color: #93979b;
   color: white
 }
 
