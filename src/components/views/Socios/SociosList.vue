@@ -74,6 +74,8 @@
 </template>
 <style>
 @import '../../../assets/btn.css';
+
+tbody {cursor: pointer;}
 </style>
 <script>
 import { useElementStore } from '../../../utils/Store';

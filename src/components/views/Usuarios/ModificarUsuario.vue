@@ -137,14 +137,14 @@ export default {
         const route = useRoute();
         const idUsuario = route.params.id.toString();
         const elementStore = useElementStore("usuario")();
-        elementStore.fetchElementById(idUsuario);
+        elementStore.fetchElementById(idUsuario).then(() => { nombre.value = `${usuario.value.apellido}, ${usuario.value.nombre}`})
 
         const usuario = computed(() => elementStore.currentElement);
         const router = useRouter();
         const utils = new Utils()
         const utilsUsuario = new UtilsUsuario()
         const showErrores = ref({})
-        const nombre = computed(() => `${usuario.value.apellido}, ${usuario.value.nombre}`);
+        const nombre = ref(null)
 
         onMounted(() => {
             elementStore.fetchElements()
