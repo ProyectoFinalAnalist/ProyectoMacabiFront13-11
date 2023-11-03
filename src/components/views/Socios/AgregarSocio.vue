@@ -1,29 +1,33 @@
 
 <template>
 
-  <div class="container mt-3">
+  <div class=".container-fluid ms-2 me-2 mb-5">
     <div style="width: 100%;" class="text text-center pb-3 pt-5 h1">Agregar socios a la categoria: {{ nombreCategoria }}
     </div>
 
-    <form class=" formulario form-group d-flex flex-column justify-content-center align-items-center">
+    <form >
+      <div class="row g-2">  
       <input class="form-control" v-model="socioBuscado" type="text" name="datosSocio" placeholder="Dni o nro socio..">
-      <div v-if="socioBuscado">
-        <button v-if="socioBuscado" class="btn botonHabilitado" @click.prevent="buscarSocio('D')">{{ tituloBotonDni
+      <label for="">Busqueda por: </label>
+      <div class="botones" v-if="socioBuscado">
+        <button  v-if="socioBuscado" class="btn botonHabilitado btn_busquedas" @click.prevent="buscarSocio('D')">{{ tituloBotonDni
         }}</button>
-        <button v-if="socioBuscado" class="btn botonHabilitado" @click.prevent="buscarSocio('S')">{{ tituloBotonNroSocio
+        <button v-if="socioBuscado" class="btn botonHabilitado btn_busquedas" @click.prevent="buscarSocio('S')">{{ tituloBotonNroSocio
         }}</button>
 
-      <button v-if="socioBuscado" class="btn botonHabilitado" @click.prevent="buscarPorApellido()">{{ tituloBotonPorApellido
+      <button v-if="socioBuscado" class="btn botonHabilitado btn_busquedas" @click.prevent="buscarPorApellido()">{{ tituloBotonPorApellido
         }}</button>
 
         <!-- El .prevent() hace q el form no recargue cuando se se toque el boton </div> -->
       </div>
-      <div v-else>
-        <button class="btn " disabled>{{ tituloBotonDni }}</button>
-        <button class="btn " disabled>{{ tituloBotonNroSocio }}</button>
-        <button class="btn " disabled>{{ tituloBotonPorApellido
+      <div class="botones" v-else>
+        <button class="btn btn_busquedas" disabled>{{ tituloBotonDni }}</button>
+        <button class="btn btn_busquedas" disabled>{{ tituloBotonNroSocio }}</button>
+        <button class="btn btn_busquedas" disabled>{{ tituloBotonPorApellido
         }}</button>
       </div>
+
+    </div>
     </form>
 
 
@@ -63,13 +67,15 @@
     <div v-if="sociosList.length == 0">
         <p class="no-fechas">{{mensaje}}</p>
       </div>
-   
-    <div class=" formulario form-group d-flex justify-content-center align-items-center">
+   <div class="d-flex justify-content-center align-items-center">
+    <div class="btn-group ">
       <button @click="agregarSociosACategoria" class="btn botonHabilitado mr-2"> Agregar socios </button>
-      <button class="btn btn-secondary ml-2">
+      <button class="btn btn-dark ml-2">
         <router-link to="/" class="nav-item nav-link" href="#">Volver a Inicio</router-link>
       </button>
     </div>
+   </div>
+    
 
   </div>
 
@@ -87,9 +93,9 @@ export default {
   data: () => ({
     mensaje:"No se buscaron socios para agregar",
     titulo: "Agregar socios a la categoria: ",
-    tituloBotonDni: "Busqueda por dni",
-    tituloBotonPorApellido:"Buscar por apellido",
-    tituloBotonNroSocio: "Busqueda por nroSocio",
+    tituloBotonDni: "Dni",
+    tituloBotonPorApellido:"Apellido",
+    tituloBotonNroSocio: "Número de Socio",
     idCat: 0,
     tipoBusqueda: 'D',
     sociosList: [],
@@ -264,6 +270,18 @@ export default {
   color:white;
 }
 
+.botones {
+    display: flex;
+    justify-content: center;
+  }
+
+.btn_busquedas {
+  
+  margin-left: 2px;
+  margin-right: 2px;
+
+}
+
 @media (max-width: 768px) {
   .container {
     max-width: 80%;
@@ -279,6 +297,7 @@ export default {
   .prueba {
     display: none;
   }
+  
 }
 </style>
 
