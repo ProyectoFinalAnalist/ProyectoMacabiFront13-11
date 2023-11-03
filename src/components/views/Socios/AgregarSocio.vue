@@ -1,24 +1,38 @@
 
 <template>
 
-  <div class="container mt-3">
+  <div class=".container-fluid ms-2 me-2 mb-5">
     <div style="width: 100%;" class="text text-center pb-3 pt-5 h1">Agregar socios a la categoria: {{ nombreCategoria }}
     </div>
 
-    <form class=" formulario form-group d-flex flex-column justify-content-center align-items-center">
+    <form >
+      <div class="row g-2">  
       <input class="form-control" v-model="socioBuscado" type="text" name="datosSocio" placeholder="Dni o nro socio..">
-      <div v-if="socioBuscado">
-        <button v-if="socioBuscado" class="btn botonHabilitado" @click.prevent="buscarSocio('D')">{{ tituloBotonDni
+      <label for="">Busqueda por: </label>
+      <div class="botones" v-if="socioBuscado">
+        <button  v-if="socioBuscado" class="btn botonHabilitado btn_busquedas" @click.prevent="buscarSocio('D')">{{ tituloBotonDni
         }}</button>
-        <button v-if="socioBuscado" class="btn botonHabilitado" @click.prevent="buscarSocio('S')">{{ tituloBotonNroSocio
+        <button v-if="socioBuscado" class="btn botonHabilitado btn_busquedas" @click.prevent="buscarSocio('S')">{{ tituloBotonNroSocio
         }}</button>
+
+      <button v-if="socioBuscado" class="btn botonHabilitado btn_busquedas" @click.prevent="buscarPorApellido()">{{ tituloBotonPorApellido
+        }}</button>
+
         <!-- El .prevent() hace q el form no recargue cuando se se toque el boton </div> -->
       </div>
-      <div v-else>
-        <button class="btn " disabled>{{ tituloBotonDni }}</button>
-        <button class="btn " disabled>{{ tituloBotonNroSocio }}</button>
+      <div class="botones" v-else>
+        <button class="btn btn_busquedas" disabled>{{ tituloBotonDni }}</button>
+        <button class="btn btn_busquedas" disabled>{{ tituloBotonNroSocio }}</button>
+        <button class="btn btn_busquedas" disabled>{{ tituloBotonPorApellido
+        }}</button>
       </div>
+
+    </div>
     </form>
+
+
+
+
     
     <div >
       <div class="d-flex justify-content-between align-items-center">
@@ -53,15 +67,19 @@
     <div v-if="sociosList.length == 0">
         <p class="no-fechas">{{mensaje}}</p>
       </div>
-   
-    <div class=" formulario form-group d-flex justify-content-center align-items-center">
+   <div class="d-flex justify-content-center align-items-center">
+    <div class="btn-group ">
       <button @click="agregarSociosACategoria" class="btn botonHabilitado mr-2"> Agregar socios </button>
-      <button class="btn btn-secondary ml-2">
+      <button class="btn btn-dark ml-2">
         <router-link to="/" class="nav-item nav-link" href="#">Volver a Inicio</router-link>
       </button>
     </div>
+   </div>
+    
 
   </div>
+
+
 
 </template>
 
@@ -75,13 +93,15 @@ export default {
   data: () => ({
     mensaje:"No se buscaron socios para agregar",
     titulo: "Agregar socios a la categoria: ",
-    tituloBotonDni: "Busqueda por dni",
-    tituloBotonNroSocio: "Busqueda por nroSocio",
+    tituloBotonDni: "Dni",
+    tituloBotonPorApellido:"Apellido",
+    tituloBotonNroSocio: "Número de Socio",
     idCat: 0,
     tipoBusqueda: 'D',
     sociosList: [],
     socioBuscado: "",
-    nombreCategoria: ""
+    nombreCategoria: "",
+    sociosBuscadosPorApellido: [],
   }),
   async created() {
     this.idCat = this.$route.params.idCategoria
@@ -90,6 +110,44 @@ export default {
 
   },
   methods: {
+   async buscarPorApellido(){
+      try {
+        console.log("Socio buscado:" + this.socioBuscado);
+       let sociosApellido = await axios.get(`${apiUrl}/socio/getSociosPorApellido/${this.socioBuscado}`, { withCredentials: true });
+       this.sociosBuscadosPorApellido = sociosApellido.data.result
+       let sociosExistentes = false;
+       let sociosInexistentes = false;
+       this.sociosBuscadosPorApellido.forEach(socio => {
+        if (!this.yaExisteSocioEnLista(socio.nroSocio)) {
+          this.sociosList.push(socio)
+          sociosInexistentes = true;
+        } else {
+          sociosExistentes = true
+        }
+        
+       });
+
+       if(sociosExistentes && sociosInexistentes) {
+          alert("Solo se agregaron socios con el apellido similar que no se encuentran en la lista previa")
+        }else {
+          if(sociosExistentes && !sociosInexistentes) {
+            alert("Todos los socios con apellidos similares, ya se encuentran en la lista")
+          }
+        }
+       
+
+       
+    //   this.sociosBuscadosPorApellido.forEach(socio => {
+  //console.log(`Nombre: ${socio.nombre}, Apellido: ${socio.apellido}`);
+
+       
+        
+
+      }catch(e){
+        alert(e.response.data.message)
+      }
+      
+    },
     async buscarSocio(opcion) {
       this.tipoBusqueda = opcion;
       try {
@@ -130,6 +188,35 @@ export default {
       this.sociosList.splice(index, 1)
     },
 
+     /*
+    eliminarDeListaSociosApellido(index) {
+      
+      this.sociosBuscadosPorApellido.splice(index, 1)
+    },
+
+ 
+    agregarAsociosPorAgregar(socio,index) {
+      this.sociosList.push(socio)
+      this.sociosBuscadosPorApellido.splice(index, 1)
+
+  },
+*/
+  validarSocioExisteEnListaPorAgregar(idSocioNueva){
+    existe = false
+    let pos = 0
+    while(!existe && pos < this.sociosList.length){
+
+      if(this.sociosList[0].idSocio == idSocioNueva) {
+        existe = true
+      }
+      pos++
+
+    }
+
+    return existe
+  },
+
+  
     async agregarSociosACategoria() {
       try {
         let parametro = { socios: [] }
@@ -141,10 +228,13 @@ export default {
         alert(response.data.message)
         if (response.data.idSociosYaExistentes.length > 0) {
           alert("Se intentaron agregar " + response.data.idSociosYaExistentes.length + " socios que ya estaban asignados");
+        
+          this.sociosList = []
 
         }
       } catch (e) {
         alert(e.response.data.message)
+        this.sociosList = []
 
       }
     },
@@ -164,6 +254,11 @@ export default {
   color: white
 }
 
+.btnBorrar {
+  background-color: #93979b;
+  color: white
+}
+
 .no-fechas {
   text-align: center;
   padding: 10px;
@@ -173,6 +268,18 @@ export default {
   margin: 20px auto;
   max-width: 300px;
   color:white;
+}
+
+.botones {
+    display: flex;
+    justify-content: center;
+  }
+
+.btn_busquedas {
+  
+  margin-left: 2px;
+  margin-right: 2px;
+
 }
 
 @media (max-width: 768px) {
@@ -190,6 +297,7 @@ export default {
   .prueba {
     display: none;
   }
+  
 }
 </style>
 
