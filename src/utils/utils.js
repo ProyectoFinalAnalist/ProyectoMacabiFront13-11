@@ -20,12 +20,15 @@ export class UtilsUsuario{
         const creandoUsuario= !user.idUsuario
 
         showErrores.nombre =  /\d/.test(user.nombre) || user.nombre.trim() === '';
+        showErrores.nombreSize = !/^[A-Za-z\s]{2,24}$/.test(user.nombre)
         showErrores.apellido = /\d/.test(user.apellido) || user.apellido.trim() === ''
+        showErrores.apellidoSize = !/^[A-Za-z\s]{2,24}$/.test(user.apellido)
+        showErrores.direccion = !/^[A-Za-z\s]{5,50}$/.test(user.direccion)
         showErrores.rol = String(user.idRol).trim() === ''
-        showErrores.email = !/@/.test(user.email)
+        showErrores.email = !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(user.email)
         if(creandoUsuario) showErrores.clave = !/^(?=.*[A-Z])(?=.*\d).{8,}$/.test(user.clave)
-        showErrores.telefono = !/^\d{10}$/.test(Number(user.telefono))
-        showErrores.dni = !/^\d{7,8}$/.test(Number(user.dni))
+        showErrores.telefono = !/^\d{8,15}$/.test(Number(user.telefono))
+        showErrores.dni = !/^\d{6,10}$/.test(Number(user.dni))
         if(!showErrores.email) showErrores.emailExistente = this.verificarExistenciaEmail(user,userArr,creandoUsuario)
         if(!showErrores.dni) showErrores.dniExistente = this.verificarExistenciaDni(user,userArr,creandoUsuario)
 

@@ -51,7 +51,7 @@
   </div>
 
 
-  <div class="alert" v-if="mostrarMensaje">
+  <div class="alert alert-danger" v-if="mostrarMensaje">
     <p>{{ mensaje }}</p>
     <div class="alert-buttons">
       <button v-if="mostrarBotonesSiNo" class="btn btn-success" @click="crearCategoria">Sí</button>
@@ -237,6 +237,9 @@ export default {
 </script>
 
 <style scoped>
+@import "../../../assets/alert.css";
+@import "../../../assets/btn.css";
+
 .container_grid {
   grid-template-rows: 1fr 4fr;
 }
@@ -248,57 +251,5 @@ export default {
 .opcion-default {
   color: #adadad;
   
-}
-
-.btn-macabi1 {
-    color: white;
-    background-color: #004896;
-    border: 1px solid #013a77;
-}
-
-.btn-macabi1:hover {
-    color: white;
-    background-color: #013368;
-}
-
-.btn-macabi1:active  {
-    background-color: #002b58; 
-}
-
-.alert {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px;
-  text-align: center;
-  border-bottom: 1px solid #f5c6cb;
-  animation: slide-down 2s ease;
-}
-
-.alert p {
-  margin: 0;
-}
-
-.alert-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.alert-buttons button {
-  margin: 5px;
-}
-
-@keyframes slide-down {
-  0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
 }
 </style>
