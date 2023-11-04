@@ -1,5 +1,5 @@
 <template>
-    <footer id="footer" class="text-light py-4">
+    <footer id="footer" class="text-light">
         <div class="container">
             <div class="text text-center">
                 <h2>MACABI DEPORTES</h2>
