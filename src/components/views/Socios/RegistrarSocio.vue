@@ -1,11 +1,11 @@
 <template>
     <div class="container_grid tamaño_m">
 
-        <div class="titulo_container ">
+        <div class="container_title">
             Registrar Socio
         </div>
 
-        <div class="formulario_container">
+        <div class="container_basic">
 
             <div class="form-floating mb-3">
 

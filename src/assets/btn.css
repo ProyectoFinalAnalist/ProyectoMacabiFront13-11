@@ -1,13 +1,16 @@
-.btn-macabi1 {
-    color: white;
+.primary-macabi {
     background-color: #004896;
+    border: none
 }
 
-.btn-macabi1:hover {
-    color: white;
-    background-color: #013368;
+.primary-macabi :hover {
+    background-color: #003c7c;
 }
 
-.btn-macabi1:active {
+.primary-macabi :focus {
+    background-color: #003c7c;
+}
+
+.primary-macabi :active {
     background-color: #002b58;
-}
+}   

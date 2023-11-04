@@ -31,12 +31,11 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
-.titulo_container {
+.container_title {
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #f4f4f4;
-    margin-bottom: 15px;
 
     border-radius: 15px;
     border: 1px solid black;
@@ -47,7 +46,8 @@ body {
     text-align: center;
 }
 
-.formulario_container {
+.container_basic {
+    margin-top: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -98,25 +98,26 @@ body {
 }
 
 
+
 @media screen and (max-width:1000px) {
     #app {
         width: 100%;
     }
 
     .tamaño_xs {
-        width: 60%;
+        width: 95%;
         min-width: 350px;
         max-width: 500px;
     }
 
     .tamaño_s {
-        width: 60%;
+        width: 95%;
         min-width: 350px;
         max-width: 500px;
     }
 
     .tamaño_m {
-        width: 73%;
+        width: 95%;
         min-width: 350px;
         max-width: 650px;
     }

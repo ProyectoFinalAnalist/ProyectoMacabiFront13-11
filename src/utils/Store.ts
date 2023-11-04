@@ -57,18 +57,18 @@ export function useElementStore(nombreStore) {
 				this.elements = value;
 			},
 
-			async fetchElementById(url, id) {
+			async fetchElementById(url) {
 				try {
-					const response = await axios.get(`${url}/${id}`, { withCredentials: true })
+					const response = await axios.get(`${url}`, { withCredentials: true })
 					this.currentElement = response.data
 				} catch (error) {
-					console.error(`Error fetching element with id ${id}:`, error)
+					console.error(`Error fetching element`, error)
 				}
 			},
 
 			async createElement(url, newElement) {
 				try {
-					const response = await axios.post(`${url}`, newElement , { withCredentials: true })
+					const response = await axios.post(`${url}`, newElement, { withCredentials: true })
 					//this.elements.push(response.data)
 				} catch (error) {
 					console.error('Error creating element:', error)
@@ -86,16 +86,16 @@ export function useElementStore(nombreStore) {
 
 			async patchElement(url, updatedElement) {
 				try {
-				 await axios.patch(url ,updatedElement,  { withCredentials: true }) 
+					await axios.patch(url, updatedElement, { withCredentials: true })
 				} catch (error) {
-				  console.log("🚀 ~ file: Store.ts:92 ~ patchElement ~ error:", error)
-				  throw new Error(`Error updating Element: `+ error)
+					console.log("🚀 ~ file: Store.ts:92 ~ patchElement ~ error:", error)
+					throw new Error(`Error updating Element: ` + error)
 				}
-			  },
+			},
 
-			  async deleteElement(url, id) {
+			async deleteElement(url, id) {
 				try {
-					await axios.delete(`${url}/${id}` , { withCredentials: true })
+					await axios.delete(`${url}/${id}`, { withCredentials: true })
 					//this.elements = this.elements.filter((e) => e.id !== id)
 				} catch (error) {
 					console.error(`Error deleting Element with id ${id}:`, error)
@@ -104,7 +104,7 @@ export function useElementStore(nombreStore) {
 
 			async deleteElementCustom(url) {
 				try {
-					await axios.delete(url , { withCredentials: true })
+					await axios.delete(url, { withCredentials: true })
 					//this.elements = this.elements.filter((e) => e.id !== id)
 				} catch (error) {
 					console.error(`Error deleting Element`, error)

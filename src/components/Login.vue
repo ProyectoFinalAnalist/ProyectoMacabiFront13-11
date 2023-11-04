@@ -6,11 +6,11 @@
 
 	<div v-else class="container_grid tamaño_xs">
 
-		<div class="titulo_container">
+		<div class="container_title">
 			Iniciar Sesion
 		</div>
 
-		<div class="formulario_container">
+		<div class="container_basic">
 
 			<div class="form-floating mb-3 mt-3">
 				<input type="email" class="form-control" id="emailInput" :class="this.isInvalid"
@@ -34,7 +34,7 @@
 
 			<div class="container_buttons">
 				<button type="" class="btn btn-secondary" @click="">Recuperar Clave</button>
-				<button type="" class="btn btn-macabi1" @click="ingresar">Iniciar Sesión</button>
+				<button type="" class="btn btn-primary primary-macabi" @click="ingresar">Iniciar Sesión</button>
 			</div>
 
 			<div v-if="this.error" class="alert alert-danger" role="alert">
@@ -136,6 +136,7 @@ export default {
 </script>
 
 <style scoped>
+
 .capslock {
 	display: none;
 	position: absolute;
