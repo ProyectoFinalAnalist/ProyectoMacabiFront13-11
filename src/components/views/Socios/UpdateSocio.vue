@@ -37,8 +37,7 @@
                             </p>
                             <p class="p pe-2 ps-2">
                                 <strong>Fecha de Nacimiento: <code>*</code></strong><input type="date" id="fecha"
-                                    max="2000-02-02" v-on:click="obtenerFechaMax()" class="form-control"
-                                    v-model="socio.fechaNacimiento" />
+                                    :max="obtenerFechaMax()" class="form-control" v-model="socio.fechaNacimiento" />
                             </p>
                             <p class="p pe-2 ps-2">
                                 <strong>Observaciones: </strong>
@@ -321,13 +320,12 @@ export default {
         });
 
         function obtenerFechaMax() {
-            let fecha = document.getElementById("fecha")
             const fechaActual = new Date();
             const year = fechaActual.getFullYear();
             const month = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
-            const day = fechaActual.getDate().toString().padStart(2, '0') - 1;
-            const fechaMaxima = `${year}-${month}-${day}`;
-            fecha.max = fechaMaxima
+            const day = (fechaActual.getDate() - 1).toString().padStart(2, '0'); // Corregido: Restar 1 día
+
+            return `${year}-${month}-${day}`;
         }
 
         function volver() {

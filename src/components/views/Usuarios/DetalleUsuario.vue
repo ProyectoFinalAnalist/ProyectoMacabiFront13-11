@@ -9,27 +9,27 @@
                     <div class="card-body">
                         <p class="mb-2"><strong class="font-weight-bold">Email: </strong>{{ usuario.email }}</p>
                         <p class="mb-2"><strong class="font-weight-bold">Dni: </strong>{{ usuario.dni }}</p>
-                        <p class="mb-2"><strong class="font-weight-bold">Fecha de nacimiento: </strong>{{
-                            usuario.fechaNacimiento }}</p>
+                        <p class="mb-2"><strong class="font-weight-bold">Edad: </strong>{{ utils.obtenerEdadXFecha(usuario.fechaNacimiento) }}</p>
+                        <p class="mb-2"><strong class="font-weight-bold">Fecha de nacimiento: </strong>{{ utils.obtenerFechaFormateada(usuario.fechaNacimiento) }}</p>
                         <p class="mb-2"><strong class="font-weight-bold">Telefono: </strong>{{ usuario.telefono }}</p>
                         <p class="mb-2"><strong class="font-weight-bold">Rol: </strong>{{ roleName }}</p>
                         <p class="mb-2"><strong class="font-weight-bold">Activo: </strong>{{ activo }}</p>
                         <p class="mb-2"><strong class="font-weight-bold">Direccion: </strong>{{ usuario.direccion }}</p>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center">
+            </div>
+            <div class="col-md-6 offset-md-3" v-else>
+                <strong class="alert alert-warning text-center">El usuario no existe.</strong>
+            </div>
+            <div class="d-flex justify-content-center">
                     <div class="btn-group">
-                        <router-link class="btn btn-macabi1" :to="`/modificarusuario/${usuario.idUsuario}`">Modificar
+                        <router-link class="btn btn-macabi1" v-if="usuario" :to="`/modificarusuario/${usuario.idUsuario}`">Modificar
                             Usuario</router-link>
 
                         <router-link class="btn btn-dark" :to="`/usuarios`">Volver a Usuarios</router-link>
 
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 offset-md-3" v-else>
-                <p class="alert alert-warning text-center">El usuario no existe.</p>
-            </div>
         </div>
     </div>
     <br>
@@ -39,16 +39,17 @@
 </style>
 <script>
 import { useElementStore } from "../../../stores/Store";
-import { useRouter, useRoute } from "vue-router";
-import { computed, ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { computed, onMounted } from "vue";
+import { Utils } from "../../../utils/utils"
 
 export default {
     setup() {
 
         const route = useRoute();
-        const router = useRouter();
         const idUsuario = route.params.id.toString();
         const elementStore = useElementStore("usuario")();
+        const utils = new Utils()
         elementStore.fetchElementById(idUsuario);
 
         const usuario = computed(() => elementStore.currentElement);
@@ -59,6 +60,7 @@ export default {
 
         return {
             usuario,
+            utils
         };
     },
     computed: {

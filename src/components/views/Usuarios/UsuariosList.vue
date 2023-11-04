@@ -60,7 +60,7 @@
   </div>
   <br>
 </template>
-<style>
+<style scoped>
 @import '../../../assets/btn.css';
 
 tbody {cursor: pointer;}

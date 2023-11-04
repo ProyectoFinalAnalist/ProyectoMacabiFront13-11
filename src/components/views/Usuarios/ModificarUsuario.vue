@@ -44,7 +44,7 @@
                         </h6>
 
                         <p class="p pe-2 ps-2"><strong>Fecha de nacimiento: <code>*</code></strong> <input
-                                class="form-control" type="date" required v-model="usuario.fechaNacimiento"></p>
+                                class="form-control" type="date" required :max="obtenerFechaMax()" v-model="usuario.fechaNacimiento"></p>
                         <p class="p pe-2 ps-2">
 
                             <strong>Telefono: <code>*</code></strong><input class="form-control" type="tel"
@@ -161,6 +161,15 @@ export default {
             }
         };
 
+        function obtenerFechaMax() {
+            const fechaActual = new Date();
+            const year = fechaActual.getFullYear();
+            const month = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+            const day = (fechaActual.getDate() - 1).toString().padStart(2, '0'); // Corregido: Restar 1 día
+
+            return `${year}-${month}-${day}`;
+        }
+
         function deleteUsuario() {
             alert("not implemented")
         }
@@ -182,7 +191,8 @@ export default {
             nombre,
             volver,
             deleteUsuario,
-            updatePass
+            updatePass,
+            obtenerFechaMax
         };
     }
 };

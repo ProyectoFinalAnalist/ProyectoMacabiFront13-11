@@ -166,6 +166,7 @@ export default {
 
         initializeDate() {
             const date = new Date()
+            date.setDate(date.getDate() - 1);
             this.selectedDate = date.toISOString().slice(0, 10);
         },
 

@@ -13,7 +13,8 @@
                             <p class="mb-2"><strong>Email:</strong> {{ socio.email }}</p>
                             <p class="mb-2"><strong>Teléfono:</strong> {{ socio.telefono }}</p>
                             <p class="mb-2"><strong>Dirección:</strong> {{ socio.direccion }}</p>
-                            <p class="mb-2"><strong>Fecha de Nacimiento:</strong> {{ socio.fechaNacimiento }}</p>
+                            <p class="mb-2"><strong class="font-weight-bold">Edad: </strong>{{ utils.obtenerEdadXFecha(socio.fechaNacimiento) }}</p>
+                            <p class="mb-2"><strong class="font-weight-bold">Fecha de nacimiento: </strong>{{ utils.obtenerFechaFormateada(socio.fechaNacimiento) }}</p>
                             </p>
                             <hr>
                             <p>
@@ -67,14 +68,14 @@
                     </div>
                 </div>
             </div>
-            <h5 v-else class="alert alert-warning alert-sm mb-0 text-center m-2 mb-3">
-                <strong>No se pudo cargar el socio :c</strong>
-            </h5>
+            <div class="col-md-6 offset-md-3" v-else>
+                <strong class="alert alert-warning text-center">El socio no existe.</strong>
+            </div>
         </div>
     </div>
     <div class="d-flex justify-content-center align-items-center mb-4">
         <div class="btn-group">
-            <button @click="editarSocio" class="btn btn-macabi1">Modificar socio</button>
+            <button v-if="socio" @click="editarSocio" class="btn btn-macabi1">Modificar socio</button>
             <button class="btn btn-dark"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
                     Socios</router-link></button>
         </div>
@@ -98,6 +99,7 @@ import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import apiUrl from '../../../../config/config.js'
+import { Utils } from "../../../utils/utils"
 
 
 export default {
@@ -105,7 +107,7 @@ export default {
         const sociosStore = useElementStore("socios")()
         const deporteStore = useElementStore("deportes")()
         const categoriasStore = useElementStore("categorias")()
-
+        const utils = new Utils()
         const route = useRoute()
         const idSocio = route.params.id
 
@@ -149,13 +151,9 @@ export default {
             alert("not implemented")
         }
 
-
-
-
         const updateSocio = async () => {
             alert("not implemented")
         };
-
 
         return {
             socio,
@@ -164,7 +162,8 @@ export default {
             deleteSocio,
             infoContactos,
             categorias,
-            obtenerNombreDeporte
+            obtenerNombreDeporte,
+            utils
         }
     },
     data() {

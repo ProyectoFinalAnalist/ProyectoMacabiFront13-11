@@ -10,7 +10,18 @@ export class Utils{
         }
         return confirmado;
       }
+    
+    obtenerFechaFormateada(fecha) {
+        const partesFecha = fecha.split("-");
+        return `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`;
+    }
 
+    obtenerEdadXFecha(fecha) {
+        const fechaNac = new Date(fecha);
+        const fechaActual = new Date(); 
+        let diferencia = fechaActual - fechaNac;
+        return `${Math.floor(diferencia / (1000 * 60 * 60 * 24 * 365.25))} años`
+    }
 }
 
 export class UtilsUsuario{

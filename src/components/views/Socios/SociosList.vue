@@ -72,7 +72,7 @@
         </div>
     </div>
 </template>
-<style>
+<style scoped>
 @import '../../../assets/btn.css';
 
 tbody {cursor: pointer;}

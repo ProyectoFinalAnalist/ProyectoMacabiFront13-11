@@ -52,7 +52,7 @@
                             </div>
                             <div class="col-auto">
                                 <button class="btn btn-outline-dark" type="button" id="togglePassword"
-                                    @mousedown="mostrarContrasena" @mouseup="mostrarContrasena">Ver contraseña</button>
+                                    @click="mostrarContrasena">Ver contraseña</button>
                             </div>
                         </div>
                         <h6 class="  alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.clave">
@@ -60,7 +60,7 @@
                                 mayúscula</strong>
                         </h6>
                         <p><strong>Fecha de nacimiento: <code>*</code></strong> <input class="form-control" type="date"
-                                required v-model="usuario.fechaNacimiento"></p>
+                                required v-model="usuario.fechaNacimiento" :max="obtenerFechaMax()"></p>
                         <p>
 
                             <strong>Telefono: <code>*</code></strong><input class="form-control" type="tel"
@@ -154,10 +154,20 @@ export default {
             }
         };
 
+        function obtenerFechaMax() {
+            const fechaActual = new Date();
+            const year = fechaActual.getFullYear();
+            const month = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+            const day = (fechaActual.getDate() - 1).toString().padStart(2, '0'); // Corregido: Restar 1 día
+
+            return `${year}-${month}-${day}`;
+        }
+
         return {
             crearUsuario,
             usuario,
-            showErrores
+            showErrores,
+            obtenerFechaMax
         };
     },
     data() {
