@@ -21,7 +21,8 @@
         </div>
 
         <div v-else-if="usuarioStore.getRol == 'C' && deportesDeUsuario.getElements != null">
-            <div style="width: 100%;" class="text text-center pb-5 h1">Tus Deportes asignados - Coordinador de Deportes</div>
+            <div style="width: 100%;" class="text text-center pb-5 h1">Tus Deportes asignados - Coordinador de Deportes
+            </div>
             <div v-if="deportesDeUsuario.getElements.deportes.length > 0"
                 v-for="sport in deportesDeUsuario.getElements.deportes">
                 <div class="d-flex justify-content-center pb-3" style="width: 50%; margin: 0 auto;"> <button type="button"
@@ -50,10 +51,11 @@
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center mb-5 text-center" style="width: 50%; margin: 0 auto;">
-        <button type="button btn-lg" class="btn btn-danger" style="width: 100%;">
-            <router-link to="/contactosEmergencia" class="text-white nav nav-link"><strong>CONTACTOS DE
-                EMERGENCIA</strong></router-link>
+    <div class="d-flex justify-content-center mb-5 text-center" style="width: 60%; margin: 0 auto;">
+        <button type="button" class="btn btn-danger">
+            <router-link to="/contactosEmergencia" class="text-white nav nav-link">
+                <h4 class="text-center pt-3 pb-1"><strong>CONTACTOS DE EMERGENCIA</strong></h4>
+            </router-link>
         </button>
     </div>
 </template>
@@ -102,6 +104,7 @@ export default {
 
 <style scoped>
 @import '../../src/assets/btn.css';
+
 .container {
     display: flex;
     flex-direction: column;

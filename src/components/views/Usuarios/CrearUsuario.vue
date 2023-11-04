@@ -1,11 +1,11 @@
 <template>
-    <div class="container mt-4 ">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="row m">
             <div class="col-md-6 offset-md-3" v-if="usuario">
+                <h3 class="text-center mt-2">Registrar Usuario</h3>
+                <div class="text-end"><code>*campos obligatorios</code></div>
                 <div class="card bg-light text-dark mb-4">
                     <div class="card-body">
-                        <h4 class="text-center mt-2"><strong>Registrar Usuario</strong></h4>
-                        <div class="text-end"><code>*campos obligatorios</code></div>
                         <p>
                             <strong>Nombre: <code>*</code></strong><input class="form-control" type="text"
                                 v-model="usuario.nombre" placeholder="Ingrese el nombre del usuario" />
@@ -13,12 +13,18 @@
                         <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.nombre">
                             <strong>El nombre no puede contener números o estar vacío</strong>
                         </h6>
+                        <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.nombreSize">
+                            <strong>El nombre debe tener un minimo de 2 caracteres y un maximo de 24</strong>
+                        </h6>
                         <p>
                             <strong>Apellido: <code>*</code></strong><input class="form-control" type="text"
                                 v-model="usuario.apellido" placeholder="Ingrese el apellido del usuario" />
                         </p>
                         <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.apellido">
                             <strong>El apellido no puede contener números o estar vacío</strong>
+                        </h6>
+                        <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.apellidoSize">
+                            <strong>El apellido debe tener un minimo de 2 caracteres y un maximo de 24</strong>
                         </h6>
                         <p><strong>Email: <code>*</code></strong><input class="form-control" id="email" type="email"
                                 v-model="usuario.email" placeholder="correo@ejemplo.com" /></p>
@@ -46,7 +52,7 @@
                             </div>
                             <div class="col-auto">
                                 <button class="btn btn-outline-dark" type="button" id="togglePassword"
-                                    @mousedown="mostrarContrasena" @mouseup="mostrarContrasena">Ver contraseña</button>
+                                    @click="mostrarContrasena">Ver contraseña</button>
                             </div>
                         </div>
                         <h6 class="  alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.clave">
@@ -54,7 +60,7 @@
                                 mayúscula</strong>
                         </h6>
                         <p><strong>Fecha de nacimiento: <code>*</code></strong> <input class="form-control" type="date"
-                                required v-model="usuario.fechaNacimiento"></p>
+                                required v-model="usuario.fechaNacimiento" :max="obtenerFechaMax()"></p>
                         <p>
 
                             <strong>Telefono: <code>*</code></strong><input class="form-control" type="tel"
@@ -83,17 +89,18 @@
                         <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3" v-if="showErrores.direccion">
                             <strong>La Direccion debe tener un minimo de 5 caracteres y un maximo de 50</strong>
                         </h6>
-                        <button class="btn btn-primary mx-auto d-block" @click="crearUsuario">Crear Usuario</button>
+                        <button class="btn btn-macabi1 mx-auto d-block" @click="crearUsuario">Crear Usuario</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center align-items-center">
-        <button class="btn btn-secondary" v-on:click="volver()">Volver</button>
+    <div class="d-flex justify-content-center align-items-center mb-4">
+        <button class="btn btn-dark" v-on:click="volver()">Volver</button>
     </div>
 </template>
 <style scoped>
+@import '../../../assets/alert.css';
 h6 {
     background-color: #f8d7da;
     border-color: #f0959e;
@@ -147,10 +154,20 @@ export default {
             }
         };
 
+        function obtenerFechaMax() {
+            const fechaActual = new Date();
+            const year = fechaActual.getFullYear();
+            const month = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+            const day = (fechaActual.getDate() - 1).toString().padStart(2, '0'); // Corregido: Restar 1 día
+
+            return `${year}-${month}-${day}`;
+        }
+
         return {
             crearUsuario,
             usuario,
-            showErrores
+            showErrores,
+            obtenerFechaMax
         };
     },
     data() {
@@ -166,7 +183,7 @@ export default {
             } else this.mostrar = "password"
             this.mostrarBool = !this.mostrarBool
         },
-        volver(){
+        volver() {
             this.$router.go(-1)
         }
     }

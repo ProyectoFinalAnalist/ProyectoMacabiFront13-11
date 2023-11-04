@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6 offset-md-3" v-if="socio">
-                <h3 class="text-center">Detalles del Socio: <strong>{{ socio.apellido }}, {{ socio.nombre }}</strong></h3>
+                <h3 class="text-center">Detalles del Socio: <strong>{{ nombre }}</strong></h3>
                 <div class="text-end mb-1"><code>*campos obligatorios</code></div>
                 <div class="card bg-light text-dark mb-4">
                     <div v-if="socio" class="card-body">
@@ -37,8 +37,7 @@
                             </p>
                             <p class="p pe-2 ps-2">
                                 <strong>Fecha de Nacimiento: <code>*</code></strong><input type="date" id="fecha"
-                                    max="2000-02-02" v-on:click="obtenerFechaMax()" class="form-control"
-                                    v-model="socio.fechaNacimiento" />
+                                    :max="obtenerFechaMax()" class="form-control" v-model="socio.fechaNacimiento" />
                             </p>
                             <p class="p pe-2 ps-2">
                                 <strong>Observaciones: </strong>
@@ -47,7 +46,7 @@
                             </p>
                             <div class="d-flex justify-content-center">
                                 <div class="btn-group">
-                                    <button class="btn btn-primary" @click="updateSocio">Actualizar Socio</button>
+                                    <button class="btn btn-macabi1" @click="updateSocio">Actualizar Socio</button>
 
                                     <button class="btn btn-danger" @click="deleteSocio">Borrar Socio</button>
                                 </div>
@@ -56,7 +55,7 @@
                             <p class="p pe-2 ps-2">
                                 <strong>Datos de contacto: </strong>
                                 <br>
-                            <div class="card mt-3 ms-3 me-0 mb-3" style="background-color: rgb(236, 236, 236);"
+                            <div class="card mt-3" style="background-color: rgb(236, 236, 236);"
                                 v-for="contacto in infoContactos">
                                 <div class="card-body">
                                     <h5>Contacto: <strong>{{ nombreContacto }}</strong></h5>
@@ -79,7 +78,7 @@
                                     </p>
                                     <div class="d-flex justify-content-center">
                                         <div class="btn-group">
-                                            <button class="btn btn-primary" @click="updateContacto(contacto)">Actualizar
+                                            <button class="btn btn-macabi1" @click="updateContacto(contacto)">Actualizar
                                                 Contacto</button>
                                             <button class="btn btn-danger" @click="deleteContacto(contacto)">Borrar
                                                 Contacto</button>
@@ -104,9 +103,8 @@
             <strong>{{ message }}</strong>
         </h5>
     </div>
-    <div class="d-flex justify-content-center">
-        <button class="btn btn-dark"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
-                Socios</router-link></button>
+    <div class="d-flex justify-content-center mb-4">
+        <button class="btn btn-dark" @click="volver">Volver</button>
     </div>
     <br>
     <!--MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / -->
@@ -139,7 +137,7 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @click="crearContacto">Crear</button>
+                    <button type="button" class="btn btn-macabi1" @click="crearContacto">Crear</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                     <div class="text-start"><code>*campos obligatorios</code></div>
                 </div>
@@ -156,7 +154,7 @@
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import apiUrl from '../../../../config/config.js'
 
 export default {
@@ -167,13 +165,14 @@ export default {
         const route = useRoute()
         const idSocio = route.params.id
 
+        const router = useRouter()
+
         const nombre = ref(null)
         const nombreContacto = ref(null)
 
         onMounted(async () => {
             await sociosStore.fetchElements(`${apiUrl}/socio/getSocios`)
             await sociosStore.fetchElementById(`${apiUrl}/socio/`, idSocio)
-            await contactoStore.fetchElements(`${apiUrl}/contacto/getAllContactos`)
             data.value;
         })
 
@@ -204,10 +203,9 @@ export default {
             let hasDuplicateEmail = false
 
             if (sociosStore.getElements.result.length > 0) {
-                hasDuplicateDNI = sociosStore.getElements.result.some((socio) => socio.dni === dni && socio.idSocio != idSocio);
+                hasDuplicateDNI = sociosStore.getElements.result.some((socio) => socio.dni == dni && socio.idSocio != idSocio);
                 hasDuplicateEmail = sociosStore.getElements.result.some((socio) => socio.email === email && socio.idSocio != idSocio);
             }
-
             if (hasDuplicateDNI) {
                 message.value = "El DNI no puede repetirse";
             } else if (hasDuplicateEmail) {
@@ -322,13 +320,16 @@ export default {
         });
 
         function obtenerFechaMax() {
-            let fecha = document.getElementById("fecha")
             const fechaActual = new Date();
             const year = fechaActual.getFullYear();
             const month = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
-            const day = fechaActual.getDate().toString().padStart(2, '0') - 1;
-            const fechaMaxima = `${year}-${month}-${day}`;
-            fecha.max = fechaMaxima
+            const day = (fechaActual.getDate() - 1).toString().padStart(2, '0'); // Corregido: Restar 1 día
+
+            return `${year}-${month}-${day}`;
+        }
+
+        function volver() {
+            router.go(-1)
         }
 
         return {
@@ -345,7 +346,8 @@ export default {
             contactoCreate,
             messageModal,
             nombre,
-            nombreContacto
+            nombreContacto,
+            volver
         }
     }
 }

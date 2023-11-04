@@ -8,17 +8,13 @@
                     <div v-if="socio" class="card-body">
                         <div>
                             <p>
-                                <strong class="h5 fw-bold">Datos: </strong>
-                            <div class="card mt-2">
-                                <div class="card-body">
-                                    <p class="mb-2"><strong>Número de Socio:</strong> {{ socio.nroSocio }}</p>
-                                    <p class="mb-2"><strong>DNI:</strong> {{ socio.dni }}</p>
-                                    <p class="mb-2"><strong>Email:</strong> {{ socio.email }}</p>
-                                    <p class="mb-2"><strong>Teléfono:</strong> {{ socio.telefono }}</p>
-                                    <p class="mb-2"><strong>Dirección:</strong> {{ socio.direccion }}</p>
-                                    <p class="mb-2"><strong>Fecha de Nacimiento:</strong> {{ socio.fechaNacimiento }}</p>
-                                </div>
-                            </div>
+                            <p class="mb-2"><strong>Número de Socio:</strong> {{ socio.nroSocio }}</p>
+                            <p class="mb-2"><strong>DNI:</strong> {{ socio.dni }}</p>
+                            <p class="mb-2"><strong>Email:</strong> {{ socio.email }}</p>
+                            <p class="mb-2"><strong>Teléfono:</strong> {{ socio.telefono }}</p>
+                            <p class="mb-2"><strong>Dirección:</strong> {{ socio.direccion }}</p>
+                            <p class="mb-2"><strong class="font-weight-bold">Edad: </strong>{{ utils.obtenerEdadXFecha(socio.fechaNacimiento) }}</p>
+                            <p class="mb-2"><strong class="font-weight-bold">Fecha de nacimiento: </strong>{{ utils.obtenerFechaFormateada(socio.fechaNacimiento) }}</p>
                             </p>
                             <hr>
                             <p>
@@ -29,17 +25,18 @@
                             <hr>
                             <p class="p pe-3">
                                 <strong class="h5 fw-bold">Datos de contacto: </strong>
-                                <br>
+                            </p>
                             <div v-if="infoContactos == null" class="p pe-2 ps-4">
                                 <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3">
                                     <strong>{{ socio.nombre }} no posee datos de contacto</strong>
                                 </h6>
                             </div>
-                            <div v-else class="card m-3" style="background-color: rgb(236, 236, 236);"
+                            <div v-else class="card" style="background-color: rgb(236, 236, 236);"
                                 v-for="contacto in infoContactos">
                                 <div class="card-body">
                                     <h5>Contacto: <br></h5>
-                                    <h5 class="text-center"><strong>{{ contacto.nombre }} {{ contacto.apellido }}</strong></h5>
+                                    <h5 class="text-center"><strong>{{ contacto.nombre }} {{ contacto.apellido }}</strong>
+                                    </h5>
                                     <p class="p pe-3 mb-2 mt-4">
                                         <strong>Email: </strong>{{ contacto.email }}
                                     </p>
@@ -48,7 +45,7 @@
                                     </p>
                                 </div>
                             </div>
-                            </p>
+
                             <hr>
                             <p>
                                 <strong class="h5 fw-bold">Categorias asociadas: </strong>
@@ -71,18 +68,18 @@
                     </div>
                 </div>
             </div>
-            <h5 v-else class="alert alert-warning alert-sm mb-0 text-center m-2 mb-3">
-                <strong>No se pudo cargar el socio :c</strong>
-            </h5>
+            <div class="col-md-6 offset-md-3" v-else>
+                <strong class="alert alert-warning text-center">El socio no existe.</strong>
+            </div>
         </div>
     </div>
     <div class="d-flex justify-content-center align-items-center mb-4">
-            <div class="btn-group">
-                <button @click="editarSocio" class="btn btn-macabi1">Modificar socio</button>
-        <button class="btn btn-dark"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
-                Socios</router-link></button>
-            </div>
+        <div class="btn-group">
+            <button v-if="socio" @click="editarSocio" class="btn btn-macabi1">Modificar socio</button>
+            <button class="btn btn-dark"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
+                    Socios</router-link></button>
         </div>
+    </div>
 </template>
 <style scoped>
 @import '../../../assets/btn.css';
@@ -102,6 +99,7 @@ import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import apiUrl from '../../../../config/config.js'
+import { Utils } from "../../../utils/utils"
 
 
 export default {
@@ -109,7 +107,7 @@ export default {
         const sociosStore = useElementStore("socios")()
         const deporteStore = useElementStore("deportes")()
         const categoriasStore = useElementStore("categorias")()
-
+        const utils = new Utils()
         const route = useRoute()
         const idSocio = route.params.id
 
@@ -153,13 +151,9 @@ export default {
             alert("not implemented")
         }
 
-
-
-
         const updateSocio = async () => {
             alert("not implemented")
         };
-
 
         return {
             socio,
@@ -168,7 +162,8 @@ export default {
             deleteSocio,
             infoContactos,
             categorias,
-            obtenerNombreDeporte
+            obtenerNombreDeporte,
+            utils
         }
     },
     data() {

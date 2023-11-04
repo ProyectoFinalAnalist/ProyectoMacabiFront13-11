@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
+  <div class="container-fluid ps-5 pe-5 mb-5">
     <div class="text text-center h1">USUARIOS</div>
     <br>
     <form @submit.prevent="buscar()">
-      <div class="row d-flex justify-content-start">
-        <div class="col col-sm">
+      <div class="row g-2">
+        <div class="col-12 col-md-auto">
           <select id="filtro" class="form-select">
             <option disabled>Filtrar por:</option>
             <option value="nombre">Nombre</option>
@@ -13,14 +13,14 @@
             <option value="dni">Dni</option>
           </select>
         </div>
-        <div class="col col-sm m-0 p-0 me-4">
+        <div class="col-12 col-md-auto">
           <input type="text" class="form-control" placeholder="Buscar..." v-model="busqueda">
         </div>
-        <div class="col col-sm m-0 p-0 me-4">
+        <div class="col-12 col-md-auto">
           <button class="btn btn-danger" type="button" v-on:click="reiniciar">Reiniciar</button>
         </div>
-        <div class="col col-sm d-none d-sm-table-cell">
-          <div class="d-flex justify-content-end mt-3 mb-0">
+        <div class="col text-md-end">
+          <div class="d-flex justify-content-end mt-3">
             <p>Usuarios en total: <strong>{{ size }}</strong></p>
           </div>
         </div>
@@ -28,42 +28,47 @@
     </form>
     <br>
     <div class="d-flex justify-content-end input-group mb-3">
-      <table class="table table-striped table-bordered">
+      <table class="table table-bordered table-hover">
         <thead>
           <tr>
             <th>Nombre:</th>
             <th>Apellido:</th>
             <th class="d-none d-sm-table-cell">Email:</th>
             <th class="d-none d-sm-table-cell">Dni: <button class="btn bg-success" @click="ordenar('dni')"></button></th>
-            <th>Detalles:</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in usuarios" :key="user.idUsuario">
+          <tr v-for="user in usuarios" :key="user.idUsuario" @click="irA(user.idUsuario)">
             <td>{{ user.nombre }}</td>
             <td>{{ user.apellido }}</td>
             <td class="d-none d-sm-table-cell">{{ user.email }}</td>
             <td class="d-none d-sm-table-cell"> {{ user.dni }}</td>
-            <td><router-link :to="`/usuarios/${user.idUsuario}`"><strong>Ver detalles</strong></router-link></td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="d-flex justify-content-center align-items-center">
-      <button class="btn btn-success">
-        <router-link to="/crearusuario" class="nav-item nav-link" href="#">Crear Usuario</router-link>
-      </button>
-      <button class="btn btn-secondary">
-        <router-link to="/" class="nav-item nav-link" href="#">Volver a Inicio</router-link>
-      </button>
+      <div class="btn-group">
+        <button class="btn btn-macabi1">
+          <router-link to="/crearusuario" class="nav-item nav-link" href="#">Crear Usuario</router-link>
+        </button>
+        <button class="btn btn-dark">
+          <router-link to="/" class="nav-item nav-link" href="#">Volver a Inicio</router-link>
+        </button>
+      </div>
     </div>
   </div>
   <br>
 </template>
-  
+<style scoped>
+@import '../../../assets/btn.css';
+
+tbody {cursor: pointer;}
+</style>
 <script>
 import { useElementStore } from "../../../stores/Store";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
@@ -72,6 +77,7 @@ export default {
     let filtro = ""
     const usuarios = ref(null)
     const orden = ref(true)
+    const router = useRouter();
 
     const size = ref(0)
 
@@ -97,8 +103,6 @@ export default {
         });
 
         size.value = usuarios.value.length || 0;
-      } else {
-        size.value = 0;
       }
     }
 
@@ -118,6 +122,12 @@ export default {
       });
     }
 
+    function irA(id) {
+      if (id != 0) {
+        router.push(`/usuarios/${id}`);
+      }
+    }
+
     return {
       elementStore,
       usuarios,
@@ -125,7 +135,8 @@ export default {
       busqueda,
       reiniciar,
       size,
-      ordenar
+      ordenar,
+      irA
     }
   },
 }
