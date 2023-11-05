@@ -5,21 +5,19 @@
       <p class="">Fechas en total: <strong>{{ size }}</strong></p>
     </div>
     <div v-if="fechas !== null">
-      <table class="table table-striped table-bordered">
+      <table class="table table-bordered table-hover">
         <thead>
           <tr>
             <th>Fecha Calendario:</th>
             <th>Tipo:</th>
             <th>Categoría:</th>
-            <th>Detalles:</th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="fecha in fechas" :key="fecha.idFecha">
-            <td>{{ fecha.fechaCalendario }}</td>
+        <tbody  class="pointer">
+          <tr  v-for="fecha in fechas" :key="fecha.idFecha"  @click="irA(fecha.idFecha)">
+            <td >{{ fecha.fechaCalendario }}</td>
             <td>{{ mapearTipo(fecha.tipo) }}</td>
             <td>{{ fecha.Categorium ? fecha.Categorium.nombreCategoria : 'Sin Categoría' }}</td>
-            <td><router-link :to="`/fechas/${fecha.idFecha}`"><strong>Ver detalles</strong></router-link></td>
           </tr>
         </tbody>
       </table>
@@ -96,6 +94,8 @@ export default {
       }
     }
 
+    
+
     return {
       fechaStore,
       size,
@@ -115,11 +115,17 @@ export default {
       const idCategoria = this.$route.params.id
       this.$router.push({ path: "/crearfecha/" + idCategoria });
     },
+    irA(id) {
+            if (id != 0) {
+              this.$router.push({ path: `/fechas/${id}` });
+
+            }
+        },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .no-fechas {
   text-align: center;
   padding: 10px;
@@ -130,4 +136,9 @@ export default {
   max-width: 300px;
   color:white;
 }
+
+.pointer {cursor: pointer}
+
+
+
 </style>
