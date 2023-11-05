@@ -57,22 +57,36 @@ export function useElementStore(nombreStore) {
 				this.elements = value;
 			},
 
-			async fetchElementById(url) {
-				try {
-					const response = await axios.get(`${url}`, { withCredentials: true })
-					this.currentElement = response.data
-				} catch (error) {
-					console.error(`Error fetching element`, error)
-				}
-			},
+			// async fetchElementById(url) {
+			// 	try {
+			// 		const response = await axios.get(`${url}`, { withCredentials: true })
+			// 		this.currentElement = response.data
+			// 	} catch (error) {
+			// 		console.error(`Error fetching element`, error)
+			// 	}
+			// },
 
-			// quise hacer una sobrecarga pero no existe en TS jeje JUAMPI
-			async fetchElementById2(url, id) {
+			// // quise hacer una sobrecarga pero no existe en TS jeje JUAMPI
+			// async fetchElementById2(url, id) {
+			// 	try {
+			// 		const response = await axios.get(`${url}/${id}`, { withCredentials: true })
+			// 		this.currentElement = response.data
+			// 	} catch (error) {
+			// 		console.error(`Error fetching element with id ${id}:`, error)
+			// 	}
+			// },
+
+			async fetchElementById(url: string, id?: string) {
 				try {
-					const response = await axios.get(`${url}/${id}`, { withCredentials: true })
-					this.currentElement = response.data
+					const endpoint = id ? `${url}/${id}` : url;
+					const response = await axios.get(endpoint, { withCredentials: true });
+					this.currentElement = response.data;
 				} catch (error) {
-					console.error(`Error fetching element with id ${id}:`, error)
+					if (id) {
+						console.error(`Error fetching element with id ${id}:`, error);
+					} else {
+						console.error(`Error fetching element:`, error);
+					}
 				}
 			},
 

@@ -26,7 +26,7 @@
                         <router-link class="btn btn-macabi1" v-if="usuario" :to="`/modificarusuario/${usuario.idUsuario}`">Modificar
                             Usuario</router-link>
 
-                        <router-link class="btn btn-dark" :to="`/usuarios`">Volver a Usuarios</router-link>
+                            <button class="btn btn-dark" @click="volver">Volver</button>
 
                     </div>
                 </div>
@@ -39,7 +39,7 @@
 </style>
 <script>
 import { useElementStore } from "../../../stores/Store";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { computed, onMounted } from "vue";
 import { Utils } from "../../../utils/utils"
 
@@ -47,6 +47,7 @@ export default {
     setup() {
 
         const route = useRoute();
+        const router = useRouter();
         const idUsuario = route.params.id.toString();
         const elementStore = useElementStore("usuario")();
         const utils = new Utils()
@@ -58,9 +59,14 @@ export default {
             elementStore.fetchElements()
         })
 
+        function volver() {
+            router.go(-1)
+        }
+
         return {
             usuario,
-            utils
+            utils,
+            volver
         };
     },
     computed: {

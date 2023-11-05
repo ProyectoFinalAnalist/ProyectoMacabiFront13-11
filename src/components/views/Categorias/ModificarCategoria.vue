@@ -72,7 +72,7 @@ export default {
         const nombre = ref(null)
 
         onMounted(async () => {
-            await categoriasStore.fetchElementById2(`${apiUrl}/categoria/`, idCategoria)
+            await categoriasStore.fetchElementById(`${apiUrl}/categoria/`, idCategoria)
             await categoriasStore.fetchElements(`${apiUrl}/categoria/getAll`)
             await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
             await usuariosStore.fetchElements(`${apiUrl}/usuario/3/rol`) // 3 para traerme todos los profesores
@@ -113,9 +113,8 @@ export default {
             const catUpdated = JSON.parse(JSON.stringify(categoriasStore.currentElement.result))
             
             if (validar() && categoriasStore.confirm("modificar", "modificada", "Categoria")) {
-                console.log(catUpdated);
                 await categoriasStore.updateElement(`${apiUrl}/categoria`, catUpdated, "idCategoria");
-                alert("..")
+                location.reload();
             }
         };
 

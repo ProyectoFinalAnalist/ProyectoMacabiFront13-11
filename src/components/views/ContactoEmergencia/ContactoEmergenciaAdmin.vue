@@ -27,7 +27,7 @@
                             </p>
                             <div class="d-flex justify-content-center">
                                 <div class="btn-group">
-                                    <button class="btn btn-primary" @click="updateContactoEmergencia(contacto)">Actualizar
+                                    <button class="btn btn-macabi1" @click="updateContactoEmergencia(contacto)">Actualizar
                                         Contacto</button>
                                     <button class="btn btn-danger" @click="deleteContactoEmergencia(contacto)">Borrar
                                         Contacto</button>
@@ -81,7 +81,7 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @click="crearContactoEmergencia">Crear</button>
+                    <button type="button" class="btn btn-macabi1" @click="crearContactoEmergencia">Crear</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                     <div class="text-start"><code>*campos obligatorios</code></div>
                 </div>
@@ -92,6 +92,9 @@
         </div>
     </div>
 </template>
+<style scoped>
+@import '../../../assets/btn.css';
+</style>
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";

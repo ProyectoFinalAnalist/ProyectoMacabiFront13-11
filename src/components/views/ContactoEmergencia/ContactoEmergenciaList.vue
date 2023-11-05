@@ -4,32 +4,29 @@
             <div class="col-md-6 offset-md-3">
                 <h3 class="text-center"><strong>CONTACTOS DE EMERGENCIA</strong></h3>
                 <br>
-                <div class="card bg-danger text-white mb-5">
-                    <div class="card-body">
-                        <p class="p pe-3">
-                        <div v-if="contactosEmergencia == null">
-                            <p class="text-center text-bg-danger p pe-3 ms-4 me-1 mt-2 h-2" style="border-radius: 10px;">
-                                <strong>No existen contactos de emergencia aun</strong>
-                            </p>
-                        </div>
-                        <div v-else class="card mt-3 ms-4 me-2" v-for="contacto in contactosEmergencia">
-                            <div class="card-body" style="border-radius: 10px;">
-                                <h4 class="text-center mb-3">Contacto: <strong>{{ contacto.nombre }}</strong></h4>
-                                <p class="p pe-3 mb-2" v-if="contacto.email">
-                                    <strong>Email: </strong>{{ contacto.email }}
-                                </p>
-                                <p class="p pe-3 mb-2" v-if="contacto.telefono">
-                                    <strong>Teléfono: </strong>{{ contacto.telefono }}
-                                </p>
-                                <p class="p pe-3 mb-2" v-if="contacto.observaciones">
-                                    <strong>Observaciones: </strong>
-                                    <textarea style="height: 200px; max-height: 200px; background: #f0f0f0;" disabled
-                                        class="form-control mt-2   " v-model="contacto.observaciones"></textarea>
-                                </p>
-                            </div>
-                        </div>
+                <div class="text-white mb-5">
+                    <p class="p pe-3">
+                    <div v-if="contactosEmergencia == null">
+                        <p class="text-center text-bg-danger p pe-3 ms-4 me-1 mt-2 h-2" style="border-radius: 10px;">
+                            <strong>No existen contactos de emergencia aun</strong>
                         </p>
                     </div>
+                    <div v-else class="card mt-3 ms-4 me-2 fondo-card" v-for="contacto in contactosEmergencia">
+                        <div class="card-body" style="border-radius: 10px;">
+                            <h4 class="text-center mb-3">Contacto: <strong>{{ contacto.nombre }}</strong></h4>
+                            <p class="p pe-3 mb-2" v-if="contacto.email">
+                                <strong>Email: </strong>{{ contacto.email }}
+                            </p>
+                            <p class="p pe-3 mb-2" v-if="contacto.telefono">
+                                <strong>Teléfono: </strong>{{ contacto.telefono }}
+                            </p>
+                            <p class="p pe-3 mb-2" v-if="contacto.observaciones">
+                                <strong>Observaciones: </strong>
+                            <p style="font-style: italic;" class="mx-3 mt-2">{{ contacto.observaciones }}</p>
+                            </p>
+                        </div>
+                    </div>
+                    </p>
                 </div>
             </div>
         </div>
@@ -45,6 +42,16 @@
 </template>
 <style scoped>
 @import '../../../assets/btn.css';
+
+.fondo-card {
+    background-color: #f8d7da;
+    border-color: #f0959e;
+    color: #723b47;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 4px;
+    padding: 8px;
+}
 </style>
 <script>
 import { useElementStore } from '../../../utils/Store';

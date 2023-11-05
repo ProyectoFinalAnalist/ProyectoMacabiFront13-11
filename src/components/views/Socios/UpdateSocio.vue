@@ -172,7 +172,7 @@ export default {
 
         onMounted(async () => {
             await sociosStore.fetchElements(`${apiUrl}/socio/getSocios`)
-            await sociosStore.fetchElementById2(`${apiUrl}/socio/`, idSocio)
+            await sociosStore.fetchElementById(`${apiUrl}/socio/`, idSocio)
             data.value;
         })
 

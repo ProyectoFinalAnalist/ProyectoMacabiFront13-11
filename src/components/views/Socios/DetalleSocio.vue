@@ -76,8 +76,7 @@
     <div class="d-flex justify-content-center align-items-center mb-4">
         <div class="btn-group">
             <button v-if="socio" @click="editarSocio" class="btn btn-macabi1">Modificar socio</button>
-            <button class="btn btn-dark"><router-link to="/socios" class="nav-item nav-link" href="#">Volver a
-                    Socios</router-link></button>
+            <button class="btn btn-dark" @click="volver()">Volver</button>
         </div>
     </div>
 </template>
@@ -97,7 +96,7 @@ h6 {
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import apiUrl from '../../../../config/config.js'
 import { Utils } from "../../../utils/utils"
 
@@ -109,12 +108,13 @@ export default {
         const categoriasStore = useElementStore("categorias")()
         const utils = new Utils()
         const route = useRoute()
+        const router= useRouter()
         const idSocio = route.params.id
 
         onMounted(async () => {
-            await sociosStore.fetchElementById2(`${apiUrl}/socio/`, idSocio)
+            await sociosStore.fetchElementById(`${apiUrl}/socio/`, idSocio)
             await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
-            await categoriasStore.fetchElementById2(`${apiUrl}/sociosXCategoria/categorias`, idSocio)
+            await categoriasStore.fetchElementById(`${apiUrl}/sociosXCategoria/categorias`, idSocio)
             data.value;
         })
 
@@ -155,6 +155,10 @@ export default {
             alert("not implemented")
         };
 
+        function volver() {
+            router.go(-1)
+        }
+
         return {
             socio,
             sociosStore,
@@ -163,7 +167,8 @@ export default {
             infoContactos,
             categorias,
             obtenerNombreDeporte,
-            utils
+            utils,
+            volver
         }
     },
     data() {
