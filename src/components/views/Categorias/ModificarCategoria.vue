@@ -72,7 +72,7 @@ export default {
         const nombre = ref(null)
 
         onMounted(async () => {
-            await categoriasStore.fetchElementById(`${apiUrl}/categoria/`, idCategoria)
+            await categoriasStore.fetchElementById2(`${apiUrl}/categoria/`, idCategoria)
             await categoriasStore.fetchElements(`${apiUrl}/categoria/getAll`)
             await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
             await usuariosStore.fetchElements(`${apiUrl}/usuario/3/rol`) // 3 para traerme todos los profesores

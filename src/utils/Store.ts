@@ -66,6 +66,16 @@ export function useElementStore(nombreStore) {
 				}
 			},
 
+			// quise hacer una sobrecarga pero no existe en TS jeje JUAMPI
+			async fetchElementById2(url, id) {
+				try {
+					const response = await axios.get(`${url}/${id}`, { withCredentials: true })
+					this.currentElement = response.data
+				} catch (error) {
+					console.error(`Error fetching element with id ${id}:`, error)
+				}
+			},
+
 			async createElement(url, newElement) {
 				try {
 					const response = await axios.post(`${url}`, newElement, { withCredentials: true })

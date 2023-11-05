@@ -112,9 +112,9 @@ export default {
         const idSocio = route.params.id
 
         onMounted(async () => {
-            await sociosStore.fetchElementById(`${apiUrl}/socio/`, idSocio)
+            await sociosStore.fetchElementById2(`${apiUrl}/socio/`, idSocio)
             await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
-            await categoriasStore.fetchElementById(`${apiUrl}/sociosXCategoria/categorias`, idSocio)
+            await categoriasStore.fetchElementById2(`${apiUrl}/sociosXCategoria/categorias`, idSocio)
             data.value;
         })
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid ps-5 pe-5 mb-5">
+    <div class="container-fluid px-5 mb-5">
         <div v-if="sociosStore.getElements != null">
             <div class="text text-center h1">SOCIOS</div>
             <br>

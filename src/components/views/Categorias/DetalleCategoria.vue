@@ -1,11 +1,11 @@
 <template>
 
-  <div class="container-fluid   text-bg-light">
+  <div class="container-fluid px-5">
     <div class="text text-center">
-      <h1>Categoria: {{ nombreCategoria }}</h1>
-      <h4>Deporte: {{ deporteCategoria }}</h4>
+      <h1>Categoria: <strong>{{ nombreCategoria }}</strong> </h1>
+      <h4>Deporte: <strong>{{ deporteCategoria }}</strong> </h4>
     </div>
-
+    <br>
     <form @submit.prevent="buscar()">
                 <div class="row d-flex justify-content-start">
                     <div class="col col-sm">
@@ -59,12 +59,12 @@
                 </table>
                 
             </div>
-
+            <br>
             <div class="d-flex justify-content-center align-items-center mb-4">
                 <!----    <router-link class="btn-macabi1" to="/"> <button class="btn "><strong>Volver al la lista de deportes </strong></button> </router-link> -->
-                    <router-link class="btn-macabi1 " :to="`/modificarCategoria/${this.idCategoria}`"><button class="btn btn-dark"> <strong>Editar</strong> </button></router-link>
-                    <router-link class="btn-macabi1" :to="`/fechasCategoria/${this.idCategoria}`"><button class="btn btn-danger "> <strong>Fechas</strong></button></router-link>
-                    <router-link class="btn-macabi1" :to="`/agregarSocio/${this.idCategoria}`"> <button class="btn btn-macabi1"><strong>Añadir socio</strong> </button> </router-link> 
+                    <router-link :to="`/modificarCategoria/${this.idCategoria}`"><button class="btn btn-success">Editar </button></router-link>
+                    <router-link :to="`/fechasCategoria/${this.idCategoria}`"><button class="btn btn-danger">Fechas</button></router-link>
+                    <router-link :to="`/agregarSocio/${this.idCategoria}`"> <button class="btn btn-macabi1">Añadir socio </button> </router-link> 
         </div>
             
 
@@ -108,7 +108,7 @@ export default {
       this.nombreCategoria = respuesta.data.nombreCategoria
       let nombreDeporteBuscado = await axios.get(`${apiUrl}/categoria/${this.idCategoria}/nombreDeporte`, { withCredentials: true });
       this.deporteCategoria = nombreDeporteBuscado.data.nombreDeporte
-      console.log(this.deporteCategoria);
+      //console.log(this.deporteCategoria);
       let respuestaSocios =   await axios.get(`${apiUrl}/sociosXCategoria/${this.idCategoria}`, { withCredentials: true });
       let sociosLista = respuestaSocios.data.sociosDatos
       sociosLista.forEach(socio => {
@@ -127,7 +127,7 @@ console.log("catch");
   methods: {
      irA(id) {
             if (id != 0) {
-              this.$router.push({ path: '/socios/' + id });
+                this.$router.push(`/socios/${id}`);
 
             }
         },

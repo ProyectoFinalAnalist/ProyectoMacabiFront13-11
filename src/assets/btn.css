@@ -14,3 +14,17 @@
 .primary-macabi :active {
     background-color: #002b58;
 }   
+
+.btn-macabi1 {
+    color: white;
+    background-color: #004896;
+}
+
+.btn-macabi1:hover {
+    color: white;
+    background-color: #013368;
+}
+
+.btn-macabi1:active {
+    background-color: #002b58;
+}
