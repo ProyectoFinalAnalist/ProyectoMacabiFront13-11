@@ -5,8 +5,20 @@
     right: 5%;
     padding: 10px;
     text-align: center;
-    animation: slide-down 2s ease
-  }
+    animation: slide-down 2s ease;
+    border-bottom: 1px solid #f5c6cb;
+    z-index: 99;
+}
+
+.alert-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.alert-buttons button {
+    margin: 5px;
+}
 
 @keyframes slide-down {
     0% {
