@@ -1,9 +1,9 @@
 <template>
 
-  <div class="container-fluid ps-5 pe-5 mb-5">
-    <div class="text text-center h1">
+  <div class="container-fluid   text-bg-light">
+    <div class="text text-center">
       <h1>Categoria: {{ nombreCategoria }}</h1>
-      <h2>Deporte{{ deporteCategoria }}</h2>
+      <h4>Deporte: {{ deporteCategoria }}</h4>
     </div>
 
     <form @submit.prevent="buscar()">
@@ -26,7 +26,7 @@
                     </div>
                     <div class="col col-sm d-none d-sm-table-cell">
                         <div class="d-flex justify-content-end mt-3 mb-0">
-                            <p>Socios en total: <strong>{{ listSocios.length}}</strong></p>
+                            <p>Total de socios en la categoria: <strong>{{ listSocios.length}}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -47,8 +47,8 @@
                             <th class="d-none d-lg-table-cell">Email:</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr v-for="socio in listSocios" :key="socio.idSocio" @click="irA(socio.idSocio)">
+                    <tbody class="pointer">
+                        <tr v-for="socio in sociosFiltados" :key="socio.idSocio" @click="irA(socio.idSocio)">
                             <td class="d-none d-sm-table-cell">{{ socio.nroSocio }}</td>
                             <td>{{ socio.nombre }}</td>
                             <td>{{ socio.apellido }}</td>
@@ -60,22 +60,11 @@
                 
             </div>
 
-            <div class="d-flex justify-content-center align-items-center">
-            <div class="btn-group">
-                <button class="btn btn-macabi1">
-                    <router-link class="nav-item nav-link" to="/">Volver al la lista de deportes</router-link>
-                </button>
-                <button class="btn btn-dark">
-                    <td><router-link class="nav-item nav-link" :to="`/modificarCategoria/${this.idCategoria}`"><strong>Editar categoria</strong></router-link></td>
-                </button>
-                <button class="btn btn-danger">
-                  <td><router-link class="nav-item nav-link" :to="`/fechasCategoria/${this.idCategoria}`"><strong>Fechas</strong></router-link></td>
-                </button>
-                <button class="btn btn-macabi1">
-                  <td><router-link class="nav-item nav-link" :to="`/agregarSocio/${this.idCategoria}`"><strong>Añadir socio a la categoria</strong></router-link></td>
-
-                </button>
-              </div>
+            <div class="d-flex justify-content-center align-items-center mb-4">
+                <!----    <router-link class="btn-macabi1" to="/"> <button class="btn "><strong>Volver al la lista de deportes </strong></button> </router-link> -->
+                    <router-link class="btn-macabi1 " :to="`/modificarCategoria/${this.idCategoria}`"><button class="btn btn-dark"> <strong>Editar</strong> </button></router-link>
+                    <router-link class="btn-macabi1" :to="`/fechasCategoria/${this.idCategoria}`"><button class="btn btn-danger "> <strong>Fechas</strong></button></router-link>
+                    <router-link class="btn-macabi1" :to="`/agregarSocio/${this.idCategoria}`"> <button class="btn btn-macabi1"><strong>Añadir socio</strong> </button> </router-link> 
         </div>
             
 
@@ -104,7 +93,12 @@ export default {
      idCategoria:"",
      nombreCategoria:"nombreCategoria",
      deporteCategoria:"nombreDeporteCategoria",
-     listSocios:[]
+     listSocios:[],
+     busqueda:"",
+     sociosFiltados:[],
+     tipoFiltro:"",
+     size:0,
+     orden:0
     };
   },
  async created(){
@@ -120,6 +114,8 @@ export default {
       sociosLista.forEach(socio => {
         this.listSocios.push(socio)
       });
+
+      this.sociosFiltados = this.listSocios;
       
 
 
@@ -129,7 +125,56 @@ console.log("catch");
 
   },
   methods: {
-    
+     irA(id) {
+            if (id != 0) {
+              this.$router.push({ path: '/socios/' + id });
+
+            }
+        },
+         buscar() {
+            this.reiniciar();
+
+
+          if (this.busqueda !== "") {
+          this.tipoFiltro = document.getElementById("filtro").value;
+          this.sociosFiltados = this.listSocios.filter(item => {
+              let propiedad = item[this.tipoFiltro];
+              let propiedadLowerCase = String(propiedad).toLowerCase();
+              let busquedaLowerCase = String(this.busqueda).toLowerCase();
+              return propiedadLowerCase.includes(busquedaLowerCase);
+          });
+
+          console.log(this.sociosFiltados);
+
+          this.size = this.listSocios.length || 0;
+      } else {
+          this.size = 0;
+      }
+
+
+
+
+
+
+        },
+         reiniciar() {
+            this.sociosFiltados = this.listSocios;
+        },
+         ordenar(columna) {
+            this.orden = !this.orden
+
+            this.sociosFiltados.sort((a, b) => {
+                let factorOrden = this.orden ? -1 : 1;
+                if (a[columna] < b[columna]) return -1 * factorOrden;
+                if (a[columna] > b[columna]) return 1 * factorOrden;
+                return 0;
+            });
+        }
   },
 };
 </script>
+
+<style scoped>
+.pointer {cursor: pointer}
+
+</style>
