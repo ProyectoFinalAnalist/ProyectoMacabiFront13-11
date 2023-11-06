@@ -1,5 +1,5 @@
 <template>
-	<div class="container_grid tamaño_xl">
+	<div class="container-fluid">
 
 		<div class="container_title">
 			{{ titulo }}

@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-4">
+    <div class="container-fluid mt-4 px-5 w-50">
         <div class="row">
             <div class="col-md offset-md" v-if="deporte">
                 <div class="card bg-light text-dark mb-5" style="width: 100%;">
@@ -139,7 +139,7 @@ export default {
             if (deporteStore.currentElement != null) {
                 deporte.value = deporteStore.currentElement.result;
                 categorias.value = categoriasStore.getElements.result
-                coordinadores.value = usuariosStore.getElements.coordinadores.CoordinadoresAsignados
+                coordinadores.value = usuariosStore.getElements.result.CoordinadoresAsignados
 
                 deportes.value = deporteStore.getElements.result.filter(deporte => deporte.idDeporte != idDeporte)
                 nombre.value = deporte.value.nombre
@@ -212,8 +212,6 @@ export default {
 
             return resultado
         }
-        
-        const categoriasModal = ref(null)
 
         function agregarCategoria() {
             router.push(`/crearCategoria/${idDeporte}`)
@@ -271,14 +269,8 @@ export default {
 
             location.reload()
         }
-
-        function isChecked(id) {
-            let isChecked = false
-
-            isChecked = coordinadores.value.some(coordinador => coordinador.idUsuario == id);
-
-            return isChecked
-        }
+        
+        function isChecked(id) { return coordinadores.value.some(coordinador => coordinador.idUsuario == id); }
 
         function irA(id) {
             if (id != 0) {
