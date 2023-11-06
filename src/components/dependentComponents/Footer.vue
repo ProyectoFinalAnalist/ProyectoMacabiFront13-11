@@ -1,7 +1,7 @@
 <template>
     <footer id="footer" class="text-light">
         <div class="container">
-            <div class="text text-center">
+            <div class="text text-center pt-2">
                 <h2>MACABI DEPORTES</h2>
             </div>
             <hr>

@@ -3,7 +3,7 @@
 
         <div class="logo"> <img src="../icons/logo-nav.png" alt="Logo"> </div>
 
-        <div class="nav-links"> <router-link to="/">HOME</router-link> </div>
+        <div class="nav-links"> <router-link to="/">INICIO</router-link> </div>
 
         <div v-if="!usrStore.isLogged" class="nav-links"> <router-link to="/login"> INICIAR SESION </router-link> </div>
         <div v-else class="nav-links"> <router-link to="/miUsuario"> {{ usrStore.currentUser.nombre }} </router-link>
@@ -19,7 +19,7 @@
             <div class="overlay-content" style="height: 100%;">
 
                 <div class="overlay-option">
-                    <router-link @click="closeNavMenu" to="/">HOME</router-link>
+                    <router-link @click="closeNavMenu" to="/">INICIO</router-link>
                 </div>
 
 

@@ -59,7 +59,7 @@ export default {
       date.setFullYear(date.getFullYear() - 1)
       this.fechaMin = date.toISOString().slice(0, 10);
 
-      console.log("Ahora la fecha de hoy es " + this.fechaMin);
+      //console.log("Ahora la fecha de hoy es " + this.fechaMin);
     
 
     this.idCat = this.$route.params.idCategoria,
@@ -87,11 +87,13 @@ export default {
           };
 
           try {
-
             const result = await axios.post(`${apiUrl}/fecha/`, parametro, { withCredentials: true });
 
+            if (result.status == 200){
+              this.$router.push({ path: `/fechasCategoria/${this.idCat}` });
+            }
+            
 
-            this.$router.push({ path: '/fechas' });
 
 
            

@@ -22,32 +22,22 @@ import SociosXFecha from "./components/views/Asistencias/SociosXFecha.vue";
 import TomarAsistencia from "./components/views/Asistencias/TomarAsistencia.vue";
 
 // CATEGORIAS
-import AsignarProfesor from "./components/views/Categorias/AsignarProfesor.vue";
 import CategoriasList from "./components/views/Categorias/CategoriasList.vue";
 import CrearCategoria from "./components/views/Categorias/CrearCategoria.vue";
 import DetalleCategoria from "./components/views/Categorias/DetalleCategoria.vue";
 import ModificarCategoria from "./components/views/Categorias/ModificarCategoria.vue";
 
-
-
 // DEPORTES
-import AsignarCoordinador from "./components/views/Deportes/AsignarCoordinador.vue";
 import DeportesList from "./components/views/Deportes/DeporteList.vue";
-import CrearDeporte from "./components/views/Deportes/CrearDeporte.vue";
 import DetalleDeporte from "./components/views/Deportes/DetalleDeporte.vue";
 import editarDeporte from "./components/views/Deportes/EditarDeporte.vue";
 
 // FECHAS
-import FechasList from "./components/views/Fechas/FechasList.vue"
 import CrearFecha from "./components/views/Fechas/CrearFecha.vue"
 import DetalleFecha from "./components/views/Fechas/DetalleFecha.vue"
 import NuevaFechaCitacion from "./components/views/Fechas/NuevaFechaCitacion.vue"
 import FechasListCategoria from "./components/views/Fechas/FechasListCategoria.vue"
 import EditarFecha from "./components/views/Fechas/EditarFecha.vue"
-
-
-
-
 
 // SOCIOS
 import RegistrarSocio from "./components/views/Socios/RegistrarSocio.vue"
@@ -57,7 +47,6 @@ import DetalleSocio from "./components/views/Socios/DetalleSocio.vue"
 import UpdateSocio from "./components/views/Socios/UpdateSocio.vue"
 
 // USUARIOS
-import UsuariosInactivos from "./components/views/Usuarios/UsuariosInactivos.vue";
 import UsuariosList from "./components/views/Usuarios/UsuariosList.vue";
 import CrearUsuario from "./components/views/Usuarios/CrearUsuario.vue";
 import DetalleUsuario from "./components/views/Usuarios/DetalleUsuario.vue";
@@ -82,23 +71,17 @@ const routes = [
   { path: "/tomarAsistencia/:id", component: TomarAsistencia },
 
   // CATEGORIAS
-  { path: "/asignarProfesor", component: AsignarProfesor },
   { path: "/categorias", component: CategoriasList },
-  { path: "/crearCategoria", component: CrearCategoria },
   { path: "/crearCategoria/:idDeporte", component: CrearCategoria },
   { path: "/modificarCategoria/:id", component: ModificarCategoria },
   { path: "/detalleCategoria/:id", component: DetalleCategoria },
 
-
   // DEPORTES
-  { path: "/asignarCoordinador", component: AsignarCoordinador },
   { path: "/deportes", component: DeportesList },
-  { path: "/crearDeporte", component: CrearDeporte },
   { path: "/editarDeporte/:id", component: editarDeporte },
   { path: "/detalleDeporte/:id", component: DetalleDeporte },
 
   // FECHAS
-  { path: "/fechas", component: FechasList, },
   { path: "/editarFecha/:id", component: EditarFecha, },
   { path: "/crearfecha/:idCategoria", component: CrearFecha },
   { path: "/fechas/:id", component: DetalleFecha },
@@ -114,7 +97,6 @@ const routes = [
 
   // USUARIOS
   { path: "/usuarios", component: UsuariosList },
-  { path: "/usuariosInactivos", component: UsuariosInactivos },
   { path: "/crearusuario", component: CrearUsuario },
   { path: "/usuarios/:id", component: DetalleUsuario },
   { path: "/modificarusuario/:id", component: ModificarUsuario },

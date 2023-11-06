@@ -31,8 +31,8 @@
           </thead>
           <tbody>
             <tr v-for="socio in sociosAsistenciaFecha" :key="socio.idSocio">
-              <td>{{ socio.nombreSocio }}</td>
-              <td>{{ socio.apellidoSocio }}</td>
+              <td>{{ socio.nombre }}</td>
+              <td>{{ socio.apellido }}</td>
               <td>
                 <input
                   type="radio"

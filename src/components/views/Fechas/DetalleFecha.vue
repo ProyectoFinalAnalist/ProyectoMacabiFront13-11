@@ -82,7 +82,7 @@ export default {
       try {
         await fechaStore.fetchElements(`${apiUrl}/fecha/fechas/${idFecha}`);
         fechaDetalle.value = fechaStore.getElements.result[0];
-        console.log("🚀 ~ file: DetalleFecha.vue:85 ~ fetchs ~ fechaDetalle.value :", fechaDetalle.value )
+        //console.log("🚀 ~ file: DetalleFecha.vue:85 ~ fetchs ~ fechaDetalle.value :", fechaDetalle.value )
 
         if (fechaDetalle.value && fechaDetalle.value.idCategoria) {
           const idCategoria = fechaDetalle.value.idCategoria;

@@ -14,7 +14,6 @@
             id="fecha"
             class="form-control"
             required
-            :min="new Date().toISOString().slice(0, 10)"
           />
         </div>
 
@@ -161,7 +160,7 @@ export default {
       try {
         await sociosXCategoriaStore.fetchElements(`${apiUrl}/sociosXCategoria/${idCategoria}`);
         res = sociosXCategoriaStore.getElements.sociosDatos
-        console.log("165",res)
+        //console.log("165",res)
       } catch (error) {
         console.error("Error fetching socios x categoria:", error);
       }
@@ -239,9 +238,9 @@ export default {
         return "Presente";
       } else if (estado == "A") {
         return "Ausente";
-      } else if (estado == "L") {
-        return "Lesionado";
-      } else if (estado == null) {
+      } else if (estado == "J") {
+        return "Justificado";
+      } else {
         return "Sin asignar";
       }
     }
