@@ -74,6 +74,7 @@ export default {
         }
     },
     async mounted() {
+        document.title = "Macabi Deportes App"
 
         if (!this.usuarioStore.isLogged) {
             await this.usuarioStore.reiniciarSesion()
