@@ -232,12 +232,12 @@ export default {
                 }
             });
 
-            if (nuevosProfesores.length > 0 && usuariosStore.confirm("modificar", "modificado", "Profesor/es")) {
+           
+            if (usuariosStore.confirm("modificar", "modificado", "Profesor/es")) {
                 profesores.value = nuevosProfesores;
                 updateProfesores()
-            } else {
-                alert("Debes seleccionar al menos un profesor.");
-            }
+            } 
+           
         }
 
         async function updateProfesores() {
@@ -246,17 +246,26 @@ export default {
 
             await usuariosStore.deleteElement(`${apiUrl}/categoria/eliminarProfesores`, idCategoria);
 
-            const idsUsuarios = profesores.value.map((profesor) => ({
-                idUsuario: profesor.idUsuario,
-            }));
 
+            const usuarios = {idUsuarios:[]} 
+            for (const profe of profesores.value) {
+                usuarios.idUsuarios.push(profe.idUsuario);
+                }
+
+           
+
+
+            await axios.post(`${apiUrl}/categoria/${idCategoria}/agregarProfesores`, usuarios, )
+
+
+/*
             idsUsuarios.forEach(async (idUsuario) => {
                 registro.idUsuario = idUsuario.idUsuario
 
                 await usuariosStore.updateElement(`${apiUrl}/categoria/agregarProfesores`, registro, "idCategoria")
             })
             
-            location.reload()
+           */ location.reload()
         }
 
         function isChecked(id) {

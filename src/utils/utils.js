@@ -34,7 +34,7 @@ export class UtilsUsuario{
         showErrores.nombreSize = !/^[A-Za-z\s]{2,24}$/.test(user.nombre)
         showErrores.apellido = /\d/.test(user.apellido) || user.apellido.trim() === ''
         showErrores.apellidoSize = !/^[A-Za-z\s]{2,24}$/.test(user.apellido)
-        showErrores.direccion = !/^[A-Za-z\s]{5,50}$/.test(user.direccion)
+        showErrores.direccion = !/^[A-Za-z0-9\s]{5,50}$/.test(user.direccion)
         showErrores.rol = String(user.idRol).trim() === ''
         showErrores.email = !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(user.email)
         if(creandoUsuario) showErrores.clave = !/^(?=.*[A-Z])(?=.*\d).{8,}$/.test(user.clave)

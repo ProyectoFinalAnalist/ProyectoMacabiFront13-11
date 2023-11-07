@@ -83,7 +83,7 @@ export default {
             }
         },
         activo() {
-            return this.usuario.idRol ? "Si" : "No"
+            return this.usuario.activo ? "Si" : "No"
         }
     }
 };

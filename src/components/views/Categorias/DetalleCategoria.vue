@@ -7,8 +7,8 @@
         <h6 class="my-3"><strong>Profesor/es:</strong></h6>
         <div class="ms-5 mb-0">
             <button v-for="(profesor, index) in profesoresCategoria" :key="index"
-                class="mb-1 mx-1 btn btn-sm btn-dark" @click="verProfesor(profesor, index)">
-                {{ profesor }}
+                class="mb-1 mx-1 btn btn-sm btn-dark" @click="verProfesor(profesor.idUsuario)">
+                {{ profesor.apellido }}, {{ profesor.nombre }}
             </button>
         </div>
         <br>
@@ -106,9 +106,7 @@ export default {
             size: 0,
             orden: 0,
             profesoresCategoria: [
-                'Profesor 1',
-                'Profesor 2',
-                'Profesor 3'
+                
             ]
         };
     },
@@ -128,6 +126,10 @@ export default {
 
             this.sociosFiltados = this.listSocios;
 
+            let resultProfes = await axios.get(`${apiUrl}/categoria/${this.idCategoria}/getProfesores`);
+            this.profesoresCategoria = resultProfes.data.usuariosList;
+           // console.log("Los profesores son: " + this.profesoresCategoria);
+
 
 
         } catch (e) {
@@ -137,8 +139,8 @@ export default {
     },
     methods: {
 
-        verProfesor(profesor, index) {
-            alert(profesor, index)
+        verProfesor(profesor) {
+            this.$router.push(`/usuarios/${profesor}`);
         },
 
         irA(id) {
