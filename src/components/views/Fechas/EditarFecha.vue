@@ -17,7 +17,7 @@
           />
         </div>
 
-        <p>Profesor Asignado: {{ profesor }}</p>
+        <p>Profesor Asignado: <ul><li v-for="prof in profesor">{{ prof.apellido }}, {{ prof.nombre }}</li></ul></p>
         <p>Tipo: {{ mapearTipo(fechaDetalle.tipo) }}</p>
         <p>
           Categoria:
@@ -208,11 +208,11 @@ export default {
 
     const obtenerProfesor = async (idCategoria) => {
       try {
-        const response = await fetch(`${apiUrl}/usuario/${idCategoria}`);
-        if (response.ok) {
+        const response = await fetch(`${apiUrl}/categoria/${idCategoria}/getProfesores`);
+        if (response.ok) {   
           const data = await response.json();
-
-          return data.result.nombre + " " + data.result.apellido;
+          
+          return data.usuariosList
         } else {
           console.error("Error al obtener nombre del profesor");
           return null;
