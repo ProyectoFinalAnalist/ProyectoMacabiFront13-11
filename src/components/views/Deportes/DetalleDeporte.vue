@@ -45,7 +45,7 @@
 
 	</div>
 
-	<button class="btn btn-primary" @click="$router.go(-1)"> Fuck Go Back</button>
+	<button class="btn btn-primary" @click="$router.go(-1)">Volver</button>
 </template>
 
 <script setup>
