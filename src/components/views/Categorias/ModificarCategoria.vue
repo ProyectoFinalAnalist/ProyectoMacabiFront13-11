@@ -23,6 +23,7 @@
                             </ul>
                             <p class="p pe-3">
                                 <strong>Profesores: </strong>
+                            </p>
                             <table class="table table-striped table-bordered" v-if="profesores">
                                 <thead>
                                     <tr>
@@ -44,7 +45,6 @@
                                     <strong>Categoría {{ nombre }} no posee profesores asigados</strong>
                                 </h6>
                             </div>
-                            </p>
                             <div class="justify-content-center d-flex">
                                 <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#myModal2">
                                     Agregar Profesor
@@ -232,40 +232,29 @@ export default {
                 }
             });
 
-           
+
             if (usuariosStore.confirm("modificar", "modificado", "Profesor/es")) {
                 profesores.value = nuevosProfesores;
                 updateProfesores()
-            } 
-           
+            }
+
         }
 
         async function updateProfesores() {
-            let registro = { idCategoria: idCategoria, idUsuario: 0 }
-            registro = JSON.parse(JSON.stringify(registro))
-
             await usuariosStore.deleteElement(`${apiUrl}/categoria/eliminarProfesores`, idCategoria);
 
-
-            const usuarios = {idUsuarios:[]} 
+            const usuarios = { idUsuarios: [] }
             for (const profe of profesores.value) {
                 usuarios.idUsuarios.push(profe.idUsuario);
-                }
+            }
 
-           
-
-
-            await axios.post(`${apiUrl}/categoria/${idCategoria}/agregarProfesores`, usuarios, )
-
-
-/*
-            idsUsuarios.forEach(async (idUsuario) => {
-                registro.idUsuario = idUsuario.idUsuario
-
-                await usuariosStore.updateElement(`${apiUrl}/categoria/agregarProfesores`, registro, "idCategoria")
-            })
-            
-           */ location.reload()
+            try {
+                await axios.post(`${apiUrl}/categoria/${idCategoria}/agregarProfesores`, usuarios,)
+            } catch (error) {
+                console.log("error", error)
+            } finally {
+                location.reload()
+            }
         }
 
         function isChecked(id) {

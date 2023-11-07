@@ -28,7 +28,7 @@
                             <p>
                                 <strong>Coordinadores: </strong>
                             </p>
-                            <table class="table table-striped table-bordered">
+                            <table class="table table-striped table-bordered" v-if="coordinadores">
                                 <thead>
                                     <tr>
                                         <th>Nombre:</th>
@@ -44,6 +44,11 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div v-else>
+                                <h6 class="alert-sm mb-0 text-center p-2 m-2 rounded mb-3">
+                                    <strong>Deporte {{ nombre }} no posee coordinadores asigados</strong>
+                                </h6>
+                            </div>
                             <div class="justify-content-center d-flex">
                                 <button class="btn btn-success mb-3" @click="agregarCoordinador" data-bs-toggle="modal"
                                     data-bs-target="#myModal2">
@@ -97,13 +102,24 @@
         </div>
     </div>
 </template>
-<style>
-@import '../../../assets/alert.css';
+<style scoped>
+@import "../../../assets/btn.css";
+
+h6 {
+    background-color: #f8d7da;
+    border-color: #f0959e;
+    color: #723b47;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    padding: 8px;
+}
 </style>
 <script>
 import { useElementStore } from '../../../utils/Store';
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import axios from 'axios'
 
 import apiUrl from '../../../../config/config.js';
 
@@ -243,31 +259,27 @@ export default {
                 }
             });
 
-            if (nuevosCoordinadores.length > 0 && usuariosStore.confirm("modificar", "modificado", "Coordinador/es")) {
+            if (usuariosStore.confirm("modificar", "modificado", "Coordinador/es")) {
                 coordinadores.value = nuevosCoordinadores;
                 updateCoordinadores()
-            } else {
-                alert("Debes seleccionar al menos un coordinador.");
             }
         }
 
         async function updateCoordinadores() {
-            let registro = { idDeporte: idDeporte, idUsuario: 0 }
-            registro = JSON.parse(JSON.stringify(registro))
-
             await usuariosStore.deleteElement(`${apiUrl}/deporte/`, idDeporte);
 
-            const idsUsuarios = coordinadores.value.map((coordinador) => ({
-                idUsuario: coordinador.idUsuario,
-            }));
+            const usuarios = { idUsuarios: [] }
+            for (const coordinador of coordinadores.value) {
+                usuarios.idUsuarios.push(coordinador.idUsuario);
+            }
 
-            idsUsuarios.forEach(async (idUsuario) => {
-                registro.idUsuario = idUsuario.idUsuario
-
-                await usuariosStore.updateElement(`${apiUrl}/deporte/coordinador`, registro, "idDeporte")
-            })
-
-            location.reload()
+            try {
+                await axios.post(`${apiUrl}/deporte/${idDeporte}/agregarCoordinadores`, usuarios,)
+            } catch (error) {
+                console.log("error", error)
+            } finally {
+                location.reload()
+            }
         }
         
         function isChecked(id) { return coordinadores.value.some(coordinador => coordinador.idUsuario == id); }
