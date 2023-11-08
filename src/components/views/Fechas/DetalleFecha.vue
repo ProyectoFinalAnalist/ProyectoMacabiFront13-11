@@ -43,7 +43,8 @@
         >
       </button>
       <router-link class="btn btn-primary m-3" :to="`/editarfecha/${fechaDetalle.idFecha}`">Editar Fecha</router-link>
-      <button  class="btn btn-danger" @click="asignarAsistencia">Asignar/Modificar asistencias</button>
+      <button  class="btn btn-dark" @click="asignarAsistencia">Asignar/Modificar asistencias</button>
+      <button @click="eliminarFecha" class="btn btn-danger m-3">Eliminar fecha</button>
     </div>
   </div>
 </template>
@@ -53,7 +54,6 @@ import { useElementStore } from "../../../utils/Store";
 import { onBeforeMount, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import apiUrl from "../../../../config/config.js";
-
 export default {
   setup() {
     const asistenciaStore = useElementStore("asistencias")();
@@ -151,6 +151,15 @@ export default {
         return "Sin asignar";
       }
     }
+    function eliminarFecha() {
+
+
+      fechaStore.deleteElement(apiUrl,"fecha/" + idFecha + "/eliminarFecha")
+      router.go(-1)
+
+
+      
+    }
 
       function asignarAsistencia() {
 
@@ -165,7 +174,8 @@ export default {
       obtenerDeporte,
       deporte,
       profesor,
-      asignarAsistencia
+      asignarAsistencia,
+      eliminarFecha
     };
   }, data() {
     return {
