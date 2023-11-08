@@ -51,7 +51,7 @@
                                 </button>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-danger" @click="deleteCategoria">Borrar Categoría</button>
+                                <button class="btn btn-danger" @click="confirmarEliminarCategoria">Borrar Categoría</button>
                             </div>
                         </div>
                     </div>
@@ -183,9 +183,27 @@ export default {
             if (deporteEncontrado) { return deporteEncontrado; } else { return "Nombre no encontrado"; }
         }
 
-        function deleteCategoria() {
-            alert("not implemented")
-        }
+        const deleteCategoria = async () => {
+      try {
+        await categoriasStore.deleteElement(
+          apiUrl,
+          "categoria/" + idCategoria + "/eliminarCategoria"
+        );
+        alert("Categoría eliminada con éxito");
+        router.push("/deportes");
+      } catch (error) {
+        console.error("Error al eliminar el deporte:", error);
+      }
+    };
+
+    const confirmarEliminarCategoria = () => {
+      const mensaje = `¿Estás seguro de eliminar esta categoria: "${nombre.value}"?`;
+      if (window.confirm(mensaje)) {
+        deleteCategoria();
+      } else {
+        console.log("Operación de eliminación cancelada.");
+      }
+    };
 
         function volverAtras() {
             router.go(-1);
@@ -264,6 +282,8 @@ export default {
             return false
         }
 
+        
+
         return {
             categoriasStore,
             deporteStore,
@@ -279,7 +299,9 @@ export default {
             message,
             profesoresModal,
             saveSelectedProfesores,
-            isChecked
+            isChecked,
+            confirmarEliminarCategoria,
+            deleteCategoria
         }
     }
 }
