@@ -74,6 +74,8 @@ export default {
         }
     },
     async mounted() {
+
+        console.log("holsl", import.meta.env.MODE)
         document.title = "Macabi Deportes App"
 
         if (!this.usuarioStore.isLogged) {
