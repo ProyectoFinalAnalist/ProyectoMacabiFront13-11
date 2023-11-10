@@ -57,24 +57,9 @@ export function useElementStore(nombreStore) {
 				this.elements = value;
 			},
 
-			// async fetchElementById(url) {
-			// 	try {
-			// 		const response = await axios.get(`${url}`, { withCredentials: true })
-			// 		this.currentElement = response.data
-			// 	} catch (error) {
-			// 		console.error(`Error fetching element`, error)
-			// 	}
-			// },
-
-			// // quise hacer una sobrecarga pero no existe en TS jeje JUAMPI
-			// async fetchElementById2(url, id) {
-			// 	try {
-			// 		const response = await axios.get(`${url}/${id}`, { withCredentials: true })
-			// 		this.currentElement = response.data
-			// 	} catch (error) {
-			// 		console.error(`Error fetching element with id ${id}:`, error)
-			// 	}
-			// },
+			deleteElements() {
+				this.elements = null
+			},
 
 			async fetchElementById(url: string, id?: string) {
 				try {

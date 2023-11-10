@@ -27,7 +27,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-1 mt-2 px-3">
                             <strong class="text-uppercase fs-5">{{ deporte.nombre }}</strong>
                         </div>
-                        <ul class="list-group mt-1 mx-3 mt-2 fs-5">
+                        <ul class="list-group mt-1 mx-3 mt-2 fs-5" style="max-height: 200px; overflow-y: auto;">
                             <li class="list-group text-dark text-center" v-on:click="irA(categoria.idCategoria)"
                                 :class="[categoria.idCategoria == 0 ? 'list-group-item list-group-item-danger' : 'pointer list-group-item list-group-item-action list-group-item-light']"
                                 v-for="categoria in categoriasXDeporte(deporte.idDeporte)" :key="categoria.idCategoria">
