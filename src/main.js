@@ -123,7 +123,6 @@ router.beforeEach((to, from, next) => {
   }
 })
 */
-
 const pinia = createPinia();
 
 createApp(App).use(pinia).use(router).mount("#app");

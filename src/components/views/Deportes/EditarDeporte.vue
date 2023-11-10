@@ -56,25 +56,30 @@
                                     Agregar Coordinador
                                 </button>
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <button class="btn btn-danger" @click="deleteDeporte">Borrar Deporte</button>
-                            </div>
+                           <div class="d-flex justify-content-center">
+                <button class="btn btn-danger" @click="confirmarEliminarDeporte">
+                  Borrar Deporte
+                </button>
+              </div>
                             <h5 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="message != null">
                                 <strong>{{ message }}</strong>
                             </h5>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <h5 v-else class="alert alert-warning alert-sm mb-0 text-center m-2 mb-3">
-                <strong>No se pudo cargar el deporte :c</strong>
-            </h5>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-center">
         <button class="btn btn-secondary"><router-link to="/deportes" class="nav-item nav-link" href="#">Volver a
                 Deportes</router-link></button>
     </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h5 v-else class="alert alert-warning alert-sm mb-0 text-center m-2 mb-3">
+        <strong>No se pudo cargar el deporte :c</strong>
+      </h5>
+    </div>
+    
     <!--MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / -->
     <div class="modal fade" id="categoriaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -125,29 +130,48 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
+          </div>
         </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="saveSelectedCoordinadores"
+          >
+            Guardar
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 <style scoped>
 @import "../../../assets/btn.css";
 
 h6 {
-    background-color: #f8d7da;
-    border-color: #f0959e;
-    color: #723b47;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 4px;
-    padding: 8px;
+  background-color: #f8d7da;
+  border-color: #f0959e;
+  color: #723b47;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  padding: 8px;
 }
 </style>
 <script>
-import { useElementStore } from '../../../utils/Store';
+import { useElementStore } from "../../../utils/Store";
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from 'axios'
+import axios from "axios";
 
-import apiUrl from '../../../../config/config.js';
+import apiUrl from "../../../../config/config.js";
 
 export default {
     setup() {
@@ -169,26 +193,158 @@ export default {
             await categoriasStore.fetchElements(`${apiUrl}/categoria/${idDeporte}/deporte`)
             await usuariosStore.fetchElements(`${apiUrl}/deporte/${idDeporte}/coordinadores`)
 
-            data.value;
+      data.value;
+    });
+
+    const categorias = ref(null);
+    const deporte = ref(null);
+    const deportes = ref(null);
+    const coordinadores = ref(null);
+
+    const message = ref(null);
+
+    const data = computed(() => {
+      if (deporteStore.currentElement != null) {
+        deporte.value = deporteStore.currentElement.result;
+        categorias.value = categoriasStore.getElements.result;
+        coordinadores.value =
+          usuariosStore.getElements.result.CoordinadoresAsignados;
+
+        deportes.value = deporteStore.getElements.result.filter(
+          (deporte) => deporte.idDeporte != idDeporte
+        );
+        nombre.value = deporte.value.nombre;
+      }
+    });
+
+    function obtenerCoordinador(idUsuario) {
+      const usuarioEncontrado = usuariosStore.getElements.result.find(
+        (usuario) => usuario.idUsuario === idUsuario
+      );
+
+      if (usuarioEncontrado) {
+        return usuarioEncontrado;
+      } else {
+        return "Nombre no encontrado";
+      }
+    }
+
+    const updateNombre = async () => {
+      if (
+        validarNombre() &&
+        deporteStore.confirm("modificar", "modificado", "nombre del Deporte")
+      ) {
+        const deporteMod = JSON.parse(
+          JSON.stringify(deporteStore.currentElement.result)
+        );
+        deporteStore.updateElement(
+          `${apiUrl}/deporte/`,
+          deporteMod,
+          "idDeporte"
+        );
+        location.reload();
+      }
+    };
+
+    const deleteDeporte = async () => {
+      try {
+        await deporteStore.deleteElement(
+          apiUrl,
+          "deporte/" + idDeporte + "/eliminarDeporte"
+        );
+        alert("Deporte eliminado con éxito");
+        router.push("/deportes");
+      } catch (error) {
+        console.error("Error al eliminar el deporte:", error);
+      }
+    };
+
+    const confirmarEliminarDeporte = () => {
+      const mensaje = `¿Estás seguro de eliminar el deporte: "${nombre.value}"?`;
+      if (window.confirm(mensaje)) {
+        deleteDeporte();
+      } else {
+        console.log("Operación de eliminación cancelada.");
+      }
+    };
+
+    const updateDeporte = async () => {
+      const sportUpdated = await JSON.parse(
+        JSON.stringify(deporteStore.currentElement.result)
+      ); //Error aca:
+      const idsUsuarios = coordinadores.value.map((coordinador) => ({
+        idUsuario: coordinador.idUsuario,
+      }));
+
+      if (
+        validar() &&
+        categoriasStore.confirm("modificar", "modificado", "Deporte")
+      ) {
+        const store = useElementStore("auxiliarTabla")();
+        let registro = "";
+        await store
+          .fetchElementById(`${apiUrl}/deporte/tablaIntermedia`, idDeporte)
+          .then(() => {
+            registro = JSON.parse(JSON.stringify(store.currentElement.result));
+          });
+
+        await categoriasStore.updateElement(
+          `${apiUrl}/deporte`,
+          sportUpdated,
+          "idDeporte"
+        );
+        await usuariosStore.deleteElement(`${apiUrl}/deporte/`, idDeporte);
+
+        idsUsuarios.forEach(async (idUsuario) => {
+          registro.idUsuario = idUsuario.idUsuario;
+          await usuariosStore.updateElement(
+            `${apiUrl}/deporte/coordinador`,
+            registro,
+            "idDeporte"
+          );
         });
 
-        const categorias = ref(null)
-        const deporte = ref(null)
-        const deportes = ref(null)
-        const coordinadores = ref(null)
+        //Categorias update
+        const store2 = useElementStore("categoriasUpdate")();
+        await store2.fetchElementById(
+          `${apiUrl}/categoria`,
+          categorias.value[0].idCategoria
+        );
 
-        const message = ref(null);
-
-        const data = computed(() => {
-            if (deporteStore.currentElement != null) {
-                deporte.value = deporteStore.currentElement.result;
-                categorias.value = categoriasStore.getElements.result
-                coordinadores.value = usuariosStore.getElements.result.CoordinadoresAsignados
-
-                deportes.value = deporteStore.getElements.result.filter(deporte => deporte.idDeporte != idDeporte)
-                nombre.value = deporte.value.nombre
-            }
+        categorias.value.forEach(async (categoria) => {
+          categoria.idDeporte = idDeporte;
+          registro = JSON.parse(JSON.stringify(categoria));
+          await categoriasStore.updateElement(
+            `${apiUrl}/categoria`,
+            registro,
+            "idCategoria"
+          );
         });
+        location.reload();
+      }
+    };
+
+    function validarNombre() {
+      let resultado = false;
+
+      const nombreDuplicado = deportes.value.some(
+        (deporte2) => deporte2.nombre == deporte.value.nombre
+      );
+
+      if (
+        String(deporte.value.nombre).length < 2 ||
+        String(deporte.value.nombre).length > 24
+      ) {
+        message.value =
+          "El nombre debe tener un minimo de 2 caracteres y un maximo de 24.";
+      } else if (nombreDuplicado) {
+        message.value = "El nombre no se puede repetir";
+      } else {
+        resultado = true;
+      }
+
+      return resultado;
+    }
 
         function obtenerCoordinador(idUsuario) {
             const usuarioEncontrado = usuariosStore.getElements.result.find((usuario) => usuario.idUsuario === idUsuario);
@@ -204,11 +360,7 @@ export default {
             }
         }
 
-        function deleteDeporte() {
-            alert("not implemented")
-        }
-
-        function validarNombre() {
+          function validarNombre() {
             let resultado = false
 
             const nombreDuplicado = deportes.value.some((deporte2) => deporte2.nombre == deporte.value.nombre);
@@ -224,38 +376,37 @@ export default {
             return resultado
         }
 
-        const coordinadoresModal = ref(null)
+    const coordinadoresModal = ref(null);
 
-        const agregarCoordinador = async () => {
-            const coordinadoresStore = useElementStore("coordinadores")()
-            await coordinadoresStore.fetchElements(`${apiUrl}/usuario/2/rol`)
-            coordinadoresModal.value = coordinadoresStore.getElements.result
+    const agregarCoordinador = async () => {
+      const coordinadoresStore = useElementStore("coordinadores")();
+      await coordinadoresStore.fetchElements(`${apiUrl}/usuario/2/rol`);
+      coordinadoresModal.value = coordinadoresStore.getElements.result;
+    };
+
+    function saveSelectedCoordinadores() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      const valoresSeleccionados = [];
+
+      checkboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+          valoresSeleccionados.push(checkbox.value);
         }
+      });
 
-        function saveSelectedCoordinadores() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const valoresSeleccionados = [];
+      const nuevosCoordinadores = [];
 
-            checkboxes.forEach((checkbox) => {
-                if (checkbox.checked) {
-                    valoresSeleccionados.push(checkbox.value);
-                }
-            });
-
-            const nuevosCoordinadores = [];
-
-            coordinadoresModal.value.forEach((coordinador) => {
-                if (valoresSeleccionados.includes(coordinador.idUsuario.toString())) {
-                    nuevosCoordinadores.push(coordinador);
-                }
-            });
-
-            if (usuariosStore.confirm("modificar", "modificado", "Coordinador/es")) {
-                coordinadores.value = nuevosCoordinadores;
-                updateCoordinadores()
-            }
+      coordinadoresModal.value.forEach((coordinador) => {
+        if (valoresSeleccionados.includes(coordinador.idUsuario.toString())) {
+          nuevosCoordinadores.push(coordinador);
         }
+      });
 
+      if (usuariosStore.confirm("modificar", "modificado", "Coordinador/es")) {
+        coordinadores.value = nuevosCoordinadores;
+        updateCoordinadores();
+      }
+    }
         async function updateCoordinadores() {
             await usuariosStore.deleteElement(`${apiUrl}/deporte/`, idDeporte);
 
@@ -273,13 +424,12 @@ export default {
             }
         }
 
-        function isChecked(id) { return coordinadores.value.some(coordinador => coordinador.idUsuario == id); }
 
-        function irA(id) {
-            if (id != 0) {
-                router.push(`/detalleCategoria/${id}`);
-            }
-        }
+    function isChecked(id) {
+      return coordinadores.value.some(
+        (coordinador) => coordinador.idUsuario == id
+      );
+    }
 
         const nombreCategoria = ref(null)
         const messageModal = ref(null);
@@ -302,6 +452,11 @@ export default {
                 }
             }
         }
+        
+        function irA(id) {
+      if (id != 0) {
+        router.push(`/detalleCategoria/${id}`);
+      }
 
         return {
             categoriasStore,
@@ -320,10 +475,11 @@ export default {
             isChecked,
             irA,
             nombre,
+             confirmarEliminarDeporte,
             nombreCategoria,
             crearCategoria,
             messageModal
         }
-    }
-}
+  },
+};
 </script>
