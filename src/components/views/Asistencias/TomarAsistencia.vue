@@ -181,7 +181,7 @@ export default {
     }
 
     const cancelar = () => {
-      router.push({ path: `/fechas/${idFecha}` });
+      router.go(-1);
     };
 
     const guardarAsistencia = async () => {
@@ -209,7 +209,7 @@ export default {
         );
 
         if (response.ok) {
-          router.push({ path: `/fechas/${idFecha}` });
+          router.go(-1);
         } else {
           console.error("Error al guardar la asistencia");
         }

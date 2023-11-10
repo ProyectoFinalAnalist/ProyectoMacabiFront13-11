@@ -53,6 +53,9 @@
                             <div class="d-flex justify-content-center">
                                 <button class="btn btn-danger" @click="confirmarEliminarCategoria">Borrar Categoría</button>
                             </div>
+                            <div class="d-flex justify-content-center mt-3">
+                                <button class="btn btn-dark" @click="eliminarSocio">Eliminar socios de la categoria</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -282,7 +285,10 @@ export default {
             return false
         }
 
-        
+ function eliminarSocio(idSocio){
+            alert("No implementado")
+        }
+
 
         return {
             categoriasStore,
@@ -302,6 +308,7 @@ export default {
             isChecked,
             confirmarEliminarCategoria,
             deleteCategoria
+            eliminarSocio
         }
     }
 }
