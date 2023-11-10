@@ -15,6 +15,7 @@ import Login from "./components/Login.vue";
 import MiUsuario from "./components/MiUsuario.vue"
 import NewPassword from "./components/NewPassword.vue";
 import Unauthorized from "./components/Unauthorized.vue";
+import UpdatePassword from "./components/UpdatePassword.vue"
 
 // ASISTENCIAS
 import HistorialAsistencias from "./components/views/Asistencias/HistorialAsistencias.vue";
@@ -64,6 +65,7 @@ const routes = [
   { path: "/miUsuario", component: MiUsuario, },
   { path: "/newPassword", component: NewPassword, },
   { path: "/unauthorized", component: Unauthorized, },
+  { path: "/updatePass/:idUsuario", component: UpdatePassword},
 
   // ASISTENCIAS
   { path: "/historialAsistencia/:id", component: HistorialAsistencias },
@@ -71,8 +73,8 @@ const routes = [
   { path: "/tomarAsistencia/:id", component: TomarAsistencia },
 
   // CATEGORIAS
-  { path: "/categorias", component: CategoriasList },
-  { path: "/crearCategoria/:idDeporte", component: CrearCategoria },
+  { path: "/categorias", component: CategoriasList }, // no se usa mas, se reemplaza con detalle deporte y deportes list
+  { path: "/crearCategoria/:idDeporte", component: CrearCategoria }, // reemplazo con modal en editar Deporte
   { path: "/modificarCategoria/:id", component: ModificarCategoria },
   { path: "/detalleCategoria/:id", component: DetalleCategoria },
 

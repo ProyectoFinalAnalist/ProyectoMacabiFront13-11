@@ -4,46 +4,77 @@
 			<h1>no estas logeado</h1>
 		</div>
 	</div>
-
-	<div class="borde_doble tamaño_s" v-else>
-
-		<div class="container_basic container_flex">
-			<h1> <b> Detalles de Usuario </b> </h1>
-
-			<span> <b class="b_tag"> Nombre: </b> {{ this.usrStore.currentUser.nombre }} {{
-				this.usrStore.currentUser.apellido }} </span>
-
-			<span> <b b class="b_tag"> Email: </b> {{ this.usrStore.currentUser.email }} </span>
-
-			<button v-if="this.usrStore.isAdmin" type="submit" class="btn_basic btn_administracion"
-				@click="navegar('menuAdministracion')">Administrar</button>
-
-			<button type="submit" class="btn_basic btn_salir" @click="salir">Cerrar Sesion</button>
+	<div class="container-fluid" v-else>
+		<div class="row">
+			<div class="col-md-6 offset-md-3" v-if="this.user">
+				<h3 class="text-center">Detalles del Usuario: <strong>{{ this.user.apellido }}, {{ this.user.nombre
+				}}</strong>
+				</h3>
+				<br>
+				<div class="card bg-light text-dark mb-4">
+					<div class="card-body">
+						<p class="mb-2"><strong class="font-weight-bold">Email: </strong>{{ this.user.email }}</p>
+						<p class="mb-2"><strong class="font-weight-bold">Dni: </strong>{{ this.user.dni }}</p>
+						<p class="mb-2"><strong class="font-weight-bold">Edad: </strong>{{
+							utils.obtenerEdadXFecha(this.user.fechaNacimiento) }}</p>
+						<p class="mb-2"><strong class="font-weight-bold">Fecha de nacimiento: </strong>{{
+							utils.obtenerFechaFormateada(this.user.fechaNacimiento) }}</p>
+						<p class="mb-2"><strong class="font-weight-bold">Telefono: </strong>{{ this.user.telefono }}</p>
+						<p class="mb-2"><strong class="font-weight-bold">Rol: </strong>{{ roleName }}</p>
+						<p class="mb-2"><strong class="font-weight-bold">Activo: </strong>{{ activo }}</p>
+						<p class="mb-2"><strong class="font-weight-bold">Direccion: </strong>{{ this.user.direccion }}</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 offset-md-3" v-else>
+				<strong class="alert alert-warning text-center">El usuario no existe.</strong>
+			</div>
+			<div class="d-flex justify-content-center">
+				<div class="btn-group">
+					<router-link class="btn btn-macabi1" v-if="this.user"
+						:to="`/modificarusuario/${this.user.idUsuario}`">Modificar mis datos</router-link>
+					<button class="btn btn-dark" @click="volver">Volver</button>
+					<button type="submit" class="btn btn-danger" @click="salir">Cerrar Sesion</button>
+				</div>
+			</div>
 		</div>
-
 	</div>
+	<br>
 </template>
   
 <script>
 import { usrStore } from '../stores/usrStore.ts'
+import axios from 'axios';
+import apiUrl from '../../config/config';
+import { Utils } from '../utils/utils';
+import { useRouter } from 'vue-router';
 
 export default {
 	data() {
 		return {
-			usrStore: usrStore()
+			usrStore: usrStore(),
+			user: null,
+			utils: new Utils(),
+			router: useRouter()
 		}
 	},
 	mounted() {
 
 		if (!this.usrStore.isLogged) {
 			this.$router.push("/login");
+		} else {
+			document.title = "Mi Usuario"
+
+			axios.get(`${apiUrl}/usuario/${this.usrStore.currentUser.idUsuario}`, { withCredentials: true })
+				.then(response => {
+					this.user = response.data.result;
+				})
+				.catch(error => {
+					console.error('Error al obtener los datos:', error);
+				});
 		}
-
-		document.title = "Mi Usuario"
-
 	},
 	updated() {
-		console.log(this.usrStore.isLogged)
 		if (!this.usrStore.isLogged) {
 			this.$router.push("/login");
 		}
@@ -58,51 +89,29 @@ export default {
 
 		navegar(ubicacion) {
 			this.$router.push(`/${ubicacion}`);
+		},
+
+		volver() {
+			this.router.go(-1)
 		}
 	},
+	computed: {
+		roleName() {
+			switch (this.user.idRol) {
+				case 1:
+					return "Administrador";
+				case 2:
+					return "Coordinador";
+				case 3:
+					return "Profesor"
+				default:
+					return "Unknown";
+			}
+		},
+		activo() {
+			return this.user.activo ? "Si" : "No"
+		}
+	}
 }
 
 </script>
-  
-<style scoped>
-.container_flex {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	justify-content: center;
-}
-
-.container_basic h1 {
-	font-size: 40px;
-	margin: 20px;
-	text-align: center;
-}
-
-@media screen and (max-width:620px) {
-	.b_tag {
-		display: block;
-	}
-
-}
-
-.btn_salir {
-	width: 95%;
-	max-width: 300px;
-	border: 2px solid red;
-	margin-bottom: 20px;
-}
-
-.btn_salir:before {
-	width: 50%;
-}
-
-.btn_administracion {
-	width: 95%;
-	max-width: 300px;
-	border: 2px solid rgb(65, 65, 255);
-}
-
-.btn_administracion:before {
-	width: 50%;
-}
-</style>

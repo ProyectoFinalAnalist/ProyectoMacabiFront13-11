@@ -17,17 +17,40 @@
           <input type="text" class="form-control" placeholder="Buscar..." v-model="busqueda">
         </div>
         <div class="col-12 col-md-auto">
-          <button class="btn btn-danger" type="button" v-on:click="reiniciar">Reiniciar</button>
+          <button class="btn btn-macabi1 mb-1 px-3" type="button" data-bs-toggle="collapse"
+            data-bs-target="#checkboxesCollapse" aria-expanded="true" aria-controls="checkboxesCollapse">
+            Filtro por ROL
+          </button>
+          <div id="checkboxesCollapse" class="accordion-collapse collapse" aria-labelledby="headingOne"
+            data-bs-parent="#checkboxAccordion">
+            <div class="accordion-body my-1">
+              <input type="checkbox" id="admin" name="A" value="A" v-model="checkboxes"
+                class="form-check-input form-check-input-sm mx-1">
+              <label for="Administrador" class="form-check-label">Administrador</label><br>
+              <input type="checkbox" id="coordinador" name="C" value="C" v-model="checkboxes"
+                class="form-check-input form-check-input-sm mx-1">
+              <label for="Coordinador" class="form-check-label">Coordinador</label><br>
+              <input type="checkbox" id="profesor" name="P" value="P" v-model="checkboxes"
+                class="form-check-input form-check-input-sm mx-1">
+              <label for="Profesor" class="form-check-label">Profesor</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-auto">
+          <div class="btn-group d-flex justify-content-center mx-md-0" style="margin: 0% 40%;">
+            <button class="btn btn-danger text-center" type="button" v-on:click="reiniciar">Reiniciar</button>
+            <button class="btn btn-success text-center" type="button" v-on:click="buscar">Buscar</button>
+          </div>
         </div>
         <div class="col text-md-end">
-          <div class="d-flex justify-content-end mt-3">
+          <div class="d-flex justify-content-end mt-3 mb-0">
             <p>Usuarios en total: <strong>{{ size }}</strong></p>
           </div>
         </div>
       </div>
     </form>
     <br>
-    <div class="d-flex justify-content-end input-group mb-3">
+    <div class="d-flex justify-content-end input-group">
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -35,18 +58,22 @@
             <th>Apellido:</th>
             <th class="d-none d-sm-table-cell">Email:</th>
             <th class="d-none d-sm-table-cell">Dni: <button class="btn bg-success" @click="ordenar('dni')"></button></th>
+            <th class="d-none d-md-table-cell">Rol:</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in usuarios" :key="user.idUsuario" @click="irA(user.idUsuario)">
+          <tr v-for="user in usuarios" :key="user.idUsuario" @click="irA(user.idUsuario)"
+            :class="{ 'table-danger': !user.activo }">
             <td>{{ user.nombre }}</td>
             <td>{{ user.apellido }}</td>
             <td class="d-none d-sm-table-cell">{{ user.email }}</td>
             <td class="d-none d-sm-table-cell"> {{ user.dni }}</td>
+            <td class="d-none d-md-table-cell"> {{ obtenerRol(user.Rol.tipo) }}</td>
           </tr>
         </tbody>
       </table>
     </div>
+    <div class="text text-end mb-3"><code>Si se encuentra en rojo, el usuario no está activo</code></div>
     <div class="d-flex justify-content-center align-items-center">
       <div class="btn-group">
         <button class="btn btn-macabi1">
@@ -63,7 +90,9 @@
 <style scoped>
 @import '../../../assets/btn.css';
 
-tbody {cursor: pointer;}
+tbody {
+  cursor: pointer;
+}
 </style>
 <script>
 import { useElementStore } from "../../../stores/Store";
@@ -89,21 +118,26 @@ export default {
       })
     })
 
+    const checkboxes = ref(['P', 'C', 'A'])
+
     function buscar() {
       reiniciar();
       busqueda = this.busqueda;
 
       if (busqueda !== "") {
-        filtro = document.getElementById("filtro").value;
         usuarios.value = elementStore.getElements.filter(item => {
-          const propiedad = item[filtro];
+          const propiedad = item[document.getElementById("filtro").value];
           const propiedadLowerCase = String(propiedad).toLowerCase();
           const busquedaLowerCase = String(busqueda).toLowerCase();
-          return propiedadLowerCase.includes(busquedaLowerCase);
+          return propiedadLowerCase.includes(busquedaLowerCase) && checkboxes.value.some(rol => item.Rol.tipo.includes(rol));
         });
-
-        size.value = usuarios.value.length || 0;
+      } else {
+        usuarios.value = elementStore.getElements.filter(item => {
+          return checkboxes.value.some(rol => item.Rol.tipo.includes(rol));
+        });
       }
+
+      size.value = usuarios.value.length || 0;
     }
 
     function reiniciar() {
@@ -128,6 +162,20 @@ export default {
       }
     }
 
+    function obtenerRol(rol) {
+      if (rol != null || rol != '') {
+        if (rol == 'A') {
+          return 'Administrador'
+        } else if (rol == 'C') {
+          return 'Coordinador'
+        } else if (rol == 'P') {
+          return 'Profesor'
+        }
+      } else {
+        return 'Rol desconocido'
+      }
+    }
+
     return {
       elementStore,
       usuarios,
@@ -136,7 +184,9 @@ export default {
       reiniciar,
       size,
       ordenar,
-      irA
+      irA,
+      checkboxes,
+      obtenerRol
     }
   },
 }
