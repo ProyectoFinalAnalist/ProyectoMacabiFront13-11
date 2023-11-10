@@ -15,7 +15,8 @@
                             <p>
                                 <strong>Categorias asignadas: </strong>
                             </p>
-                            <ul class="list-group mt-1 mb-4 text-center" style="font-size: x-large; max-height: 300px; overflow-y: auto;">
+                            <ul class="list-group mt-1 mb-4 text-center"
+                                style="font-size: x-large; max-height: 300px; overflow-y: auto;">
                                 <li class="list-group text-dark" v-on:click="irA(categoria.idCategoria)"
                                     :class="[categoria.idCategoria == 0 ? 'list-group-item list-group-item-danger' : 'list-group-item list-group-item-action list-group-item-light']"
                                     v-for="categoria in categorias" :key="categoria.idCategoria">
@@ -57,7 +58,7 @@
                                 </button>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-danger" @click="deleteDeporte">Borrar Deporte</button>
+                                <button class="btn btn-danger" @click="confirmarEliminarDeporte">Borrar Deporte</button>
                             </div>
                             <h5 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="message != null">
                                 <strong>{{ message }}</strong>
@@ -142,11 +143,10 @@ h6 {
 }
 </style>
 <script>
-import { useElementStore } from '../../../utils/Store';
+import { useElementStore } from "../../../utils/Store";
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from 'axios'
-
+import axios from "axios";
 import apiUrl from '../../../../config/config.js';
 
 export default {
@@ -202,10 +202,6 @@ export default {
                 deporteStore.updateElement(`${apiUrl}/deporte/`, deporteMod, "idDeporte")
                 location.reload()
             }
-        }
-
-        function deleteDeporte() {
-            alert("not implemented")
         }
 
         function validarNombre() {
@@ -303,6 +299,28 @@ export default {
             }
         }
 
+        const deleteDeporte = async () => {
+            try {
+                await deporteStore.deleteElement(
+                    apiUrl,
+                    "deporte/" + idDeporte + "/eliminarDeporte"
+                );
+                alert("Deporte eliminado con éxito");
+                router.push("/deportes");
+            } catch (error) {
+                console.error("Error al eliminar el deporte:", error);
+            }
+        };
+        
+        const confirmarEliminarDeporte = () => {
+            const mensaje = `¿Estás seguro de eliminar el deporte: "${nombre.value}"?`;
+            if (window.confirm(mensaje)) {
+                deleteDeporte();
+            } else {
+                console.log("Operación de eliminación cancelada.");
+            }
+        };
+
         return {
             categoriasStore,
             deporteStore,
@@ -322,7 +340,9 @@ export default {
             nombre,
             nombreCategoria,
             crearCategoria,
-            messageModal
+            messageModal,
+            categoriasStore,
+            confirmarEliminarDeporte,
         }
     }
 }
