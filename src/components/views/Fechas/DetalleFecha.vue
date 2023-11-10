@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-3">
+  <div class="container mt-3 mb-5">
     <div class="text text-center pb-3 pt-5 h1">Detalles de la Fecha</div>
 
     <div>
@@ -36,14 +36,18 @@
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex justify-content-center align-items-center mt-5">
       <button class="btn btn-secondary">
         <router-link to="/" class="nav-item nav-link" href="#"
-          >Volver a Inicio</router-link
-        >
+          >Volver a Inicio</router-link  >
       </button>
-      <router-link class="btn btn-primary m-3" :to="`/editarfecha/${fechaDetalle.idFecha}`">Editar Fecha</router-link>
-      <button  class="btn btn-danger" @click="asignarAsistencia">Asignar/Modificar asistencias</button>
+      <button  class="btn btn-dark" @click="asignarAsistencia">Asignar/Modificar asistencias</button>
+
+    </div>
+    <div class="d-flex justify-content-center align-items-center mt-5">
+
+    <router-link class="btn btn-primary m-3" :to="`/editarfecha/${fechaDetalle.idFecha}`">Editar Fecha</router-link>
+      <button @click="eliminarFecha" class="btn btn-danger m-3">Eliminar fecha</button>
     </div>
   </div>
 </template>
@@ -53,7 +57,6 @@ import { useElementStore } from "../../../utils/Store";
 import { onBeforeMount, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import apiUrl from "../../../../config/config.js";
-
 export default {
   setup() {
     const asistenciaStore = useElementStore("asistencias")();
@@ -151,6 +154,25 @@ export default {
         return "Sin asignar";
       }
     }
+    function eliminarFecha() {
+
+      let idCategoria = route.query.idCategoria;
+      fechaStore.deleteElement(apiUrl,"fecha/" + idFecha + "/eliminarFecha")
+      if(confirm("¿Estas seguro que queres borras definitivamente la fecha con todas sus asistencias existentes?")) {
+        router.push({ path: `/fechasCategoria/${idCategoria}` })
+        alert("Borrado con éxito")
+      }else
+      alert('Se canceló la operación');
+      
+
+
+    
+
+
+
+
+      
+    }
 
       function asignarAsistencia() {
 
@@ -165,7 +187,8 @@ export default {
       obtenerDeporte,
       deporte,
       profesor,
-      asignarAsistencia
+      asignarAsistencia,
+      eliminarFecha
     };
   }, data() {
     return {

@@ -50,7 +50,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="socio in sociosList" :key="socio.idSocio">
+            <tr v-for="(socio, index) in sociosList" :key="socio.idSocio">
               <td>{{ socio.nombre }}</td>
               <td class="d-none d-md-table-cell">{{ socio.apellido }}</td>
               <td>{{ socio.nroSocio }}</td>
@@ -185,6 +185,7 @@ export default {
       return existe;
     },
     eliminarDeListaSocios(index) {
+      alert("Se va eliminar el registro en la posiciom: " + index)
       this.sociosList.splice(index, 1)
     },
 

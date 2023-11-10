@@ -56,13 +56,14 @@
                 <tbody class="pointer">
                     <tr v-for="socio in sociosFiltados" :key="socio.idSocio" @click="irA(socio.idSocio)">
                         <td class="d-none d-sm-table-cell">{{ socio.nroSocio }}</td>
-                        <td>{{ socio.nombre }}</td>
+                        <td>{{ socio.nombre }}  <label id="socioNuevo" v-if="socio.esNuevoSocio">"NUEVO"</label>  </td>
                         <td>{{ socio.apellido }}</td>
                         <td class="d-none d-sm-table-cell">{{ socio.dni }}</td>
                         <td class="d-none d-lg-table-cell">{{ socio.email }}</td>
                     </tr>
                 </tbody>
             </table>
+            <p id="explicacion">*"NUEVO" -> El socio fue agregado a la categoria dentro de los últimos 7 días</p>
 
         </div>
         <div v-else class="text text-center fw-bold h3 alert alert-danger">No se encontraron socios asignados a la categoria</div>
@@ -107,7 +108,9 @@ export default {
             orden: 0,
             profesoresCategoria: [
                 
-            ]
+            ],
+            fecha1SemanaAtras:"",
+            
         };
     },
     async created() {
@@ -124,20 +127,48 @@ export default {
                 this.listSocios.push(socio)
             });
 
+            this.fecha1SemanaAtras = new Date();
+            this.fecha1SemanaAtras.setDate(this.fecha1SemanaAtras.getDate() - 7);
+            console.log("La fecha de hoy es ... " + this.fecha1SemanaAtras);
+
+            this.asignarSiEsNuevoUsuarioONo(this.fecha1SemanaAtras, this.listSocios)
+
             this.sociosFiltados = this.listSocios;
 
-            let resultProfes = await axios.get(`${apiUrl}/categoria/${this.idCategoria}/getProfesores`);
+            try {
+                let resultProfes = await axios.get(`${apiUrl}/categoria/${this.idCategoria}/getProfesores`);
             this.profesoresCategoria = resultProfes.data.usuariosList;
+            }catch(e){
+
+            }
+
+            
            // console.log("Los profesores son: " + this.profesoresCategoria);
 
-
-
+            
         } catch (e) {
             console.log("catch");
         }
 
     },
     methods: {
+
+        asignarSiEsNuevoUsuarioONo(fechaDiaSemanaAnterior,listaSocios){
+
+            listaSocios.forEach(socio => {
+
+                    let fechaRegistroSocio = new Date(socio.fechaRegistro)
+                    fechaRegistroSocio.setDate(fechaRegistroSocio.getDate() + 1)
+                    if(fechaRegistroSocio < fechaDiaSemanaAnterior){
+                        socio.esNuevoSocio = false;
+
+                    }else {
+                        socio.esNuevoSocio = true;
+                    }
+
+            });
+
+        },
 
         verProfesor(profesor) {
             this.$router.push(`/usuarios/${profesor}`);
@@ -196,6 +227,18 @@ export default {
 </script>
 
 <style scoped>
+
+#explicacion {
+    color:red;
+}
+
+#socioNuevo {
+background-color: red;
+border:2px solid black;
+color:white;
+padding: 1px;
+}
+
 .pointer {
     cursor: pointer
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-3">
+  <div class="container mb-5">
     <div class="text text-center pb-3 pt-5 h1">LISTA DE FECHAS</div>
     <div class="d-flex justify-content-between align-items-center">
       <p class="">Fechas en total: <strong>{{ size }}</strong></p>
@@ -117,7 +117,7 @@ export default {
     },
     irA(id) {
             if (id != 0) {
-              this.$router.push({ path: `/fechas/${id}` });
+              this.$router.push({ path: `/fechas/${id}` , query: { idCategoria: this.$route.params.id} });
 
             }
         },
