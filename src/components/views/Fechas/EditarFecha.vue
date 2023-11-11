@@ -101,10 +101,7 @@
 <!-- Modal end -->
   
     <div class="d-flex justify-content-center align-items-center">
-      <button class="btn btn-secondary">
-        <router-link :to="`/fechas/${fechaDetalle.idFecha}`" class="nav-item nav-link" href="#"
-          >Volver al detalle</router-link
-        >
+      <button @click="volverADetalle()" class="btn btn-secondary">Volver al detalle
       </button>
       <button class="btn btn-primary m-3" @click="editFecha()">
         Editar Fecha
@@ -253,6 +250,10 @@ export default {
 
     }
 
+    function volverADetalle(){
+      router.go(-1)
+    }
+
     async function agregarSocios(){
       sociosAsistencia.value.sociosFinal =sociosAsistencia.value.sociosFinal.concat(...listaSociosAgregar.value)
       listaSociosAgregar.value = listaSociosAgregar.value.filter(item => !sociosAsistencia.value.sociosFinal.includes(item));      
@@ -274,7 +275,7 @@ export default {
       await editSociosRegistrados();
       
       await editFechaCalendario();
-      router.push(`/fechas/${idFecha}`); 
+      router.go(-1)
       } catch (error) {
         alert("Error detectado en el ingreso de campos: " + error)
       }
@@ -319,7 +320,8 @@ export default {
       eliminarSocio,
       sociosXCategoria,
       listaSociosAgregar,
-      agregarSocios
+      agregarSocios,
+      volverADetalle
     };
   },
   data() {

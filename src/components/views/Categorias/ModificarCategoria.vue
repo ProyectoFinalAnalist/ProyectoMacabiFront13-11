@@ -53,6 +53,9 @@
                             <div class="d-flex justify-content-center">
                                 <button class="btn btn-danger" @click="confirmarEliminarCategoria">Borrar Categoría</button>
                             </div>
+                            <div class="d-flex justify-content-center mt-3">
+                                <button class="btn btn-dark" @click="eliminarSocio">Eliminar socios de la categoria</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -135,8 +138,10 @@ export default {
         onMounted(async () => {
             await categoriasStore.fetchElementById(`${apiUrl}/categoria/`, idCategoria)
             await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
+            usuariosStore.elements = null ;
+            usuariosStore.elementsList = null;
             await usuariosStore.fetchElements(`${apiUrl}/categoria/${idCategoria}/getProfesores`)
-            await profesoresStore.fetchElements(`${apiUrl}/usuario/3/rol`)
+            await profesoresStore.fetchElements(`${apiUrl}/usuario/3/rol/activos`)
             data.value;
         })
 
@@ -282,6 +287,10 @@ export default {
             return false
         }
 
+        function eliminarSocio(){
+            router.push({ path: `/eliminarSociosCategoria/${idCategoria}` })
+        }
+
         return {
             categoriasStore,
             deporteStore,
@@ -298,6 +307,7 @@ export default {
             profesoresModal,
             saveSelectedProfesores,
             isChecked,
+            eliminarSocio
             confirmarEliminarCategoria,
             deleteCategoria
         }

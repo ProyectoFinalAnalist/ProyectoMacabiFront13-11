@@ -26,6 +26,8 @@ import TomarAsistencia from "./components/views/Asistencias/TomarAsistencia.vue"
 import CategoriasList from "./components/views/Categorias/CategoriasList.vue";
 import CrearCategoria from "./components/views/Categorias/CrearCategoria.vue";
 import DetalleCategoria from "./components/views/Categorias/DetalleCategoria.vue";
+import EliminarSociosCategorias from "./components/views/Categorias/EliminarSociosCategorias.vue";
+
 import ModificarCategoria from "./components/views/Categorias/ModificarCategoria.vue";
 
 // DEPORTES
@@ -77,6 +79,8 @@ const routes = [
   { path: "/crearCategoria/:idDeporte", component: CrearCategoria }, // reemplazo con modal en editar Deporte
   { path: "/modificarCategoria/:id", component: ModificarCategoria },
   { path: "/detalleCategoria/:id", component: DetalleCategoria },
+  { path: "/eliminarSociosCategoria/:id", component: EliminarSociosCategorias },
+
 
   // DEPORTES
   { path: "/deportes", component: DeportesList },
