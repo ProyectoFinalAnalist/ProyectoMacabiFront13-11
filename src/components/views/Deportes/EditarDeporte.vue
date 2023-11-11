@@ -237,7 +237,7 @@ export default {
 
         const agregarCoordinador = async () => {
             const coordinadoresStore = useElementStore("coordinadores")()
-            await coordinadoresStore.fetchElements(`${apiUrl}/usuario/2/rol`)
+            await coordinadoresStore.fetchElements(`${apiUrl}/usuario/2/rol/activos`)
             coordinadoresModal.value = coordinadoresStore.getElements.result
         }
 

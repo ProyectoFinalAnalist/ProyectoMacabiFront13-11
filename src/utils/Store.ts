@@ -37,6 +37,9 @@ export function useElementStore(nombreStore) {
 		actions: {
 
 			async fetchElements(url) {
+
+				
+
 				if (true) {  //pongo true porque sino no recarga nunca :) despues vemos que hacemos
 					try {
 						const response = await axios.get(url, { withCredentials: true })

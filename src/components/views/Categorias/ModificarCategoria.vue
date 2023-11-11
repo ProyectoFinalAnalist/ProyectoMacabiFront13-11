@@ -138,8 +138,10 @@ export default {
         onMounted(async () => {
             await categoriasStore.fetchElementById(`${apiUrl}/categoria/`, idCategoria)
             await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
+            usuariosStore.elements = null;
+            usuariosStore.elementsList = null;
             await usuariosStore.fetchElements(`${apiUrl}/categoria/${idCategoria}/getProfesores`)
-            await profesoresStore.fetchElements(`${apiUrl}/usuario/3/rol`)
+            await profesoresStore.fetchElements(`${apiUrl}/usuario/3/rol/activos`)
             data.value;
         })
 
