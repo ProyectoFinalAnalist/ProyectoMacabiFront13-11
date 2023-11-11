@@ -269,8 +269,8 @@ export default {
             return false
         }
 
-        function eliminarSocio(idSocio){
-            alert("No implementado")
+        function eliminarSocio(){
+            router.push({ path: `/eliminarSociosCategoria/${idCategoria}` })
         }
 
         return {
