@@ -15,7 +15,8 @@
                             <p>
                                 <strong>Categorias asignadas: </strong>
                             </p>
-                            <ul class="list-group mt-1 mb-4 text-center" style="font-size: x-large;">
+                            <ul class="list-group mt-1 mb-4 text-center"
+                                style="font-size: x-large; max-height: 300px; overflow-y: auto;">
                                 <li class="list-group text-dark" v-on:click="irA(categoria.idCategoria)"
                                     :class="[categoria.idCategoria == 0 ? 'list-group-item list-group-item-danger' : 'list-group-item list-group-item-action list-group-item-light']"
                                     v-for="categoria in categorias" :key="categoria.idCategoria">
@@ -23,7 +24,8 @@
                                 </li>
                             </ul>
                             <div class="justify-content-center d-flex">
-                                <button class="btn btn-success mb-3" @click="agregarCategoria">Agregar Categoria</button>
+                                <button class="btn btn-success mb-3" data-bs-toggle="modal"
+                                    data-bs-target="#categoriaModal">Agregar Categoria</button>
                             </div>
                             <p>
                                 <strong>Coordinadores: </strong>
@@ -56,7 +58,7 @@
                                 </button>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-danger" @click="deleteDeporte">Borrar Deporte</button>
+                                <button class="btn btn-danger" @click="confirmarEliminarDeporte">Borrar Deporte</button>
                             </div>
                             <h5 class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3" v-if="message != null">
                                 <strong>{{ message }}</strong>
@@ -73,6 +75,31 @@
     <div class="d-flex justify-content-center">
         <button class="btn btn-secondary"><router-link to="/deportes" class="nav-item nav-link" href="#">Volver a
                 Deportes</router-link></button>
+    </div>
+    <!--MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / MODAL / -->
+    <div class="modal fade" id="categoriaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Crear Categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="p pe-3">
+                        <strong>Nombre: <code>*</code></strong><input type="text" class="form-control"
+                            v-model="nombreCategoria" />
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-macabi1" @click="crearCategoria">Crear</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <div class="text-start"><code>*campos obligatorios</code></div>
+                </div>
+            </div>
+            <h5 v-if="messageModal != null" class="alert alert-danger alert-sm mb-0 text-center m-2 mb-3">
+                <strong>{{ messageModal }}</strong>
+            </h5>
+        </div>
     </div>
     <!--MODAL 2 / MODAL 2 / MODAL 2 / MODAL 2 / MODAL 2 / MODAL 2 / MODAL 2 / MODAL 2 / MODAL 2 / MODAL 2 / MODAL 2 / MODAL 2 / -->
     <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
@@ -116,11 +143,10 @@ h6 {
 }
 </style>
 <script>
-import { useElementStore } from '../../../utils/Store';
+import { useElementStore } from "../../../utils/Store";
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from 'axios'
-
+import axios from "axios";
 import apiUrl from '../../../../config/config.js';
 
 export default {
@@ -136,6 +162,8 @@ export default {
         const nombre = ref(null)
 
         onMounted(async () => {
+            categoriasStore.deleteElements()
+
             await deporteStore.fetchElementById(`${apiUrl}/deporte/`, idDeporte)
             await deporteStore.fetchElements(`${apiUrl}/deporte/getAll`)
             await categoriasStore.fetchElements(`${apiUrl}/categoria/${idDeporte}/deporte`)
@@ -176,43 +204,6 @@ export default {
             }
         }
 
-        function deleteDeporte() {
-            alert("not implemented")
-        }
-
-        const updateDeporte = async () => {
-            const sportUpdated = await JSON.parse(JSON.stringify(deporteStore.currentElement.result))//Error aca:
-            const idsUsuarios = coordinadores.value.map((coordinador) => ({
-                idUsuario: coordinador.idUsuario
-            }));
-
-            if (validar() && categoriasStore.confirm("modificar", "modificado", "Deporte")) {
-                const store = useElementStore("auxiliarTabla")()
-                let registro = ""
-                await store.fetchElementById(`${apiUrl}/deporte/tablaIntermedia`, idDeporte)
-                .then(() => {registro = JSON.parse(JSON.stringify(store.currentElement.result))})
-
-                await categoriasStore.updateElement(`${apiUrl}/deporte`, sportUpdated, "idDeporte");
-                await usuariosStore.deleteElement(`${apiUrl}/deporte/`, idDeporte);
-
-                idsUsuarios.forEach(async (idUsuario) => {
-                    registro.idUsuario = idUsuario.idUsuario
-                    await usuariosStore.updateElement(`${apiUrl}/deporte/coordinador`, registro, "idDeporte")
-                })
-
-                //Categorias update
-                const store2 = useElementStore("categoriasUpdate")()
-                await store2.fetchElementById(`${apiUrl}/categoria`, categorias.value[0].idCategoria)
-
-                categorias.value.forEach(async (categoria) => {
-                    categoria.idDeporte = idDeporte
-                    registro = JSON.parse(JSON.stringify(categoria))
-                    await categoriasStore.updateElement(`${apiUrl}/categoria`, registro, "idCategoria");
-                })
-                location.reload()
-            }
-        }
-
         function validarNombre() {
             let resultado = false
 
@@ -227,10 +218,6 @@ export default {
             }
 
             return resultado
-        }
-
-        function agregarCategoria() {
-            router.push(`/crearCategoria/${idDeporte}`)
         }
 
         const coordinadoresModal = ref(null)
@@ -281,7 +268,7 @@ export default {
                 location.reload()
             }
         }
-        
+
         function isChecked(id) { return coordinadores.value.some(coordinador => coordinador.idUsuario == id); }
 
         function irA(id) {
@@ -289,6 +276,50 @@ export default {
                 router.push(`/detalleCategoria/${id}`);
             }
         }
+
+        const nombreCategoria = ref(null)
+        const messageModal = ref(null);
+
+        async function crearCategoria() {
+            const nuevaCategoria = {
+                nombreCategoria: nombreCategoria.value,
+                idDeporte: idDeporte,
+            };
+
+            try {
+                const response = await axios.post(apiUrl + '/categoria', nuevaCategoria, { withCredentials: true });
+                console.log('Respuesta del servidor:', response.data);
+            } catch (error) {
+                const msj = error.response.data.message
+                if (msj != 'idProfesores is not iterable') {
+                    messageModal.value = msj;
+                } else {
+                    location.reload()
+                }
+            }
+        }
+
+        const deleteDeporte = async () => {
+            try {
+                await deporteStore.deleteElement(
+                    apiUrl,
+                    "deporte/" + idDeporte + "/eliminarDeporte"
+                );
+                alert("Deporte eliminado con éxito");
+                router.push("/deportes");
+            } catch (error) {
+                console.error("Error al eliminar el deporte:", error);
+            }
+        };
+        
+        const confirmarEliminarDeporte = () => {
+            const mensaje = `¿Estás seguro de eliminar el deporte: "${nombre.value}"?`;
+            if (window.confirm(mensaje)) {
+                deleteDeporte();
+            } else {
+                console.log("Operación de eliminación cancelada.");
+            }
+        };
 
         return {
             categoriasStore,
@@ -300,14 +331,18 @@ export default {
             categorias,
             coordinadores,
             agregarCoordinador,
-            agregarCategoria,
             updateNombre,
             message,
             coordinadoresModal,
             saveSelectedCoordinadores,
             isChecked,
             irA,
-            nombre
+            nombre,
+            nombreCategoria,
+            crearCategoria,
+            messageModal,
+            categoriasStore,
+            confirmarEliminarDeporte,
         }
     }
 }

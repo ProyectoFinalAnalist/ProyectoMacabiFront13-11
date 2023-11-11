@@ -44,7 +44,8 @@
                         </h6>
 
                         <p class="p pe-2 ps-2"><strong>Fecha de nacimiento: <code>*</code></strong> <input
-                                class="form-control" type="date" required :max="obtenerFechaMax()" v-model="usuario.fechaNacimiento"></p>
+                                class="form-control" type="date" required :max="obtenerFechaMax()"
+                                v-model="usuario.fechaNacimiento"></p>
                         <p class="p pe-2 ps-2">
 
                             <strong>Telefono: <code>*</code></strong><input class="form-control" type="tel"
@@ -93,7 +94,7 @@
                         <button class="btn btn-macabi1" @click="updateUsuario">
                             Actualizar Usuario
                         </button>
-                        <button class="btn btn-success" @click="updatePass">
+                        <button class="btn btn-success" v-if="isSameUser()" @click="updatePassword">
                             Cambiar contraseña
                         </button>
                         <button class="btn btn-danger" @click="deleteUsuario">
@@ -126,6 +127,7 @@ h6 {
 }
 </style>
 <script>
+import { usrStore } from '../../../stores/usrStore'
 import { useElementStore } from "../../../stores/Store";
 import { useRouter, useRoute } from "vue-router";
 import { computed, ref, onMounted } from "vue";
@@ -137,7 +139,7 @@ export default {
         const route = useRoute();
         const idUsuario = route.params.id.toString();
         const elementStore = useElementStore("usuario")();
-        elementStore.fetchElementById(idUsuario).then(() => { nombre.value = `${usuario.value.apellido}, ${usuario.value.nombre}`})
+        elementStore.fetchElementById(idUsuario).then(() => { nombre.value = `${usuario.value.apellido}, ${usuario.value.nombre}` })
 
         const usuario = computed(() => elementStore.currentElement);
         const router = useRouter();
@@ -174,14 +176,13 @@ export default {
             alert("not implemented")
         }
 
-
-        function volver() {
-            router.go(-1)
+        function updatePassword() {
+            router.push(`/updatePass/${idUsuario}`)
         }
 
 
-        function updatePass() {
-            alert("not implemented")
+        function volver() {
+            router.go(-1)
         }
 
         return {
@@ -189,11 +190,23 @@ export default {
             usuario,
             showErrores,
             nombre,
+            updatePassword,
             volver,
             deleteUsuario,
-            updatePass,
             obtenerFechaMax
         };
+    },
+    data() {
+        return {
+            usrStore: usrStore(),
+            idUser: 0,
+            route : useRoute(),
+        }
+    },
+    methods: {
+        isSameUser(){
+            return this.usrStore.currentUser.idUsuario == this.route.params.id.toString()
+        }
     }
 };
 </script>

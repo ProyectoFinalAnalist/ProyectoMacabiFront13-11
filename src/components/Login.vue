@@ -104,7 +104,7 @@ export default {
 				if (mensajeError == null) {
 					this.error = false;
 
-					this.$router.push("/miUsuario");
+					this.$router.push("/");
 
 				} else {
 
