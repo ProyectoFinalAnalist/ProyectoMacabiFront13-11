@@ -9,6 +9,7 @@ body {
     position: relative;
     padding-bottom: 150px;
     min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
 }
 
 #app {
@@ -19,49 +20,73 @@ body {
 
 /* Containers */
 
-.container_grid {
-    display: grid;
+.macabi_color_fondo{
     background-color: #014187;
-    padding: 15px;
-
     border-radius: 20px;
     border: 1px solid black;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-
-    font-family: 'Montserrat', sans-serif;
 }
 
-.container_title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.lightgrey_color_fondo{
     background-color: #f4f4f4;
-
     border-radius: 15px;
     border: 1px solid black;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.container_flex {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+}
+
+
+.container_grid {
+    display: grid;
+    padding: 15px;
+}
+
+.sub_container_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
 
     font-size: 40px;
     font-weight: bold;
     text-align: center;
+    margin-bottom: 20px;
 }
 
-.container_basic {
-    margin-top: 15px;
+.sub_container_sub_title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.sub_container_basic {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 20px;
-    background-color: #f4f4f4;
-
-    border-radius: 15px;
-    border: 1px solid black;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 15px;
 }
 
-.container_buttons {
+.sub_container_buttons {
     display: flex;
     justify-content: space-between;
+    margin: 30px 5px 10px 5px;
+}
+
+.sub_container_buttons2 {
+    display: flex;
+    justify-content: center;
     margin: 30px 5px 10px 5px;
 }
 
@@ -97,6 +122,64 @@ body {
     max-width: 980px;
 }
 
+
+/* Tables */
+
+.tabla_macabi1 {
+    table-layout: fixed;
+    width: 100%;
+    background-color: #d2d7db;
+    color: rgb(0, 0, 0);
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+.tabla_macabi1 td,
+.tabla_macabi1 th {
+    padding: 1rem;
+    overflow: auto;
+}
+
+.tabla_macabi1 th {
+    background-color: #014187;
+    color: white;
+}
+
+.tabla_macabi1 tr:nth-of-type(2n) {
+    background-color: #c0cad3;
+}
+
+.tabla_macabi1 .resaltable:hover {
+    background-color: rgba(68, 68, 68, 0.4);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+
+
+.tabla_macabi1 .small {
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    .tabla_macabi1 .small {
+        display: block;
+    }
+
+    .tabla_macabi1 .big {
+        display: none;
+    }
+
+    .tabla_macabi1 td {
+        display: block;
+    }
+
+    .tabla_macabi1 td::before {
+        content: attr(data-cell) ": ";
+        font-weight: 700;
+    }
+
+}
 
 
 @media screen and (max-width:1000px) {

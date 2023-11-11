@@ -4,13 +4,13 @@
 		<button type="submit" class="" @click="salir">cerrar</button>
 	</div>
 
-	<div v-else class="container_grid tamaño_xs">
+	<div v-else class="container_grid macabi_color_fondo tamaño_xs">
 
-		<div class="container_title">
+		<div class="sub_container_title lightgrey_color_fondo">
 			Iniciar Sesion
 		</div>
 
-		<div class="container_basic">
+		<div class="sub_container_basic lightgrey_color_fondo" >
 
 			<div class="form-floating mb-3 mt-3">
 				<input type="email" class="form-control" id="emailInput" :class="this.isInvalid"
@@ -32,7 +32,7 @@
 
 			</div>
 
-			<div class="container_buttons">
+			<div class="sub_container_buttons">
 				<button type="" class="btn btn-secondary" @click="">Recuperar Clave</button>
 				<button type="" class="btn btn-primary primary-macabi" @click="ingresar">Iniciar Sesión</button>
 			</div>
@@ -103,7 +103,6 @@ export default {
 
 				if (mensajeError == null) {
 					this.error = false;
-
 					this.$router.push("/miUsuario");
 
 				} else {
@@ -148,19 +147,8 @@ export default {
 	grid-template-rows: 1fr 3fr;
 }
 
-.btn-macabi1 {
-	color: white;
-	background-color: #004896;
-	border: 1px solid #013a77;
-}
-
-.btn-macabi1:hover {
-	color: white;
-	background-color: #013368;
-}
-
-.btn-macabi1:active {
-	background-color: #002b58;
+.sub_container_title{
+	margin-bottom: 20px;
 }
 
 .alert {
@@ -168,8 +156,16 @@ export default {
 }
 
 @media screen and (max-width:700px) {
-	.container_buttons {
+	.sub_container_buttons {
 		flex-direction: column;
+		align-items: center;
+	}
+
+	.btn{
+		width: 70%;
+		height: 70px;
+
+		margin-bottom: 20px;
 	}
 }
 </style>

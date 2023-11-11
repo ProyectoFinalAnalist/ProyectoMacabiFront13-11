@@ -3,14 +3,14 @@
     border: none
 }
 
-.primary-macabi :hover {
+.primary-macabi:hover {
     background-color: #003c7c;
 }
 
-.primary-macabi :focus {
+.primary-macabi:focus {
     background-color: #003c7c;
 }
 
-.primary-macabi :active {
+.primary-macabi:active {
     background-color: #002b58;
-}   
+}

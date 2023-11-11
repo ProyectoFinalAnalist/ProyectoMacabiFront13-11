@@ -1,14 +1,14 @@
 <template>
 	<div class="container_grid tamaño_xl">
 
-		<div class="container_title">
+		<div class="sub_container_title">
 			{{ titulo }}
 		</div>
 
 		<div class="container_basic">
 
 			<div>
-				<table>
+				<table class="tabla_macabi1">
 					<tr>
 						<th class="big">Nombre</th>
 						<th class="big" style="width: 20%;">dni</th>
@@ -18,23 +18,28 @@
 						<th class="small">Coordinadores</th>
 					</tr>
 
-					<tr class="resaltable" v-for="coordinador in coordinadores" @click="$router.push(`/usuarios/${coordinador.idUsuario}`);">
+					<tr v-for="coordinador in coordinadores" @click="$router.push(`/usuarios/${coordinador.idUsuario}`);"
+						class="resaltable">
 						<td data-cell="Nombre">{{ coordinador.nombre }} {{ coordinador.apellido }}</td>
 						<td data-cell="dni">{{ coordinador.dni }}</td>
 						<td data-cell="Email">{{ coordinador.email }}</td>
-						<td data-cell="Estado">{{ coordinador.activo }}</td>
+						<td data-cell="Estado">
+							<span class="text-success" v-if="coordinador.activo"> Activo </span>
+							<span class="text-danger" v-else> Inactivo </span>
+						</td>
 					</tr>
 
 				</table>
 			</div>
 
 			<div style="margin-top: 20px;">
-				<table>
+				<table class="tabla_macabi1">
 					<tr>
-						<th class="big">Categorias</th>
+						<th>Categorias</th>
 					</tr>
 
-					<tr class="resaltable" v-for="categoria in categorias" @click="$router.push(`/detalleCategoria/${categoria.idCategoria}`);">
+					<tr v-for="categoria in categorias" class="resaltable"
+						@click="$router.push(`/detalleCategoria/${categoria.idCategoria}`);">
 						<td data-cell="Nombre">{{ categoria.nombreCategoria }}</td>
 					</tr>
 
@@ -81,69 +86,10 @@ onMounted(async () => {
 		titulo.value = "Deporte No Encontrado"
 	}
 
-
-
-
 })
 
 
 
 </script>
 
-<style scoped>
-
-table {
-	table-layout: fixed;
-	width: 100%;
-	background-color: #d2d7db;
-	color: rgb(0, 0, 0);
-	overflow: hidden;
-	border-radius: 18px;
-}
-
-td,
-th {
-	padding: 1rem;
-	overflow: auto;
-}
-
-th {
-	background-color: #014187;
-	color: white;
-}
-
-tr:nth-of-type(2n) {
-
-	background-color: #c0cad3;
-}
-
-
-.resaltable:hover {
-    background-color: rgba(68, 68, 68, 0.4);
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-.small {
-	display: none;
-}
-
-@media (max-width: 1000px) {
-	.small {
-		display: block;
-	}
-
-	.big {
-		display: none;
-	}
-
-	td {
-		display: block;
-	}
-	td::before{
-		content: attr(data-cell) ": ";
-		font-weight: 700;
-	}
-
-}
-</style>
+<style scoped></style>

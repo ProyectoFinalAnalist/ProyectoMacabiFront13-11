@@ -5,17 +5,12 @@ export function useElementStore(nombreStore) {
 	return defineStore(nombreStore, {
 		state: () => ({
 			elements: null,
-			elementsList: null,
 			currentElement: null,
 		}),
 
 		getters: {
 			getElements() {
 				return this.elements;
-			},
-
-			getElementsList() {
-				return this.elementsList;
 			},
 
 			getElementById() {
@@ -36,13 +31,12 @@ export function useElementStore(nombreStore) {
 
 		actions: {
 
-			async fetchElements(url) {
+			async fetchElements(url) {			
 				if (true) {  //pongo true porque sino no recarga nunca :) despues vemos que hacemos
-					try {
+					try {						
 						const response = await axios.get(url, { withCredentials: true })
 						this.elements = response.data
-						this.elementsList = response.data.result
-						//console.log(response.data)
+					this.elementsList = response.data.result
 					} catch (error) {
 						console.error('Error fetching elements:', error)
 					}
