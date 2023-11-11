@@ -307,7 +307,7 @@ export default {
             profesoresModal,
             saveSelectedProfesores,
             isChecked,
-            eliminarSocio
+            eliminarSocio,
             confirmarEliminarCategoria,
             deleteCategoria
         }
