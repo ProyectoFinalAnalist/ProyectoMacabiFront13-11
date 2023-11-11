@@ -155,12 +155,17 @@ export default {
 
       if(confirm("¿Eliminar al socio de la categoria?")) {
         try {
-            resultado = await axios.delete(`${apiUrl}/sociosXCategoria/${this.idCategoria}/${idSocio}/eliminarDeCategoria`, { withCredentials: true });
+            await axios.delete(`${apiUrl}/sociosXCategoria/${this.idCategoria}/${idSocio}/eliminarDeCategoria`, { withCredentials: true });
+            console.log("LLEGO A LA CONFIRMACIÓN");
+            alert("Socio eliminado de la categoria")
+            location.reload();
         }catch(e){
             console.log("Eror");
         }
-      }else
-      alert('Se canceló la operación');
+      }else {
+        alert('Se canceló la operación');
+
+      }
 
         },
 
