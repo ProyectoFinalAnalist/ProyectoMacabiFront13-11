@@ -11,11 +11,10 @@ export const usrStore = defineStore('usuariosStore', {
     actions: {
 
         async logIn(email, clave) {
-            
+
             //si el usuarios es logedo exitosamente devuelve null,
             //en caso contrario devuelve un String con el mensaje de error
-
-            let mensajeError = null
+            let mensajeError
 
             try {
                 const url = `${apiUrl}/usuario/login`
@@ -26,13 +25,16 @@ export const usrStore = defineStore('usuariosStore', {
 
                 const response = await axios.post(url, data, { withCredentials: true });
                 this.currentUser = response.data.payload
-                
+
                 setCookie(response.data.payload)
 
 
             } catch (error) {
-
-                mensajeError = error.response.data.message;
+                if (error.response) {
+                    mensajeError = error.response.data.message;
+                } else {
+                    mensajeError = 'Error con el servidor'
+                }
             }
 
             return mensajeError
@@ -62,14 +64,15 @@ export const usrStore = defineStore('usuariosStore', {
 
             this.currentUser = null;
 
+            removeCookie("tokenMacabi")
+            removeCookie("usuario")
             try {
                 const url = `${apiUrl}/usuario/logout`
                 const data = {};
                 const response = await axios.post(url, data, { withCredentials: true });
-                removeCookie("usuario")
                 alert(response.data.message);
-                
-            } catch (error) { 
+
+            } catch (error) {
                 console.log(error)
             }
         },
@@ -82,7 +85,6 @@ export const usrStore = defineStore('usuariosStore', {
             return this.currentUser != null;
         },
 
-        
         getId() {
             return this.currentUser.idUsuario;
         },

@@ -97,7 +97,7 @@ export default {
         onBeforeMount(async () => { fetchs() })
 
         async function fetchs() {
-            await sociosStore.fetchElements(`${apiUrl}/socio/getSocios`)
+            await sociosStore.fetchElements(`${apiUrl}/socio/getAll`)
         }
 
         function buscar() {

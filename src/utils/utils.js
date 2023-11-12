@@ -3,6 +3,8 @@ export class Utils{
         var confirmado = true;
         var confirmar = window.confirm(`¿Estás seguro de ${accion} este ${tipo}?`);
         if (confirmar) {
+            // igna: che esto no tiene mucho sentido, porque el metodo utils no sabe si la eliminacion se realizo correctamente,
+            // solo saba si el usuario confirmo...
           alert(`${tipo} ${modificacion} correctamente`);
         } else {
           alert(`Acción cancelada`);

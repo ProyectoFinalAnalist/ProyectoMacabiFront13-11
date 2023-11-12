@@ -1,11 +1,11 @@
 <template>
-    <div class="container_grid tamaño_m">
+    <div class="container_grid macabi_color_fondo tamaño_m">
 
-        <div class="container_title">
+        <div class="sub_container_title lightgrey_color_fondo">
             Registrar Socio
         </div>
 
-        <div class="container_basic">
+        <div class="sub_container_basic lightgrey_color_fondo">
 
             <div class="form-floating mb-3">
 
@@ -106,7 +106,7 @@
                     {{ error }}
                 </div>
             </div>
-            
+
             <div class="d-flex justify-content-center align-items-center">
                 <button type="submit" class="btn btn-macabi1" @click="validarCampos">Registar Socio</button>
             </div>
