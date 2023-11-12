@@ -64,10 +64,10 @@
 							<td data-cell="Tipo">{{ mapearTipo(fecha.tipo) }}</td>
 						</tr>
 						<tr v-if="!fechaDeCategoriaStore.getElements">
-							<td colspan="3" style="text-align: center;"> No hay Fechas en la Categoria</td>
+							<td colspan="2" style="text-align: center;"> No hay Fechas en la Categoria</td>
 						</tr>
 						<tr v-else-if="fechasToShow.length == 0">
-							<td colspan="3" style="text-align: center;"> No hay Fechas para el rango seleccionado en esta
+							<td colspan="2" style="text-align: center;"> No hay Fechas para el rango seleccionado en esta
 								categoria </td>
 						</tr>
 					</tbody>
