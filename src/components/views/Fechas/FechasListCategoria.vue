@@ -190,7 +190,10 @@ const mesSelected = ref('.....')
 
 onBeforeMount(async () => {
 	initDate()
+	fechaDeCategoriaStore.elements = null
+	fechaDeCategoriaStore.currentElement = null
 	await fetchCategoria()
+
 });
 
 function initDate() {

@@ -154,25 +154,34 @@ export default {
         return "Sin asignar";
       }
     }
-    function eliminarFecha() {
+    //function eliminarFecha() {
 
-      let idCategoria = route.query.idCategoria;
-      fechaStore.deleteElement(apiUrl,"fecha/" + idFecha + "/eliminarFecha")
-      if(confirm("¿Estas seguro que queres borras definitivamente la fecha con todas sus asistencias existentes?")) {
-        router.push({ path: `/fechasCategoria/${idCategoria}` })
-        alert("Borrado con éxito")
-      }else
-      alert('Se canceló la operación');
-      
+   //   let idCategoria = fechaDetalle.value.idCategoria;
+   //   //fechaStore.deleteElement(apiUrl,"fecha/" + idFecha + "/eliminarFecha")
+   //   if(confirm("¿Estas seguro que queres borras definitivamente la fecha con todas sus asistencias existentes?")) {
+    //   fechaStore.deleteElement(apiUrl,"fecha/" + idFecha + "/eliminarFecha")
+        
+    //    router.push({ path: `/fechasCategoria/${idCategoria}` })
+   //     alert("Borrado con éxito")
+ //     }else
+  //    alert('Se canceló la operación');
 
+  //  }
 
-    
-
-
-
-
-      
-    }
+    const eliminarFecha = async () => {
+       let idCategoria = fechaDetalle.value.idCategoria;
+       if(confirm("¿Estas seguro que queres borras definitivamente la fecha con todas sus asistencias existentes?")) {
+            try {
+                await fechaStore.deleteElement(apiUrl,"fecha/" + idFecha + "/eliminarFecha");
+                alert("Borrado con éxito");
+                router.push({ path: `/fechasCategoria/${idCategoria}` })
+            } catch (error) {
+                console.error("Error al eliminar fecha:", error);
+            }
+       }else{
+        alert('Se canceló la operación');
+       }
+        };
 
       function asignarAsistencia() {
 
